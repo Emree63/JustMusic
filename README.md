@@ -1,6 +1,6 @@
 <div align = center>
 
-  <img src="https://codefirst.iut.uca.fr/git/justDEV/justMusic/Documentation/Images/Banner-JustMusic.png" />
+  <img src="https://codefirst.iut.uca.fr/git/justDEV/justMusic/src/branch/master/Documentation/Images/Banner-JustMusic.png" />
     
 ---
 
@@ -18,7 +18,11 @@
 
 **Nom de l'application** : JustMusic :musical_note:
 
-**Contexte** : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales nibh ac nisi eleifend lacinia. Nulla ac tortor molestie, auctor nunc in, posuere tellus. Donec molestie pellentesque porta.
+**Contexte** : Envie de partager simplement vos musiques préférées ? JustMusic est là pour ça !
+
+Chaque jour, partagez un son accompagné de sa pochette, ajoutez une description et même un selfie pour faire découvrir de nouvelles musiques à vos amis.
+
+Sur ce réseau social dédié aux amoureux de la musique, échangez, commentez et explorez des univers sonores uniques.
 
 **Récapitulation du Projet**: 👇
 
