@@ -1,6 +1,6 @@
 <div align = center>
 
-  <img src="https://codefirst.iut.uca.fr/git/justDEV/justMusic/src/branch/master/Documentation/Images/Banner-JustMusic.png" />
+  <img src="https://codefirst.iut.uca.fr/git/justDEV/justMusic/raw/branch/master/Documentation/Images/Banner-JustMusic.png" />
     
 ---
 
@@ -26,7 +26,10 @@ Sur ce réseau social dédié aux amoureux de la musique, échangez, commentez e
 
 **Récapitulation du Projet**: 👇
 
-:information_source: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales nibh ac nisi eleifend lacinia. Nulla ac tortor molestie, auctor nunc in, posuere tellus. Donec molestie pellentesque porta.
+JustMusic est un projet collaboratif à but lucratif pour Android/IOS utilisant les technologie  Dart/flutter réalisé par 4 étudiants en BUT informatique.
+
+
+C'est un réseau social donc l'utilisateur pourra publier et commenter des posts. Il pourra s'abonner à d'autre utilisateurs pour voir leurs post sur son fil d'actualité.
 
 ## Répartition du Gitlab
 
