@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginButton extends StatefulWidget {
   const LoginButton({Key? key}) : super(key: key);
@@ -15,6 +14,7 @@ class _LoginButtonState extends State<LoginButton> {
     return ElevatedButton(
       onPressed: () {},
       style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Color(0xFF1C1C1C)),
         overlayColor:
             MaterialStateProperty.all(Color(0xffD3C2FF).withOpacity(0.2)),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -39,7 +39,7 @@ class _LoginButtonState extends State<LoginButton> {
         ),
         child: Container(
           padding: EdgeInsets.only(top: 20, bottom: 20),
-          constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+          constraints: BoxConstraints(maxWidth: 600, minHeight: 50.0),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(

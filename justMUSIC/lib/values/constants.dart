@@ -9,6 +9,8 @@ const grayColor = Color(0xFF242424);
 const profileBttnColor = Color(0xFF232323);
 const warningBttnColor = Color(0xFF141414);
 const disabledBttnColor = Color(0xFF1F1B2E);
+const bgTextField = Color(0xFF1C1B23);
+const strokeTextField = Color(0xFF373546);
 
 // All constants important too us
 
