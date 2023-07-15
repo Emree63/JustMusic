@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginButton extends StatefulWidget {
   const LoginButton({Key? key}) : super(key: key);
@@ -38,8 +39,8 @@ class _LoginButtonState extends State<LoginButton> {
           ),
         ),
         child: Container(
-          padding: EdgeInsets.only(top: 20, bottom: 20),
-          constraints: BoxConstraints(maxWidth: 600, minHeight: 50.0),
+          padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
+          constraints: BoxConstraints(maxWidth: 600, minHeight: 50),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
