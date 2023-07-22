@@ -352,7 +352,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               constraints: BoxConstraints(maxWidth: 800),
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: 45, left: defaultPadding, right: defaultPadding),
+                    top: 45.h, left: defaultPadding, right: defaultPadding),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: LinearProgressIndicator(

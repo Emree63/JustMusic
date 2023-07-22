@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:justmusic/screens/registration_screen.dart';
+import 'package:justmusic/screens/explanations_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.blue,
           ),
-          home: const RegistrationScreen(),
+          home: const ExplanationsScreen(),
         );
       },
       designSize: Size(390, 844),
