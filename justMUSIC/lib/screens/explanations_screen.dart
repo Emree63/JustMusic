@@ -33,7 +33,7 @@ class ExplanationsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 70.h),
+                              padding: EdgeInsets.only(top: 100.h),
                               child: AutoSizeText(
                                 "Bravo!",
                                 style: GoogleFonts.plusJakartaSans(
@@ -85,9 +85,7 @@ class ExplanationsScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  top: defaultPadding.h,
-                                  bottom: defaultPadding.h),
+                              padding: EdgeInsets.only(top: 10.h, bottom: 20.h),
                               child: Align(
                                 alignment: Alignment.center,
                                 child: AutoSizeText(
@@ -101,7 +99,13 @@ class ExplanationsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 600, child: FinishButton()),
+                            const SizedBox(
+                              width: 600,
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 50),
+                                child: FinishButton(),
+                              ),
+                            ),
                           ],
                         ),
                       ),
