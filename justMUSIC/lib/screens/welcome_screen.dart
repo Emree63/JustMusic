@@ -47,12 +47,15 @@ class WellcomeScreen extends StatelessWidget {
                       SizedBox(
                         height: 25,
                       ),
-                      Text(
-                        "Explore les nouvelles découvertes musicales de tes amis, et partage leur ton mood.",
-                        style: GoogleFonts.plusJakartaSans(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w200,
-                            fontSize: 15),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 520),
+                        child: Text(
+                          "Explore les nouvelles découvertes musicales de tes amis, et partage leur ton mood.",
+                          style: GoogleFonts.plusJakartaSans(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w200,
+                              fontSize: 15),
+                        ),
                       ),
                     ],
                   ),
