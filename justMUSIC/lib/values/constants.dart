@@ -11,6 +11,8 @@ const warningBttnColor = Color(0xFF141414);
 const disabledBttnColor = Color(0xFF1F1B2E);
 const bgTextField = Color(0xFF1C1B23);
 const strokeTextField = Color(0xFF373546);
+const unactiveFeed = Color(0xFF848484);
+const gradiantPost = Color(0xFF0D0D0D);
 
 // All constants important too us
 
