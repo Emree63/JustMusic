@@ -45,6 +45,9 @@ dependencies:
   gradient_borders: ^1.0.0
   text_scroll: ^0.2.0
   circular_reveal_animation: ^2.0.1
+  zoom_tap_animation: ^1.1.0
+  custom_draggable_widget: ^0.0.2
+  modal_bottom_sheet: ^2.1.2
 
 dev_dependencies:
   flutter_test:

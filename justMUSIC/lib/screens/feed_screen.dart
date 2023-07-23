@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
 import '../values/constants.dart';
@@ -18,19 +19,27 @@ class _FeedScreenState extends State<FeedScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
-  List<PostComponent> friendFeed = [
-    PostComponent(),
-    PostComponent(),
-    PostComponent(),
-  ];
-  List<PostComponent> discoveryFeed = [
-    PostComponent(),
-  ];
+  late List<PostComponent> friendFeed;
+  late List<PostComponent> discoveryFeed;
   late List<PostComponent> displayFeed;
 
   @override
   void initState() {
     super.initState();
+    friendFeed = [
+      PostComponent(
+        callback: openDetailPost,
+      ),
+      PostComponent(
+        callback: openDetailPost,
+      ),
+      PostComponent(
+        callback: openDetailPost,
+      ),
+    ];
+    discoveryFeed = [
+      PostComponent(callback: openDetailPost),
+    ];
     displayFeed = friendFeed;
     animationController = AnimationController(
       vsync: this,
@@ -60,6 +69,59 @@ class _FeedScreenState extends State<FeedScreen>
     }
   }
 
+  void openDetailPost() {
+    showModalBottomSheet(
+      backgroundColor: bgModal,
+      elevation: 1,
+      constraints: const BoxConstraints(
+        maxWidth: 600,
+      ),
+      isScrollControlled: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      builder: ((context) {
+        return Container(
+            height: 720.h,
+            margin: EdgeInsets.only(
+                top: defaultPadding,
+                left: defaultPadding,
+                right: defaultPadding),
+            child: Column(
+              children: [
+                Align(
+                  child: Container(
+                      width: 60,
+                      height: 5,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      // to apply margin in the main axis of the wrap
+                      runSpacing: 10,
+                      children: [
+                        PostComponent(
+                          callback: null,
+                        ),
+                        Container(height: 40),
+                        CommentComponent(),
+                        CommentComponent(),
+                        CommentComponent(),
+                        Container(height: 10),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ));
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,13 +131,13 @@ class _FeedScreenState extends State<FeedScreen>
           CircularRevealAnimation(
             animation: animation,
 //                centerAlignment: Alignment.centerRight,
-            centerOffset: Offset(70, 0),
+            centerOffset: Offset(30.w, -100),
             child: SingleChildScrollView(
               child: SizedBox(
                   width: double.infinity,
                   child: Align(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 500),
+                      constraints: BoxConstraints(maxWidth: 600),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: defaultPadding),
@@ -84,8 +146,8 @@ class _FeedScreenState extends State<FeedScreen>
                           child: Padding(
                               padding: EdgeInsets.only(top: 100.h),
                               child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Wrap(
+                                  runSpacing: 60,
                                   children: displayFeed,
                                 ),
                               )),

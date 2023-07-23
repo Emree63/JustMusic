@@ -55,10 +55,12 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            choice = !choice;
-                            actionSurBouton();
-                          });
+                          if (!choice) {
+                            setState(() {
+                              choice = !choice;
+                              actionSurBouton();
+                            });
+                          }
                         },
                         child: LayoutBuilder(
                           builder: (BuildContext context,
@@ -85,10 +87,12 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            choice = !choice;
-                            actionSurBouton();
-                          });
+                          if (choice) {
+                            setState(() {
+                              choice = !choice;
+                              actionSurBouton();
+                            });
+                          }
                         },
                         child: LayoutBuilder(
                           builder: (BuildContext context,
