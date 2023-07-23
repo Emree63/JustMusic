@@ -98,6 +98,9 @@ class _FeedScreenState extends State<FeedScreen>
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20))),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Wrap(
