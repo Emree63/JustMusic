@@ -14,6 +14,35 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  List<PostComponent> friendFeed = [
+    PostComponent(),
+    PostComponent(),
+    PostComponent(),
+  ];
+  List<PostComponent> discoveryFeed = [
+    PostComponent(),
+  ];
+  late List<PostComponent> displayFeed;
+
+  @override
+  void initState() {
+    displayFeed = friendFeed;
+    super.initState();
+  }
+
+  void changeFeed(bool choice) {
+    // Mettez ici le code pour l'action que vous souhaitez effectuer avec le paramètre
+    if (choice) {
+      setState(() {
+        displayFeed = friendFeed;
+      });
+    } else {
+      setState(() {
+        displayFeed = discoveryFeed;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +65,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             child: SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  PostComponent(),
-                                  PostComponent(),
-                                  PostComponent(),
-                                  PostComponent(),
-                                ],
+                                children: displayFeed,
                               ),
                             )),
                       ),
@@ -66,7 +90,7 @@ class _FeedScreenState extends State<FeedScreen> {
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 800),
-              child: const TopNavBarComponent(),
+              child: TopNavBarComponent(callback: changeFeed),
             ),
           ),
         ],

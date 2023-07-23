@@ -6,13 +6,21 @@ import 'package:google_fonts/google_fonts.dart';
 import '../values/constants.dart';
 
 class TopNavBarComponent extends StatefulWidget {
-  const TopNavBarComponent({Key? key}) : super(key: key);
+  final Function(bool) callback;
+  const TopNavBarComponent({Key? key, required this.callback})
+      : super(key: key);
 
   @override
   State<TopNavBarComponent> createState() => _TopNavBarComponentState();
 }
 
 class _TopNavBarComponentState extends State<TopNavBarComponent> {
+  bool choice = true;
+
+  void actionSurBouton() {
+    widget.callback(choice);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,20 +53,66 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AutoSizeText(
-                        "Mes amis",
-                        style: GoogleFonts.plusJakartaSans(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 16,
-                            color: unactiveFeed),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            choice = !choice;
+                            actionSurBouton();
+                          });
+                        },
+                        child: LayoutBuilder(
+                          builder: (BuildContext context,
+                              BoxConstraints constraints) {
+                            if (choice) {
+                              return AutoSizeText(
+                                "Mes amis",
+                                style: GoogleFonts.plusJakartaSans(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              );
+                            } else {
+                              return AutoSizeText(
+                                "Mes amis",
+                                style: GoogleFonts.plusJakartaSans(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 16,
+                                    color: unactiveFeed),
+                              );
+                            }
+                          },
+                        ),
                       ),
-                      AutoSizeText(
-                        "Discovery",
-                        style: GoogleFonts.plusJakartaSans(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.white),
-                      )
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            choice = !choice;
+                            actionSurBouton();
+                          });
+                        },
+                        child: LayoutBuilder(
+                          builder: (BuildContext context,
+                              BoxConstraints constraints) {
+                            if (choice) {
+                              return AutoSizeText(
+                                "Discovery",
+                                style: GoogleFonts.plusJakartaSans(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 16,
+                                    color: unactiveFeed),
+                              );
+                            } else {
+                              return AutoSizeText(
+                                "Discovery",
+                                style: GoogleFonts.plusJakartaSans(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ],

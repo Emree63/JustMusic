@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class PostComponent extends StatelessWidget {
   const PostComponent({Key? key}) : super(key: key);
@@ -57,44 +59,53 @@ class PostComponent extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0xFF3A3A3A),
-                  spreadRadius: 0.5,
-                  blurRadius: 0,
-                  offset: Offset(0, 0), // changes position of shadow
+          SizedBox(height: 10),
+          AspectRatio(
+            aspectRatio: 1 / 1,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                // add border
+                border: const GradientBoxBorder(
+                  gradient: LinearGradient(colors: [
+                    Colors.transparent,
+                    Color(0xFF323232),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                  width: 2.5,
                 ),
-              ],
-            ),
-            child: AspectRatio(
-              aspectRatio: 1 / 1,
-              child: Padding(
-                padding: EdgeInsets.all(1.5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    height: 20,
-                    width: double.infinity,
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: const [
-                        Image(
-                          image: AssetImage("assets/images/exemple_cover.png"),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Image(
-                          image: AssetImage("assets/images/shadow_post.png"),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ],
+                // set border radius
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                // implement image
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Image(
+                      image: AssetImage("assets/images/exemple_cover.png"),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
-                  ),
+                    Image(
+                      image: AssetImage("assets/images/shadow_post.png"),
+                      fit: BoxFit.fitHeight,
+                      width: double.infinity,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: AutoSizeText(
+                        '“J’écoute en boucle ce son. B2O<3”',
+                        style: GoogleFonts.plusJakartaSans(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15.sp),
+                        maxFontSize: 20,
+                        maxLines: 1,
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -102,37 +113,57 @@ class PostComponent extends StatelessWidget {
           SizedBox(height: 10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AutoSizeText(
-                "BOOBA",
-                style: GoogleFonts.plusJakartaSans(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 26.sp),
-                maxFontSize: 30,
-              ),
+              Flexible(
+                  flex: 6,
+                  child: TextScroll(
+                    "BOOBA",
+                    style: GoogleFonts.plusJakartaSans(
+                        height: 1,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 26.sp),
+                    mode: TextScrollMode.endless,
+                    pauseBetween: Duration(milliseconds: 500),
+                    velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                  )),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: AutoSizeText(
-                  "A.C. Milan",
-                  style: GoogleFonts.plusJakartaSans(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 16.sp),
-                  maxFontSize: 20,
+                padding: EdgeInsets.only(bottom: 10, right: 7, left: 7),
+                child: ClipOval(
+                  child: Container(
+                    width: 5.sp,
+                    height: 5.sp,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Expanded(
-                child: AutoSizeText(
-                  "2013",
-                  style: GoogleFonts.plusJakartaSans(
-                      color: Colors.white.withOpacity(0.5),
-                      fontWeight: FontWeight.w300,
-                      fontSize: 16.sp),
-                  textAlign: TextAlign.end,
-                  maxFontSize: 20,
-                ),
-              )
+                  flex: 8,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 2),
+                    child: TextScroll(
+                      "A.C. Milan",
+                      style: GoogleFonts.plusJakartaSans(
+                          height: 1,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 16.sp),
+                      mode: TextScrollMode.endless,
+                      velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
+                      pauseBetween: Duration(milliseconds: 500),
+                    ),
+                  )),
+              Container(width: 10),
+              AutoSizeText(
+                "2013",
+                style: GoogleFonts.plusJakartaSans(
+                    color: Colors.white.withOpacity(0.5),
+                    fontWeight: FontWeight.w300,
+                    fontSize: 16.sp),
+                textAlign: TextAlign.end,
+                maxFontSize: 20,
+              ),
             ],
           ),
           SizedBox(height: 60),
