@@ -116,24 +116,24 @@ class PostComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                  flex: 6,
+                  flex: 8,
                   child: TextScroll(
                     "BOOBA",
                     style: GoogleFonts.plusJakartaSans(
                         height: 1,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 26.sp),
+                        fontSize: 26.h),
                     mode: TextScrollMode.endless,
                     pauseBetween: Duration(milliseconds: 500),
                     velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
                   )),
               Padding(
-                padding: EdgeInsets.only(bottom: 10, right: 7, left: 7),
+                padding: EdgeInsets.only(bottom: 10.h, right: 5.w, left: 5.w),
                 child: ClipOval(
                   child: Container(
-                    width: 5.sp,
-                    height: 5.sp,
+                    width: 5.h,
+                    height: 5.h,
                     color: Colors.white,
                   ),
                 ),
@@ -148,7 +148,7 @@ class PostComponent extends StatelessWidget {
                           height: 1,
                           color: Colors.white,
                           fontWeight: FontWeight.w300,
-                          fontSize: 16.sp),
+                          fontSize: 16.h),
                       mode: TextScrollMode.endless,
                       velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
                       pauseBetween: Duration(milliseconds: 500),
@@ -160,7 +160,7 @@ class PostComponent extends StatelessWidget {
                 style: GoogleFonts.plusJakartaSans(
                     color: Colors.white.withOpacity(0.5),
                     fontWeight: FontWeight.w300,
-                    fontSize: 16.sp),
+                    fontSize: 16.h),
                 textAlign: TextAlign.end,
                 maxFontSize: 20,
               ),

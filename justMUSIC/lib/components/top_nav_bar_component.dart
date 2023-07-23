@@ -118,12 +118,18 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
                 ],
               ),
             ),
-            const Flexible(
-                flex: 1,
-                child: Image(
-                  image: AssetImage("assets/images/add_friend.png"),
-                  width: 25,
-                ))
+            Flexible(
+              flex: 1,
+              child: ClipOval(
+                child: SizedBox.fromSize(
+                  // Image radius
+                  child: Image(
+                    image: AssetImage("assets/images/exemple_profile.png"),
+                    width: 25,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

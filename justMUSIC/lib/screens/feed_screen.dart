@@ -78,10 +78,10 @@ class _FeedScreenState extends State<FeedScreen> {
               height: 240.h,
               decoration: BoxDecoration(
                   gradient: LinearGradient(begin: Alignment.topRight, stops: [
-                0,
+                0.3,
                 1
               ], colors: [
-                bgColor.withOpacity(1),
+                bgColor.withOpacity(0.9),
                 bgColor.withOpacity(0)
               ])),
             ),
