@@ -2,7 +2,6 @@ import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
@@ -84,7 +83,7 @@ class _FeedScreenState extends State<FeedScreen>
       builder: ((context) {
         return Container(
             height: 720.h,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
                 top: defaultPadding,
                 left: defaultPadding,
                 right: defaultPadding),
@@ -98,24 +97,29 @@ class _FeedScreenState extends State<FeedScreen>
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20))),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      // to apply margin in the main axis of the wrap
-                      runSpacing: 10,
-                      children: [
-                        PostComponent(
-                          callback: null,
-                        ),
-                        Container(height: 40),
-                        CommentComponent(),
-                        CommentComponent(),
-                        CommentComponent(),
-                        Container(height: 10),
-                      ],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        topLeft: Radius.circular(15)),
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        // to apply margin in the main axis of the wrap
+                        runSpacing: 10,
+                        children: [
+                          const PostComponent(
+                            callback: null,
+                          ),
+                          Container(height: 40),
+                          CommentComponent(),
+                          CommentComponent(),
+                          CommentComponent(),
+                          Container(height: 10),
+                        ],
+                      ),
                     ),
                   ),
                 ),

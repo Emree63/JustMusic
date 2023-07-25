@@ -45,7 +45,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image(
+                  const Image(
                     image: AssetImage("assets/images/logo.png"),
                     height: 30,
                   ),

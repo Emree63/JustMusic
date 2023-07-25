@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:justmusic/screens/feed_screen.dart';
+import 'package:justmusic/screens/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: const SafeArea(
-              child: FeedScreen(),
+              child: ProfileScreen(),
             ));
       },
       designSize: Size(390, 844),

@@ -15,6 +15,8 @@ const unactiveFeed = Color(0xFF848484);
 const gradiantPost = Color(0xFF0D0D0D);
 const bgModal = Color(0xFF1E1E1E);
 const bgComment = Color(0xFF222222);
+const bgAppBar = Color(0xFF181818);
+const grayText = Color(0xFF898989);
 
 // All constants important too us
 
