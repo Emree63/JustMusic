@@ -22,7 +22,7 @@ class PostComponent extends StatelessWidget {
               ClipOval(
                 child: SizedBox.fromSize(
                   // Image radius
-                  child: Image(
+                  child: const Image(
                     image: AssetImage("assets/images/exemple_profile.png"),
                     width: 40,
                   ),
@@ -138,8 +138,9 @@ class PostComponent extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(13),
                                   // implement image
-                                  child: Image.network(
-                                    'assets/images/exemple_profile.png',
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/exemple_profile.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
