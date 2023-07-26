@@ -24,7 +24,7 @@ class MusicViewModel {
       final responseData = jsonDecode(response.body);
       List<Artist> artists =
           List<Artist>.from(responseData['artists'].map((artist) {
-        return Artist(artist['id'], artist['name']);
+        return Artist(artist['id'], artist['name'],'');
       }));
 
       return Music(
@@ -46,7 +46,7 @@ class MusicViewModel {
     List<dynamic> tracks = responseData['tracks']['items'];
     for (var track in tracks) {
       List<Artist> artists = List<Artist>.from(track['artists'].map((artist) {
-        return Artist(artist['id'], artist['name']);
+        return Artist(artist['id'], artist['name'],'');
       }));
 
       musics.add(Music(
@@ -61,10 +61,10 @@ class MusicViewModel {
     return musics;
   }
 
-  Future<List<Music>> getMusicsWithName(String name, {int limit = 20, int offset = 1}) async {
+  Future<List<Music>> getMusicsWithName(String name, {int limit = 20, int offset = 0, String market = "FR"}) async {
     var accessToken = await _token.getAccessToken();
     var response = await http
-        .get(Uri.parse('$API_URL/search?q=track%3A$name&type=track&limit=$limit&offset=$offset'), headers: {
+        .get(Uri.parse('$API_URL/search?q=track%3A$name&type=track&market=fr&limit=$limit&offset=$offset'), headers: {
       'Authorization': 'Bearer $accessToken',
     });
 
@@ -77,10 +77,10 @@ class MusicViewModel {
     }
   }
 
-  Future<List<Music>> getMusicsWithArtistName(String name, {int limit = 20, int offset = 1}) async {
+  Future<List<Music>> getMusicsWithArtistName(String name, {int limit = 20, int offset = 0, String market = "FR"}) async {
     var accessToken = await _token.getAccessToken();
     var response = await http.get(
-        Uri.parse('$API_URL/search?q=artist%3A$name&type=track&limit=$limit&offset=$offset'),
+        Uri.parse('$API_URL/search?q=artist%3A$name&type=track&market=fr&limit=$limit&offset=$offset'),
         headers: {
           'Authorization': 'Bearer $accessToken',
         });

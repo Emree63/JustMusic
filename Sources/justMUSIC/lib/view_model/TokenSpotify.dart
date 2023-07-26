@@ -8,7 +8,7 @@ class TokenSpotify {
   late DateTime _tokenEnd;
 
   TokenSpotify() {
-    _tokenEnd = DateTime.now().add(Duration(seconds: -1));
+    _tokenEnd = DateTime.now().add(Duration(seconds: -10));
   }
 
   Future<String> getAccessToken() async {

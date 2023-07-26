@@ -2,10 +2,10 @@ import 'Artist.dart';
 
 class Music {
   final String _id;
-  String _title;
-  String _cover;
-  String _previewUrl;
-  DateTime _date;
+  String? _title;
+  String? _cover;
+  String? _previewUrl;
+  DateTime? _date;
   List<Artist> _artists;
 
   // Constructor
@@ -13,29 +13,29 @@ class Music {
       this._artists);
 
   //Getters and setters
-  String get id => _id;
+  String? get id => _id;
 
-  String get title => _title;
+  String? get title => _title;
 
-  set title(String value) {
+  set title(String? value) {
     _title = value;
   }
 
-  String get cover => _cover;
+  String? get cover => _cover;
 
-  set cover(String value) {
+  set cover(String? value) {
     _cover = value;
   }
 
-  String get previewUrl => _previewUrl;
+  String? get previewUrl => _previewUrl;
 
-  set previewUrl(String value) {
+  set previewUrl(String? value) {
     _previewUrl = value;
   }
 
-  DateTime get date => _date;
+  DateTime? get date => _date;
 
-  set date(DateTime value) {
+  set date(DateTime? value) {
     _date = value;
   }
 
