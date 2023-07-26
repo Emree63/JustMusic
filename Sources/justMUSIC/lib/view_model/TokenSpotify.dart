@@ -32,9 +32,10 @@ class TokenSpotify {
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       _accessToken = responseData['access_token'];
-      _tokenEnd = DateTime.now().add(Duration(seconds: responseData['expires_in']));
+      _tokenEnd =
+          DateTime.now().add(Duration(seconds: responseData['expires_in']));
     } else {
-      print('Erreur lors de l\'actualisation du token : ${response.statusCode}');
+      print('Error refreshing token : ${response.statusCode}');
     }
   }
 

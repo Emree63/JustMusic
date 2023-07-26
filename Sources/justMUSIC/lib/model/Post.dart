@@ -2,7 +2,7 @@ class Post {
   final int _id;
   final int _idUser;
   String? _description;
-  int _idMusic;
+  String _idMusic;
   String _location;
   int _nblikes;
   String? _selfie;
@@ -23,9 +23,9 @@ class Post {
     _description = value;
   }
 
-  int get idMusic => _idMusic;
+  String get idMusic => _idMusic;
 
-  set idMusic(int value) {
+  set idMusic(String value) {
     _idMusic = value;
   }
 
