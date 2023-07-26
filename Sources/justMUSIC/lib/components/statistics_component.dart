@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../model/User.dart';
 import '../values/constants.dart';
 
 class StatisticsComponent extends StatelessWidget {
-  const StatisticsComponent({Key? key}) : super(key: key);
+  final User user;
+  const StatisticsComponent({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class StatisticsComponent extends StatelessWidget {
           child: Column(
             children: [
               AutoSizeText(
-                "114",
+                user.followed.toString(),
                 style: GoogleFonts.plusJakartaSans(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -38,7 +40,7 @@ class StatisticsComponent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AutoSizeText(
-              "5",
+              user.followers.toString(),
               style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -58,7 +60,7 @@ class StatisticsComponent extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AutoSizeText(
-                "34",
+                user.capsules.toString(),
                 style: GoogleFonts.plusJakartaSans(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

@@ -4,10 +4,14 @@ class User {
   String _country;
   String _mail;
   String _pp;
+  int _followers;
+  int _capsules;
+  int _followed;
   List<User> friends = [];
 
   // Constructor
-  User(this._id, this._pseudo, this._country, this._mail, this._pp);
+  User(this._id, this._pseudo, this._country, this._mail, this._pp,
+      this._followers, this._capsules, this._followed, this.friends);
 
   //Getters and setters
   int get id => _id;
@@ -34,5 +38,23 @@ class User {
 
   set pp(String value) {
     _pp = value;
+  }
+
+  int get capsules => _capsules;
+
+  set capsules(int value) {
+    _capsules = value;
+  }
+
+  int get followed => _followed;
+
+  set followed(int value) {
+    _followed = value;
+  }
+
+  int get followers => _followers;
+
+  set followers(int value) {
+    _followers = value;
   }
 }

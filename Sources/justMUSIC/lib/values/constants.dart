@@ -17,7 +17,8 @@ const bgModal = Color(0xFF1E1E1E);
 const bgComment = Color(0xFF222222);
 const bgAppBar = Color(0xFF181818);
 const grayText = Color(0xFF898989);
-
+const settingColor = Color(0xFF232323);
+const searchBarColor = Color(0xFF161616);
 // All constants important too us
 
 const defaultPadding = 30.0;

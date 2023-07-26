@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:justmusic/values/icons.dart';
 import '../components/profile_component.dart';
+import '../components/setting_part_component.dart';
+import '../main.dart';
 import '../values/constants.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -57,16 +59,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 68.h),
-                  child: ProfileComponent(),
+                  padding: EdgeInsets.only(top: 68.h, bottom: 40),
+                  child:
+                      ProfileComponent(user: MyApp.userViewModel.userCurrent),
                 ),
-                Text(
-                  "Compte",
-                  style: GoogleFonts.plusJakartaSans(
-                      color: grayText,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: 12, left: defaultPadding),
+                  child: Text(
+                    "Compte",
+                    style: GoogleFonts.plusJakartaSans(
+                        color: grayText,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
                 ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    children: const [
+                      SettingPartComponent(
+                        icon: JustMusicIcon.profile,
+                        label: 'Compte',
+                      ),
+                      SettingPartComponent(
+                        icon: JustMusicIcon.history,
+                        label: 'Historiques des capsules',
+                      ),
+                      SettingPartComponent(
+                        icon: JustMusicIcon.spotify,
+                        label: 'Lier un compte Spotify',
+                      ),
+                      SettingPartComponent(
+                        icon: JustMusicIcon.trash,
+                        label: 'Supprimer mon compte',
+                      ),
+                      SettingPartComponent(
+                        icon: JustMusicIcon.cross,
+                        label: 'Déconnexion',
+                        important: true,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 12, left: defaultPadding, top: 40),
+                  child: Text(
+                    "Préférences",
+                    style: GoogleFonts.plusJakartaSans(
+                        color: grayText,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    children: const [
+                      SettingPartComponent(
+                        icon: JustMusicIcon.theme,
+                        label: 'Thême de l\'application',
+                      ),
+                      SettingPartComponent(
+                        icon: JustMusicIcon.notification,
+                        label: 'Notifications',
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

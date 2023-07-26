@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:justmusic/screens/profile_screen.dart';
+import 'package:justmusic/screens/post_screen.dart';
+import 'package:justmusic/view_model/UserViewModel.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static UserViewModel userViewModel = UserViewModel();
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: const SafeArea(
-              child: ProfileScreen(),
+              child: PostScreen(),
             ));
       },
       designSize: Size(390, 844),

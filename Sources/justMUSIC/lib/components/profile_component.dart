@@ -5,8 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/components/statistics_component.dart';
 
+import '../model/User.dart';
+
 class ProfileComponent extends StatelessWidget {
-  const ProfileComponent({Key? key}) : super(key: key);
+  final User user;
+  const ProfileComponent({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class ProfileComponent extends StatelessWidget {
           height: 10,
         ),
         AutoSizeText(
-          "@MelinaShow",
+          "@${user.pseudo}",
           style: GoogleFonts.plusJakartaSans(
               fontSize: 15.sp,
               color: Colors.white,
@@ -36,7 +39,9 @@ class ProfileComponent extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        StatisticsComponent(),
+        StatisticsComponent(
+          user: user,
+        ),
       ],
     );
   }
