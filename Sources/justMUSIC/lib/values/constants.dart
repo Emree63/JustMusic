@@ -21,3 +21,4 @@ const grayText = Color(0xFF898989);
 // All constants important too us
 
 const defaultPadding = 30.0;
+const settingPadding = 12.0;

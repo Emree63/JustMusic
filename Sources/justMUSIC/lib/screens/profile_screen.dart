@@ -50,13 +50,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: double.infinity,
         color: bgColor,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 68.h),
-                child: ProfileComponent(),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: settingPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 68.h),
+                  child: ProfileComponent(),
+                ),
+                Text(
+                  "Compte",
+                  style: GoogleFonts.plusJakartaSans(
+                      color: grayText,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ),
       ),
