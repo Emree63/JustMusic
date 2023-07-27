@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> {
     return ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: Container(
+          constraints: BoxConstraints(maxWidth: 400),
           width: double.infinity,
           color: warningBttnColor,
           child: Column(
@@ -32,7 +34,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
                     // implement image
-                    child: Image(
+                    child: const Image(
                       image: AssetImage("assets/images/exemple_cover.png"),
                       fit: BoxFit.cover,
                       width: double.infinity,
@@ -41,25 +43,31 @@ class _EditablePostComponentState extends State<EditablePostComponent> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(15.sp, 25.sp, 15.sp, 25.sp),
+                padding: EdgeInsets.fromLTRB(15, 25, 15, 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("France, Lyon",
-                        style: GoogleFonts.plusJakartaSans(
-                            color: Colors.white, fontSize: 13.sp)),
+                    AutoSizeText(
+                      "France, Lyon",
+                      style: GoogleFonts.plusJakartaSans(
+                          color: Colors.white, fontSize: 13.sp),
+                      maxFontSize: 20,
+                    ),
                     Image(
                       image: AssetImage("assets/images/camera_icon.png"),
                       width: 30,
                     ),
-                    Text("10 Juil. 2023",
-                        style: GoogleFonts.plusJakartaSans(
-                            color: Colors.white, fontSize: 13.sp)),
+                    AutoSizeText(
+                      "10 Juil. 2023",
+                      style: GoogleFonts.plusJakartaSans(
+                          color: Colors.white, fontSize: 13.sp),
+                      maxFontSize: 20,
+                    ),
                   ],
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(15.sp, 0, 10.sp, 25.sp),
+                  padding: EdgeInsets.fromLTRB(15, 0, 10, 25),
                   child: SizedBox(
                     width: double.infinity,
                     child: TextFormField(
@@ -68,13 +76,13 @@ class _EditablePostComponentState extends State<EditablePostComponent> {
                       cursorColor: primaryColor,
                       style: GoogleFonts.plusJakartaSans(
                           color: Colors.white,
-                          fontSize: 13.sp,
+                          fontSize: 13,
                           fontWeight: FontWeight.w300),
                       maxLines: 4,
                       maxLength: 120,
                       decoration: InputDecoration(
                         counterStyle: GoogleFonts.plusJakartaSans(
-                            color: grayText, fontSize: 9.sp),
+                            color: grayText, fontSize: 9),
                         focusedBorder: const OutlineInputBorder(
                             borderSide:
                                 BorderSide(width: 0, color: Colors.transparent),
@@ -93,7 +101,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> {
                         hintText: 'Description...',
                         hintStyle: GoogleFonts.plusJakartaSans(
                             color: grayText,
-                            fontSize: 13.sp,
+                            fontSize: 13,
                             fontWeight: FontWeight.w300),
                       ),
                     ),

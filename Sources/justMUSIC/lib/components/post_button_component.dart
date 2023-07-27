@@ -8,6 +8,7 @@ class PostButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(maxWidth: 400),
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             Color(0xFF141414),
@@ -15,7 +16,7 @@ class PostButtonComponent extends StatelessWidget {
             Color(0xFF141414)
           ]),
           borderRadius: BorderRadius.circular(10000)),
-      padding: EdgeInsets.symmetric(vertical: 25.sp),
+      padding: EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: Align(
         child: Text(
@@ -24,7 +25,7 @@ class PostButtonComponent extends StatelessWidget {
               color: Color(0xFF474747),
               fontWeight: FontWeight.w800,
               fontStyle: FontStyle.italic,
-              fontSize: 24.sp),
+              fontSize: 24),
         ),
       ),
     );
