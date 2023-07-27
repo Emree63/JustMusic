@@ -6,11 +6,12 @@ class Music {
   String? _cover;
   String? _previewUrl;
   DateTime? _date;
+  double? _duration;
   List<Artist> _artists;
 
   // Constructor
   Music(this._id, this._title, this._cover, this._previewUrl, this._date,
-      this._artists);
+      this._duration, this._artists);
 
   //Getters and setters
   String? get id => _id;
@@ -37,6 +38,12 @@ class Music {
 
   set date(DateTime? value) {
     _date = value;
+  }
+
+  double? get duration => _duration;
+
+  set duration(double? value) {
+    _duration = value;
   }
 
   List<Artist> get artists => _artists;
