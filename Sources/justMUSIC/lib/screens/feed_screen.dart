@@ -94,7 +94,7 @@ class _FeedScreenState extends State<FeedScreen>
                       width: 60,
                       height: 5,
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.white.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(20))),
                 ),
                 const SizedBox(
