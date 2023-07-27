@@ -34,6 +34,7 @@ class MusicViewModel {
           responseData['preview_url'],
           DateTime.parse(responseData['album']['release_date']),
           responseData['duration_ms'] / 1000,
+          responseData['explicit'],
           artists);
     } else {
       throw Exception(
@@ -57,6 +58,7 @@ class MusicViewModel {
           track['preview_url'],
           DateTime.now(),
           track['duration_ms'] / 1000,
+          track['explicit'],
           artists));
     }
 
@@ -188,6 +190,7 @@ class MusicViewModel {
             track['preview_url'],
             DateTime.now(),
             track['duration_ms'] / 1000,
+            track['explicit'],
             artists));
       }
 

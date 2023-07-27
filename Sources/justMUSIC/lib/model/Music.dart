@@ -7,11 +7,12 @@ class Music {
   String? _previewUrl;
   DateTime? _date;
   double? _duration;
+  bool _explicit = false;
   List<Artist> _artists;
 
   // Constructor
   Music(this._id, this._title, this._cover, this._previewUrl, this._date,
-      this._duration, this._artists);
+      this._duration, this._explicit, this._artists);
 
   //Getters and setters
   String? get id => _id;
@@ -44,6 +45,12 @@ class Music {
 
   set duration(double? value) {
     _duration = value;
+  }
+
+  bool get explicit => _explicit;
+
+  set explicit(bool value) {
+    _explicit = value;
   }
 
   List<Artist> get artists => _artists;

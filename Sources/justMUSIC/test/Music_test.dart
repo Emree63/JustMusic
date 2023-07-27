@@ -7,7 +7,7 @@ Future<void> main() async {
   Music m = await musicVM.getMusic('295SxdR1DqunCNwd0U767w');
 
   print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
-  print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}");
+  print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
   for (Artist a in m.artists) {
     print("id : ${a.id}, name : ${a.name}");
   }
@@ -17,7 +17,7 @@ Future<void> main() async {
   List<Music> musics = await musicVM.getMusicsWithName('Shavkat');
   for (Music m in musics) {
     print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
-    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}");
+    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
     for (Artist a in m.artists) {
       print("id : ${a.id}, name : ${a.name}");
     }
@@ -28,7 +28,7 @@ Future<void> main() async {
   List<Music> musics2 = await musicVM.getMusicsWithArtistName('jul');
   for (Music m in musics2) {
     print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
-    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}");
+    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
     for (Artist a in m.artists) {
       print("id : ${a.id}, name : ${a.name}");
     }
@@ -51,7 +51,7 @@ Future<void> main() async {
   List<Music> topMusics = await musicVM.getTopMusicsWithArtistId('3NH8t45zOTqzlZgBvZRjvB');
   for (Music m in topMusics) {
     print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
-    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}");
+    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
     for (Artist a in m.artists) {
       print("id : ${a.id}, name : ${a.name}");
     }
