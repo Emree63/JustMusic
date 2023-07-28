@@ -29,9 +29,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Stack(
               alignment: Alignment.centerLeft,
               children: [
-                Image(
-                  image: AssetImage("assets/images/return_icon.png"),
-                  height: 11.h,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image(
+                    image: AssetImage("assets/images/return_icon.png"),
+                    height: 11.h,
+                  ),
                 ),
                 Align(
                   child: Text(

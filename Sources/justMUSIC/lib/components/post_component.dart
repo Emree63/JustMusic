@@ -158,7 +158,7 @@ class _PostComponentState extends State<PostComponent> {
                           ),
                         ),
                       )),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -363,7 +363,7 @@ class _PostComponentState extends State<PostComponent> {
                         ),
                       ),
                     )),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

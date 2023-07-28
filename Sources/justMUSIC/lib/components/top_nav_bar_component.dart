@@ -124,12 +124,17 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
             ),
             Flexible(
               flex: 1,
-              child: ClipOval(
-                child: SizedBox.fromSize(
-                  // Image radius
-                  child: Image(
-                    image: AssetImage("assets/images/exemple_profile.png"),
-                    width: 25,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
+                child: ClipOval(
+                  child: SizedBox.fromSize(
+                    // Image radius
+                    child: Image(
+                      image: AssetImage("assets/images/exemple_profile.png"),
+                      width: 25,
+                    ),
                   ),
                 ),
               ),
