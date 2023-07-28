@@ -30,14 +30,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               alignment: Alignment.centerLeft,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image(
-                    image: AssetImage("assets/images/return_icon.png"),
-                    height: 11.h,
-                  ),
-                ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 15,
+                      width: 15,
+                      child: Image(
+                        image: AssetImage("assets/images/return_icon.png"),
+                        height: 8,
+                      ),
+                    )),
                 Align(
                   child: Text(
                     "Profile",

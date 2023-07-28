@@ -244,7 +244,6 @@ class _FeedScreenState extends State<FeedScreen>
         children: [
           CircularRevealAnimation(
             animation: animation,
-//                centerAlignment: Alignment.centerRight,
             centerOffset: Offset(30.w, -100),
             child: SingleChildScrollView(
               child: SizedBox(

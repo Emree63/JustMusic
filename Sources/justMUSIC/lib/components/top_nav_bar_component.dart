@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../config/routes.dart';
 import '../values/constants.dart';
 
 class TopNavBarComponent extends StatefulWidget {
@@ -33,11 +34,16 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Flexible(
+            Flexible(
               flex: 1,
-              child: Image(
-                image: AssetImage("assets/images/add_friend.png"),
-                width: 25,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/post');
+                },
+                child: const Image(
+                  image: AssetImage("assets/images/add_friend.png"),
+                  width: 25,
+                ),
               ),
             ),
             ConstrainedBox(
@@ -126,12 +132,12 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> {
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/profile');
+                  Navigator.of(context).push(createRoute());
                 },
                 child: ClipOval(
                   child: SizedBox.fromSize(
                     // Image radius
-                    child: Image(
+                    child: const Image(
                       image: AssetImage("assets/images/exemple_profile.png"),
                       width: 25,
                     ),
