@@ -52,6 +52,7 @@ dependencies:
   flutter_animated_play_button: ^0.3.0
   audioplayers: ^4.1.0
   ionicons: ^0.2.2
+  top_snackbar_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:

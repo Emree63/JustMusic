@@ -2,6 +2,7 @@ import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
@@ -82,38 +83,55 @@ class _FeedScreenState extends State<FeedScreen>
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((context) {
         return Container(
-            height: 720.h,
-            margin: const EdgeInsets.only(
-                top: defaultPadding,
-                left: defaultPadding,
-                right: defaultPadding),
-            child: Column(
-              children: [
-                Align(
-                  child: Container(
-                      width: 60,
-                      height: 5,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(20))),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        topLeft: Radius.circular(15)),
+          height: 720.h,
+          margin: const EdgeInsets.only(top: 10),
+          child: Column(
+            children: [
+              Align(
+                child: Container(
+                    width: 60,
+                    height: 5,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(20))),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      topLeft: Radius.circular(15)),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultPadding, right: defaultPadding),
                     child: SingleChildScrollView(
                       child: Wrap(
                         // to apply margin in the main axis of the wrap
                         runSpacing: 10,
                         children: [
-                          const PostComponent(
+                          PostComponent(
                             callback: null,
                           ),
-                          Container(height: 40),
+                          Container(height: 10),
+                          Align(
+                            child: RichText(
+                                text: TextSpan(
+                                    text: "3",
+                                    style: GoogleFonts.plusJakartaSans(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                    children: [
+                                  TextSpan(
+                                    text: " commentaires",
+                                    style: GoogleFonts.plusJakartaSans(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w300),
+                                  )
+                                ])),
+                          ),
+                          SizedBox(height: 20),
                           CommentComponent(),
                           CommentComponent(),
                           CommentComponent(),
@@ -123,8 +141,17 @@ class _FeedScreenState extends State<FeedScreen>
                     ),
                   ),
                 ),
-              ],
-            ));
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 300),
+                height: 70,
+                width: double.infinity,
+                color: Colors.grey,
+                child: TextField(),
+              ),
+            ],
+          ),
+        );
       }),
     );
   }

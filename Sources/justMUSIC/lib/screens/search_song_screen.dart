@@ -34,8 +34,8 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
         },
         child: BackdropFilter(
           filter: ImageFilter.blur(
-            sigmaX: 25.0,
-            sigmaY: 25.0,
+            sigmaX: 60.0,
+            sigmaY: 60.0,
           ),
           child: Container(
             color: bgAppBar.withOpacity(0.5),
@@ -49,7 +49,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                       width: 60,
                       height: 5,
                       decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Color(0xFF3A3A3A).withOpacity(0.6),
                           borderRadius: BorderRadius.circular(20))),
                 ),
                 const SizedBox(

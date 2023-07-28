@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:justmusic/components/back_button.dart';
 import 'package:justmusic/screens/search_song_screen.dart';
-
 import '../components/editable_post_component.dart';
 import '../components/post_button_component.dart';
-import '../components/search_bar_component.dart';
 import '../values/constants.dart';
 
 class PostScreen extends StatefulWidget {
@@ -66,6 +64,21 @@ class _PostScreenState extends State<PostScreen>
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: bgColor,
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 80),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: defaultPadding,
+                right: defaultPadding,
+                top: defaultPadding),
+            child: Row(
+              children: [BackButtonComponent()],
+            ),
+          ),
+        ),
+      ),
       body: Container(
         padding:
             const EdgeInsets.only(left: defaultPadding, right: defaultPadding),
@@ -88,9 +101,12 @@ class _PostScreenState extends State<PostScreen>
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      height: 150.h,
+                      height: 100.h,
                     ),
-                    EditablePostComponent(),
+                    GestureDetector(
+                      onTap: openDetailPost,
+                      child: EditablePostComponent(),
+                    ),
                     SizedBox(
                       height: 40.h,
                     ),
@@ -100,12 +116,6 @@ class _PostScreenState extends State<PostScreen>
                     ),
                   ],
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: defaultPadding),
-              child: SearchBarComponent(
-                callback: openDetailPost,
               ),
             ),
           ],
