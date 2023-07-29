@@ -6,9 +6,15 @@ import '../model/Music.dart';
 
 class MusicListComponent extends StatelessWidget {
   final Music music;
+  final bool playing;
+  final int index;
+  final Function(int) selectMusic;
   const MusicListComponent({
     Key? key,
     required this.music,
+    required this.playing,
+    required this.selectMusic,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -90,9 +96,14 @@ class MusicListComponent extends StatelessWidget {
             ),
           ),
           Spacer(),
-          PlayButtonComponent(
-            urlPreview: music.previewUrl,
-          )
+          music.previewUrl != null
+              ? PlayButtonComponent(
+                  music: music,
+                  callback: selectMusic,
+                  playing: playing,
+                  index: index,
+                )
+              : Container()
         ],
       ),
     );

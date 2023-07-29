@@ -3,9 +3,19 @@ import 'package:flutter/Material.dart';
 import 'package:flutter_animated_play_button/flutter_animated_play_button.dart';
 import 'package:ionicons/ionicons.dart';
 
+import '../model/Music.dart';
+
 class PlayButtonComponent extends StatefulWidget {
-  final String? urlPreview;
-  const PlayButtonComponent({Key? key, required this.urlPreview})
+  final Music music;
+  final Function callback;
+  final int index;
+  bool playing;
+  PlayButtonComponent(
+      {Key? key,
+      required this.music,
+      required this.callback,
+      required this.playing,
+      required this.index})
       : super(key: key);
 
   @override
@@ -13,13 +23,12 @@ class PlayButtonComponent extends StatefulWidget {
 }
 
 class _PlayButtonComponentState extends State<PlayButtonComponent> {
-  bool isPlaying = true;
   final player = AudioPlayer();
   void switchStatePlaying() {
     setState(() {
-      isPlaying = !isPlaying;
+      widget.playing = !widget.playing;
     });
-    stopSong();
+    widget.music.stopSong();
   }
 
   @override
@@ -32,12 +41,14 @@ class _PlayButtonComponentState extends State<PlayButtonComponent> {
 
   @override
   Widget build(BuildContext context) {
-    if (!isPlaying) {
-      playSong();
+    if (widget.playing) {
+      widget.music.playSong();
     } else {}
-    return isPlaying
+    return !widget.playing
         ? GestureDetector(
-            onTap: switchStatePlaying,
+            onTap: () {
+              widget.callback(widget.index);
+            },
             child: Container(
                 width: 30,
                 height: 30,
@@ -58,15 +69,5 @@ class _PlayButtonComponentState extends State<PlayButtonComponent> {
                 onPressed: () {},
               ),
             ));
-  }
-
-  Future<void> playSong() async {
-    if (widget.urlPreview != null) {
-      await player.play(UrlSource(widget.urlPreview ?? ""));
-    }
-  }
-
-  Future<void> stopSong() async {
-    await player.stop();
   }
 }

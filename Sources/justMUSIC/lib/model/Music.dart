@@ -1,4 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
+
 import 'Artist.dart';
+import '../main.dart';
 
 class Music {
   final String _id;
@@ -57,5 +60,15 @@ class Music {
 
   set artists(List<Artist> value) {
     _artists = value;
+  }
+
+  Future<void> playSong() async {
+    if (previewUrl != null) {
+      await MyApp.audioPlayer.play(UrlSource(previewUrl!));
+    }
+  }
+
+  Future<void> stopSong() async {
+    await MyApp.audioPlayer.stop();
   }
 }
