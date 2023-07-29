@@ -9,7 +9,7 @@
 
 ---
 
-[Présentation](#présentation) | [Répartion](#répartition-du-gitlab) | [Fonctionnement](#fonctionnement) | [Deploiement](#deploiement) | [Remerciements](#remerciements) | [Wiki](https://codefirst.iut.uca.fr/git/justDEV/justMusic/wiki)
+[Présentation](#présentation) | [Répartion](#répartition-du-gitlab) | [Fonctionnement](#fonctionnement) | [Deploiement](#deploiement) | [Remerciements](#remerciements) | [Wiki](https://codefirst.iut.uca.fr/git/justDEV/justMusic/wiki) | [Site officiel](https://justmusicapp.com)
 
 
 </div>

@@ -70,7 +70,7 @@ class MusicViewModel {
     var accessToken = await _token.getAccessToken();
     var response = await http.get(
         Uri.parse(
-            '$API_URL/search?q=track%3A$name&type=track&market=$market&limit=$limit&offset=$offset'),
+            '$API_URL/search?q=track%3A$name&type=track&market=fr&limit=$limit&offset=$offset'),
         headers: {
           'Authorization': 'Bearer $accessToken',
         });
@@ -89,7 +89,7 @@ class MusicViewModel {
     var accessToken = await _token.getAccessToken();
     var response = await http.get(
         Uri.parse(
-            '$API_URL/search?q=artist%3A$name&type=track&market=$market&limit=$limit&offset=$offset'),
+            '$API_URL/search?q=artist%3A$name&type=track&market=fr&limit=$limit&offset=$offset'),
         headers: {
           'Authorization': 'Bearer $accessToken',
         });

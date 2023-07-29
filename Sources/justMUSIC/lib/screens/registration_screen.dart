@@ -83,6 +83,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 left: defaultPadding,
                                 right: defaultPadding),
                             child: TextFormField(
+                              keyboardAppearance: Brightness.dark,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'TODO';
@@ -120,6 +121,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 left: defaultPadding,
                                 right: defaultPadding),
                             child: TextFormField(
+                              keyboardAppearance: Brightness.dark,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'TODO';
@@ -157,6 +159,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               left: defaultPadding,
                               right: defaultPadding),
                           child: TextFormField(
+                            keyboardAppearance: Brightness.dark,
                             obscureText: passenable,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -221,6 +224,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               left: defaultPadding,
                               right: defaultPadding),
                           child: TextFormField(
+                            keyboardAppearance: Brightness.dark,
                             obscureText: passenable,
                             validator: (value) {
                               if (value == null || value.isEmpty) {

@@ -13,7 +13,9 @@ class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/explanation');
+      },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF1C1C1C)),
         overlayColor:

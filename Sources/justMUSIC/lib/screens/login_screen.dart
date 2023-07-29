@@ -17,7 +17,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool passenable = true;
-  final _focusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -97,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       CrossAxisAlignment.end,
                                                   children: [
                                                     TextFormField(
+                                                      keyboardAppearance:
+                                                          Brightness.dark,
                                                       validator: (value) {
                                                         if (value == null ||
                                                             value.isEmpty) {
@@ -147,6 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       height: 18,
                                                     ),
                                                     TextFormField(
+                                                      keyboardAppearance:
+                                                          Brightness.dark,
                                                       obscureText: passenable,
                                                       validator: (value) {
                                                         if (value == null ||
@@ -430,6 +433,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       CrossAxisAlignment.end,
                                                   children: [
                                                     TextFormField(
+                                                      keyboardAppearance:
+                                                          Brightness.dark,
                                                       validator: (value) {
                                                         if (value == null ||
                                                             value.isEmpty) {
@@ -480,6 +485,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       height: 18,
                                                     ),
                                                     TextFormField(
+                                                      keyboardAppearance:
+                                                          Brightness.dark,
                                                       obscureText: passenable,
                                                       validator: (value) {
                                                         if (value == null ||

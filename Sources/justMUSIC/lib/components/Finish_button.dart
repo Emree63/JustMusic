@@ -13,7 +13,9 @@ class _FinishButtonState extends State<FinishButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/feed');
+      },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF1C1C1C)),
         overlayColor:
