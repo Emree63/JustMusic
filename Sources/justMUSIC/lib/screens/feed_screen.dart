@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
+import '../main.dart';
 import '../values/constants.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _FeedScreenState extends State<FeedScreen>
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      builder: ((context) {
+      builder: ((BuildContext context) {
         return GestureDetector(
           onTap: () {
             FocusScopeNode currentFocus = FocusScope.of(context);
@@ -233,6 +234,10 @@ class _FeedScreenState extends State<FeedScreen>
         );
       }),
     );
+  }
+
+  void _onModalClosed() {
+    print("modal closed");
   }
 
   @override

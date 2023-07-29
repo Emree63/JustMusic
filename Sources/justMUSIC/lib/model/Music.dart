@@ -8,7 +8,7 @@ class Music {
   String? _title;
   String? _cover;
   String? _previewUrl;
-  DateTime? _date;
+  int? _date;
   double? _duration;
   bool _explicit = false;
   List<Artist> _artists;
@@ -38,9 +38,9 @@ class Music {
     _previewUrl = value;
   }
 
-  DateTime? get date => _date;
+  int? get date => _date;
 
-  set date(DateTime? value) {
+  set date(int? value) {
     _date = value;
   }
 

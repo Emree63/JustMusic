@@ -77,11 +77,13 @@ class MusicListComponent extends StatelessWidget {
                             intervalSpaces: 10,
                           ),
                         )),
-                    Icon(
-                      Icons.explicit,
-                      color: Colors.grey.withOpacity(0.7),
-                      size: 17,
-                    ),
+                    music.explicit
+                        ? Icon(
+                            Icons.explicit,
+                            color: Colors.grey.withOpacity(0.7),
+                            size: 17,
+                          )
+                        : Container(),
                   ],
                 ),
                 ScrollConfiguration(
