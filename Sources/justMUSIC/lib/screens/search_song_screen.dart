@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/Material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/model/Music.dart';
 
 import '../components/music_list_component.dart';
 import '../values/constants.dart';
+import '../main.dart';
 
 class SearchSongScreen extends StatefulWidget {
   const SearchSongScreen({Key? key}) : super(key: key);
@@ -15,11 +18,49 @@ class SearchSongScreen extends StatefulWidget {
 }
 
 class _SearchSongScreenState extends State<SearchSongScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+
   Future<void> resetFullScreen() async {
     await SystemChannels.platform.invokeMethod<void>(
       'SystemChrome.restoreSystemUIOverlays',
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      filteredData.addAll(await MyApp.musicViewModel.getMusicsWithName(
+          _textEditingController.text,
+          limit: 10,
+          offset: filteredData.length));
+      setState(() {
+        filteredData = filteredData;
+      });
+    }
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        //you can do anything here
+      });
+    }
+    if (_scrollController.offset <=
+            _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        Timer(Duration(milliseconds: 1), () => _scrollController.jumpTo(0));
+      });
+    }
+  }
+
+  List<Music> filteredData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +81,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
           child: Container(
             color: bgAppBar.withOpacity(0.5),
             height: screenHeight - 50,
-            padding: const EdgeInsets.only(
-                top: 10, left: defaultPadding, right: defaultPadding),
+            padding: const EdgeInsets.only(top: 10),
             child: Column(
               children: [
                 Align(
@@ -56,17 +96,25 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding:
+                      const EdgeInsets.only(bottom: 10, left: 20, right: 20),
                   child: SizedBox(
                     height: 40,
-                    child: TextFormField(
+                    child: TextField(
+                      controller: _textEditingController,
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'TODO';
+                      onChanged: (value) async {
+                        if (_textEditingController.text.isEmpty) {
+                        } else if (value == " ") {
+                          print("popular");
+                        } else {
+                          filteredData = await MyApp.musicViewModel
+                              .getMusicsWithName(value);
+                          setState(() {
+                            filteredData = filteredData;
+                          });
                         }
-                        return null;
                       },
                       cursorColor: Colors.white,
                       keyboardType: TextInputType.text,
@@ -100,31 +148,18 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     ),
                   ),
                 ),
-                Expanded(
+                Flexible(
                     child: ScrollConfiguration(
-                  behavior: ScrollBehavior().copyWith(scrollbars: false),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: const [
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                      ],
-                    ),
-                  ),
+                  behavior: ScrollBehavior().copyWith(scrollbars: true),
+                  child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: filteredData.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: MusicListComponent(music: filteredData[index]),
+                        );
+                      }),
                 ))
               ],
             ),
