@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
     return ScreenUtilInit(
+      useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
             routes: {
