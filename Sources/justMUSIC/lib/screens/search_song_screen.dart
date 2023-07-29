@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'package:flutter/Material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/model/Music.dart';
 
 import '../components/music_list_component.dart';
 import '../values/constants.dart';
+import '../main.dart';
 
 class SearchSongScreen extends StatefulWidget {
   const SearchSongScreen({Key? key}) : super(key: key);
@@ -20,6 +22,8 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
       'SystemChrome.restoreSystemUIOverlays',
     );
   }
+
+  List<Music> filteredData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +63,14 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: SizedBox(
                     height: 40,
-                    child: TextFormField(
+                    child: TextField(
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'TODO';
-                        }
-                        return null;
+                      onSubmitted: (value) {
+                        setState(() async {
+                          filteredData = await MyApp.musicViewModel
+                              .getMusicsWithName(value ?? "");
+                        });
                       },
                       cursorColor: Colors.white,
                       keyboardType: TextInputType.text,
@@ -103,27 +107,14 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                 Expanded(
                     child: ScrollConfiguration(
                   behavior: ScrollBehavior().copyWith(scrollbars: false),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: const [
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                        MusicListComponent(),
-                      ],
-                    ),
+                  child: SizedBox(
+                    height: 200,
+                    child: SingleChildScrollView(
+                        child: ListView.builder(
+                            itemCount: filteredData.length,
+                            itemBuilder: (context, index) {
+                              return Container();
+                            })),
                   ),
                 ))
               ],

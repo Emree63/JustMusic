@@ -8,6 +8,7 @@ import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
+import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/UserViewModel.dart';
 
 void main() {
@@ -16,6 +17,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   static UserViewModel userViewModel = UserViewModel();
+  static MusicViewModel musicViewModel = MusicViewModel();
+
   const MyApp({super.key});
 
   // This widget is the root of your application.
