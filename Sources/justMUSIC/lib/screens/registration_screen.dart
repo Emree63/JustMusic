@@ -286,7 +286,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: defaultPadding),
-                          child: SizedBox(width: 600, child: LoginButton()),
+                          child: SizedBox(
+                              width: 600,
+                              child: LoginButton(
+                                callback: () {},
+                              )),
                         ),
                       ],
                     )),

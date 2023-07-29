@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "994903990520",
+    "project_id": "justmusic-435d5",
+    "storage_bucket": "justmusic-435d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994903990520:android:02a445b6561bf2820a9b0d",
+        "android_client_info": {
+          "package_name": "com.example.justmusic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994903990520-rdk6ldrmbi71ddqt84qfhtuficm7ngon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjkofl0nvfzQqRZPv_-H99WoyYa7O660g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994903990520-9jsnq9ipdn7smk7tlbdd20i7j6sl3jcd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "994903990520-n6jd98ena56kb1tvtrd67tvb5et3nfbf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.justmusic"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

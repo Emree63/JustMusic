@@ -1,5 +1,5 @@
 class User {
-  final int _id;
+  final String _id;
   String _pseudo;
   String _country;
   String _mail;
@@ -14,7 +14,7 @@ class User {
       this._followers, this._capsules, this._followed, this.friends);
 
   //Getters and setters
-  int get id => _id;
+  String get id => _id;
 
   String get pseudo => _pseudo;
 
