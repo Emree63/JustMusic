@@ -1,10 +1,14 @@
 import 'package:flutter/Material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/components/play_button_component.dart';
-import 'package:justmusic/values/constants.dart';
+import '../model/Music.dart';
 
 class MusicListComponent extends StatelessWidget {
-  const MusicListComponent({Key? key}) : super(key: key);
+  final Music music;
+  const MusicListComponent({
+    Key? key,
+    required this.music,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +16,26 @@ class MusicListComponent extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 14),
       child: Row(
         children: [
-          const ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            child: Image(
-              image: AssetImage("assets/images/exemple_cover.png"),
-              width: 60,
-              height: 60,
-            ),
-          ),
+          LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+            if (music.cover != null) {
+              return ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                child: FadeInImage.assetNetwork(
+                    height: 60,
+                    width: 60,
+                    fit: BoxFit.cover,
+                    placeholder: "assets/images/loadingPlaceholder.gif",
+                    image: music.cover!),
+              );
+            } else {
+              return Image(
+                image: AssetImage("assets/images/exemple_cover.png"),
+                height: 60,
+                width: 60,
+              );
+            }
+          }),
           const SizedBox(
             width: 10,
           ),
@@ -39,7 +55,7 @@ class MusicListComponent extends StatelessWidget {
                   alignment: WrapAlignment.end,
                   children: [
                     Text(
-                      "A.C. Milan",
+                      music.title ?? "Unknown",
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.plusJakartaSans(
                           fontSize: 16,
@@ -54,7 +70,7 @@ class MusicListComponent extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "Booba",
+                  music.artists.first.name ?? "Unknown",
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.plusJakartaSans(
                       color: Colors.grey, fontWeight: FontWeight.w400),
@@ -63,7 +79,9 @@ class MusicListComponent extends StatelessWidget {
             ),
           ),
           Spacer(),
-          PlayButtonComponent()
+          PlayButtonComponent(
+            urlPreview: music.previewUrl,
+          )
         ],
       ),
     );

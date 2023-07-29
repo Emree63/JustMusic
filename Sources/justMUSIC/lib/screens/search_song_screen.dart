@@ -66,10 +66,11 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     child: TextField(
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
-                      onSubmitted: (value) {
-                        setState(() async {
-                          filteredData = await MyApp.musicViewModel
-                              .getMusicsWithName(value ?? "");
+                      onSubmitted: (value) async {
+                        filteredData =
+                            await MyApp.musicViewModel.getMusicsWithName(value);
+                        setState(() {
+                          filteredData = filteredData;
                         });
                       },
                       cursorColor: Colors.white,
@@ -109,12 +110,11 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   behavior: ScrollBehavior().copyWith(scrollbars: false),
                   child: SizedBox(
                     height: 200,
-                    child: SingleChildScrollView(
-                        child: ListView.builder(
-                            itemCount: filteredData.length,
-                            itemBuilder: (context, index) {
-                              return Container();
-                            })),
+                    child: ListView.builder(
+                        itemCount: filteredData.length,
+                        itemBuilder: (context, index) {
+                          return MusicListComponent(music: filteredData[index]);
+                        }),
                   ),
                 ))
               ],
