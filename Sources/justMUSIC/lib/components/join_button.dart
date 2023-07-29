@@ -8,7 +8,9 @@ class JoinButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/register');
+      },
       child: Text(
         "Rejoindre",
         style: GoogleFonts.plusJakartaSans(

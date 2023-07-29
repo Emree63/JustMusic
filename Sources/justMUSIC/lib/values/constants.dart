@@ -14,8 +14,13 @@ const strokeTextField = Color(0xFF373546);
 const unactiveFeed = Color(0xFF848484);
 const gradiantPost = Color(0xFF0D0D0D);
 const bgModal = Color(0xFF1E1E1E);
+const textFieldMessage = Color(0xFF232323);
 const bgComment = Color(0xFF222222);
-
+const bgAppBar = Color(0xFF181818);
+const grayText = Color(0xFF898989);
+const settingColor = Color(0xFF232323);
+const searchBarColor = Color(0xFF161616);
 // All constants important too us
 
 const defaultPadding = 30.0;
+const settingPadding = 12.0;

@@ -1,8 +1,9 @@
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
@@ -52,6 +53,12 @@ class _FeedScreenState extends State<FeedScreen>
     animationController.forward();
   }
 
+  Future<void> resetFullScreen() async {
+    await SystemChannels.platform.invokeMethod<void>(
+      'SystemChrome.restoreSystemUIOverlays',
+    );
+  }
+
   void changeFeed(bool choice) {
     // Mettez ici le code pour l'action que vous souhaitez effectuer avec le paramètre
     if (choice) {
@@ -82,12 +89,17 @@ class _FeedScreenState extends State<FeedScreen>
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((context) {
-        return Container(
+        return GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+              resetFullScreen();
+            }
+          },
+          child: Container(
             height: 720.h,
-            margin: EdgeInsets.only(
-                top: defaultPadding,
-                left: defaultPadding,
-                right: defaultPadding),
+            margin: const EdgeInsets.only(top: 10),
             child: Column(
               children: [
                 Align(
@@ -95,32 +107,130 @@ class _FeedScreenState extends State<FeedScreen>
                       width: 60,
                       height: 5,
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.white.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(20))),
                 ),
-                SizedBox(
-                  height: 10,
+                const SizedBox(
+                  height: 20,
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      // to apply margin in the main axis of the wrap
-                      runSpacing: 10,
-                      children: [
-                        PostComponent(
-                          callback: null,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        topLeft: Radius.circular(15)),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: defaultPadding, right: defaultPadding),
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          // to apply margin in the main axis of the wrap
+                          runSpacing: 10,
+                          children: [
+                            PostComponent(
+                              callback: null,
+                            ),
+                            Container(height: 10),
+                            Align(
+                              child: RichText(
+                                  text: TextSpan(
+                                      text: "3",
+                                      style: GoogleFonts.plusJakartaSans(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                      children: [
+                                    TextSpan(
+                                      text: " commentaires",
+                                      style: GoogleFonts.plusJakartaSans(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w300),
+                                    )
+                                  ])),
+                            ),
+                            SizedBox(height: 20),
+                            CommentComponent(),
+                            CommentComponent(),
+                            CommentComponent(),
+                            Container(height: 10),
+                          ],
                         ),
-                        Container(height: 40),
-                        CommentComponent(),
-                        CommentComponent(),
-                        CommentComponent(),
-                        Container(height: 10),
-                      ],
+                      ),
                     ),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Container(
+                      height: 70,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: grayColor, width: 2)),
+                          color: textFieldMessage),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              ClipOval(
+                                child: SizedBox.fromSize(
+                                  // Image radius
+                                  child: const Image(
+                                    image: AssetImage(
+                                        "assets/images/exemple_profile.png"),
+                                    width: 45,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  keyboardAppearance: Brightness.dark,
+                                  cursorColor: primaryColor,
+                                  keyboardType: TextInputType.emailAddress,
+                                  style: GoogleFonts.plusJakartaSans(
+                                      color: Colors.white),
+                                  decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.send,
+                                        color: grayText,
+                                        size: 20,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 1, color: grayText),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(100))),
+                                      contentPadding: EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 0,
+                                          left: 20,
+                                          right: 20),
+                                      fillColor: bgModal,
+                                      filled: true,
+                                      focusColor:
+                                          Color.fromRGBO(255, 255, 255, 0.30),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 1, color: grayText),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(100))),
+                                      hintText: 'Ajoutez une réponse...',
+                                      hintStyle: GoogleFonts.plusJakartaSans(
+                                          color: grayText)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+                ),
               ],
-            ));
+            ),
+          ),
+        );
       }),
     );
   }
@@ -128,12 +238,12 @@ class _FeedScreenState extends State<FeedScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: bgColor,
       body: Stack(
         children: [
           CircularRevealAnimation(
             animation: animation,
-//                centerAlignment: Alignment.centerRight,
             centerOffset: Offset(30.w, -100),
             child: SingleChildScrollView(
               child: SizedBox(

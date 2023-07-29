@@ -49,6 +49,9 @@ class CommentComponent extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(
+            height: 10,
+          ),
           Text(
             "J’adore ce son auss je trouve qu’il a vraiment une plume de fou le rap c’est trop bien  jknei rhozi ugzeor gzhjkev huz vhzbejlh zouebvfiyzv fi hzejkfb zjf ouzebfjzebihf b zuib fiuzebfihzbejfbzejkbf  hzbfiébiu zegiu fzieu iuzy giuzeg iuzg eiu zg ",
             style: GoogleFonts.plusJakartaSans(
