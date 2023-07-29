@@ -71,12 +71,20 @@ class WellcomeScreen extends StatelessWidget {
                     SizedBox(
                       height: defaultPadding,
                     ),
-                    Text(
-                      "Tu as déja un compte? Connexion",
-                      style: GoogleFonts.plusJakartaSans(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text(
+                          "Tu as déja un compte? Connexion",
+                          style: GoogleFonts.plusJakartaSans(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15),
+                        ),
+                      ),
                     ),
                   ],
                 ),

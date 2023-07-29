@@ -30,11 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
             .login(_userMailTextField.text, _passwordTextField.text);
         Navigator.pushNamed(context, '/explanation');
       } catch (e) {
-        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              e.toString(),
+              "Erreur: Email ou mot de passe incorrect",
               style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
@@ -71,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Flexible(
-                                        flex: 5,
+                                        flex: 4,
                                         child: Padding(
                                           padding: EdgeInsets.only(bottom: 60),
                                           child: Column(
@@ -108,10 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       Expanded(
-                                        flex: 4,
+                                        flex: 5,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             TextFormField(
                                               controller: _userMailTextField,
@@ -138,25 +139,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                                               strokeTextField),
                                                       borderRadius: BorderRadius.all(
                                                           Radius.circular(10))),
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          top: 0,
-                                                          bottom: 0,
-                                                          left: defaultPadding),
+                                                  prefix: const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 20.0)),
+                                                  suffix: const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 20.0)),
                                                   fillColor: bgTextField,
                                                   filled: true,
+                                                  errorStyle: TextStyle(
+                                                      fontSize: 9, height: 0.3),
                                                   focusColor: Color.fromRGBO(
                                                       255, 255, 255, 0.30),
                                                   enabledBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          width: 1,
-                                                          color:
-                                                              strokeTextField),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10))),
+                                                      borderSide:
+                                                          BorderSide(width: 1, color: strokeTextField),
+                                                      borderRadius: BorderRadius.all(Radius.circular(10))),
                                                   hintText: 'Email',
-                                                  hintStyle:
-                                                      GoogleFonts.plusJakartaSans(color: strokeTextField)),
+                                                  hintStyle: GoogleFonts.plusJakartaSans(color: strokeTextField)),
                                             ),
                                             SizedBox(
                                               height: 18,
@@ -174,8 +174,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 return null;
                                               },
                                               cursorColor: primaryColor,
-                                              keyboardType:
-                                                  TextInputType.emailAddress,
                                               style:
                                                   GoogleFonts.plusJakartaSans(
                                                       color: primaryColor),
@@ -190,10 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                             BorderRadius.all(
                                                                 Radius.circular(
                                                                     10))),
-                                                contentPadding: EdgeInsets.only(
-                                                    top: 0,
-                                                    bottom: 0,
-                                                    left: defaultPadding),
                                                 fillColor: bgTextField,
                                                 filled: true,
                                                 focusColor: Color.fromRGBO(
@@ -212,6 +206,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 hintStyle:
                                                     GoogleFonts.plusJakartaSans(
                                                         color: strokeTextField),
+                                                prefix: const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 20.0)),
                                                 suffixIcon: Container(
                                                     padding: EdgeInsets.only(
                                                         right: 10),
@@ -240,6 +237,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         height: 2,
                                                       ),
                                                     )),
+                                                errorStyle: TextStyle(
+                                                    fontSize: 9, height: 0.3),
                                               ),
                                             ),
                                             Padding(
@@ -259,6 +258,46 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 child: LoginButton(
                                                   callback: handleLogin,
                                                 )),
+                                            Align(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                      context, '/register');
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 20),
+                                                  child: RichText(
+                                                    textAlign: TextAlign.center,
+                                                    text: TextSpan(
+                                                      text:
+                                                          'Pas encore inscrit?',
+                                                      style: GoogleFonts
+                                                          .plusJakartaSans(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 15),
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                            text: " S’inscire",
+                                                            style: GoogleFonts
+                                                                .plusJakartaSans(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color:
+                                                                        primaryColor)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -321,38 +360,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   text: "Login with Google",
                                                   onPressed: () {},
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 20),
-                                                  child: RichText(
-                                                    textAlign: TextAlign.center,
-                                                    text: TextSpan(
-                                                      text:
-                                                          'Pas encore inscrit?',
-                                                      style: GoogleFonts
-                                                          .plusJakartaSans(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 13),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                            text: " S’inscire",
-                                                            style: GoogleFonts
-                                                                .plusJakartaSans(
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    color:
-                                                                        primaryColor)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
                                               ],
                                             ),
                                           ))

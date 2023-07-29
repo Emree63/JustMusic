@@ -1,14 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:justmusic/model/User.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import '../../main.dart';
 
 class UserMapper {
-  static User? toModel(DocumentSnapshot<Map<String, dynamic>>? snapshot,
+  static User toModel(DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions? options) {
-    if (snapshot == null) {
-      return null;
-    }
     final data = snapshot.data();
     return User(
         data?["uid"],

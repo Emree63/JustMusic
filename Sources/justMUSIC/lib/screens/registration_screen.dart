@@ -292,6 +292,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 callback: () {},
                               )),
                         ),
+                        Align(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: 'Tu as déjà un compte?',
+                                  style: GoogleFonts.plusJakartaSans(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: " Connexion",
+                                        style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: primaryColor)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     )),
                 SizedBox(height: 50.h),

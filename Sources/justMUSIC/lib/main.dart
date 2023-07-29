@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
               // is not restarted.
               primarySwatch: Colors.blue,
             ),
-            home: LoginScreen());
+            home: WellcomeScreen());
       },
       designSize: Size(390, 844),
     );
