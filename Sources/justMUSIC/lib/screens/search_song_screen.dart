@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/Material.dart';
@@ -17,10 +18,46 @@ class SearchSongScreen extends StatefulWidget {
 }
 
 class _SearchSongScreenState extends State<SearchSongScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+
   Future<void> resetFullScreen() async {
     await SystemChannels.platform.invokeMethod<void>(
       'SystemChrome.restoreSystemUIOverlays',
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      filteredData.addAll(await MyApp.musicViewModel.getMusicsWithName(
+          _textEditingController.text,
+          limit: 10,
+          offset: filteredData.length));
+      setState(() {
+        filteredData = filteredData;
+      });
+    }
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        //you can do anything here
+      });
+    }
+    if (_scrollController.offset <=
+            _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        Timer(Duration(milliseconds: 1), () => _scrollController.jumpTo(0));
+      });
+    }
   }
 
   List<Music> filteredData = [];
@@ -44,8 +81,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
           child: Container(
             color: bgAppBar.withOpacity(0.5),
             height: screenHeight - 50,
-            padding: const EdgeInsets.only(
-                top: 10, left: defaultPadding, right: defaultPadding),
+            padding: const EdgeInsets.only(top: 10),
             child: Column(
               children: [
                 Align(
@@ -60,18 +96,25 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding:
+                      const EdgeInsets.only(bottom: 10, left: 20, right: 20),
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      controller: _textEditingController,
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
-                      onSubmitted: (value) async {
-                        filteredData =
-                            await MyApp.musicViewModel.getMusicsWithName(value);
-                        setState(() {
-                          filteredData = filteredData;
-                        });
+                      onChanged: (value) async {
+                        if (_textEditingController.text.isEmpty) {
+                        } else if (value == " ") {
+                          print("popular");
+                        } else {
+                          filteredData = await MyApp.musicViewModel
+                              .getMusicsWithName(value);
+                          setState(() {
+                            filteredData = filteredData;
+                          });
+                        }
                       },
                       cursorColor: Colors.white,
                       keyboardType: TextInputType.text,
@@ -105,17 +148,18 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     ),
                   ),
                 ),
-                Expanded(
+                Flexible(
                     child: ScrollConfiguration(
-                  behavior: ScrollBehavior().copyWith(scrollbars: false),
-                  child: SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                        itemCount: filteredData.length,
-                        itemBuilder: (context, index) {
-                          return MusicListComponent(music: filteredData[index]);
-                        }),
-                  ),
+                  behavior: ScrollBehavior().copyWith(scrollbars: true),
+                  child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: filteredData.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: MusicListComponent(music: filteredData[index]),
+                        );
+                      }),
                 ))
               ],
             ),
