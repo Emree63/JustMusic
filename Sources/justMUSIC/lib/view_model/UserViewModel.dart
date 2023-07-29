@@ -33,7 +33,7 @@ class UserViewModel {
       User data = UserMapper.toModel(user, null);
       _userCurrent = data;
     } catch (e) {
-      throw Exception("Erreur: Email ou mot de passe incorrect");
+      rethrow;
     }
   }
 

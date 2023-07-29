@@ -1,6 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../model/User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../main.dart';
 
@@ -42,12 +39,8 @@ class AuthService {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw ('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        throw ('Wrong password provided for that user.');
-      }
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 

@@ -6,15 +6,15 @@ class UserMapper {
       SnapshotOptions? options) {
     final data = snapshot.data();
     return User(
-        data?["uid"],
-        data?["pseudo"],
-        data?["country"],
-        data?["mail"],
-        data?["profilePicture"],
-        data?["followers"] as int,
-        data?["nbCapsules"] as int,
-        data?["followed"] as int,
-        data?['friends'] is Iterable ? List.from(data?['friends']) : []);
+        data?["uid"] ?? "",
+        data?["pseudo"] ?? "",
+        data?["country"] ?? "",
+        data?["mail"] ?? "",
+        data?["profilePicture"] ?? "",
+        data?["followers"] ?? 0,
+        data?["nbCapsules"] ?? 0,
+        data?["followed"] ?? 0,
+        data?['friends'] is List<User> ? List.from(data?['friends']) : []);
   }
 /*
   static Map<String, dynamic> toFirebase(User user) {

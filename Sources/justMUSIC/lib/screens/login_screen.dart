@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,11 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
         await MyApp.userViewModel
             .login(_userMailTextField.text, _passwordTextField.text);
         Navigator.pushNamed(context, '/explanation');
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Erreur: Email ou mot de passe incorrect",
+              e.message ?? "",
               style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
