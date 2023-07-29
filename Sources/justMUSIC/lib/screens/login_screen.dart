@@ -30,11 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
         await MyApp.userViewModel
             .login(_userMailTextField.text, _passwordTextField.text);
         Navigator.pushNamed(context, '/explanation');
-      } on FirebaseAuthException catch (e) {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              e.message ?? "",
+              e.toString() ?? "",
               style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,

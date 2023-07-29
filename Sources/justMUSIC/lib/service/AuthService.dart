@@ -39,7 +39,16 @@ class AuthService {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException {
+    } on FirebaseAuthException catch (e) {
+      if(e.code == 'user-not-found') {
+        throw('Mail incorrect');
+      } else if(e.code ==  'wrong-password') {
+        throw('Mot de passe incorrect');
+      } else if(e.code == 'invalid-email') {
+        throw('Format de mail incorrect');
+      } else if(e.code == 'too-many-requests') {
+        throw('L\'accès à ce compte a été temporairement désactivé en raison de nombreuses tentatives de connexion infructueuses. Réessayer plus tard.');
+      }
       rethrow;
     }
   }
