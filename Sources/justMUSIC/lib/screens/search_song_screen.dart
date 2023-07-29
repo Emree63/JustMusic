@@ -20,6 +20,7 @@ class SearchSongScreen extends StatefulWidget {
 class _SearchSongScreenState extends State<SearchSongScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
+  int? playingIndex;
 
   Future<void> resetFullScreen() async {
     await SystemChannels.platform.invokeMethod<void>(
@@ -61,6 +62,18 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
   }
 
   List<Music> filteredData = [];
+
+  void playMusic(int index) {
+    if (playingIndex == index) {
+      setState(() {
+        playingIndex = null;
+      });
+    } else {
+      setState(() {
+        playingIndex = index;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +117,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                       controller: _textEditingController,
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
-                      onChanged: (value) async {
+                      onSubmitted: (value) async {
                         if (_textEditingController.text.isEmpty) {
                         } else if (value == " ") {
                           print("popular");
@@ -155,9 +168,25 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                       controller: _scrollController,
                       itemCount: filteredData.length,
                       itemBuilder: (context, index) {
+                        if (playingIndex == index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: MusicListComponent(
+                              music: filteredData[index],
+                              playing: true,
+                              callback: playMusic,
+                              index: index,
+                            ),
+                          );
+                        }
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: MusicListComponent(music: filteredData[index]),
+                          child: MusicListComponent(
+                            music: filteredData[index],
+                            playing: false,
+                            callback: playMusic,
+                            index: index,
+                          ),
                         );
                       }),
                 ))

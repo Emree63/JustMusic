@@ -8,12 +8,12 @@ class MusicListComponent extends StatelessWidget {
   final Music music;
   final bool playing;
   final int index;
-  final Function(int) selectMusic;
+  final Function(int) callback;
   const MusicListComponent({
     Key? key,
     required this.music,
     required this.playing,
-    required this.selectMusic,
+    required this.callback,
     required this.index,
   }) : super(key: key);
 
@@ -99,7 +99,7 @@ class MusicListComponent extends StatelessWidget {
           music.previewUrl != null
               ? PlayButtonComponent(
                   music: music,
-                  callback: selectMusic,
+                  callback: callback,
                   playing: playing,
                   index: index,
                 )
