@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,15 @@ class _PostScreenState extends State<PostScreen>
   late AnimationController _controller;
 
   Music? selectedMusic;
+  File? selectedImage;
   Tuple2<String, String>? selectedCity;
+  String? description;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -38,6 +47,24 @@ class _PostScreenState extends State<PostScreen>
     Navigator.pop(context);
     setState(() {
       selectedMusic = music;
+    });
+  }
+
+  void _selectImage(File image) {
+    setState(() {
+      selectedImage = image;
+    });
+  }
+
+  void _descritpion(String text) {
+    setState(() {
+      description = text;
+    });
+  }
+
+  void _selectLocation(Tuple2<String, String> location) {
+    setState(() {
+      selectedCity = location;
     });
   }
 
@@ -62,6 +89,12 @@ class _PostScreenState extends State<PostScreen>
             child: SearchSongScreen(callback: _selectMusic));
       }),
     );
+  }
+
+  displayinfo() {
+    print("cc");
+    print(
+        "${selectedCity},${selectedMusic?.title},${selectedImage?.path},${description}");
   }
 
   @override
@@ -107,11 +140,18 @@ class _PostScreenState extends State<PostScreen>
                 ),
                 GestureDetector(
                     onTap: openSearchSong,
-                    child: EditablePostComponent(music: selectedMusic)),
+                    child: EditablePostComponent(
+                        music: selectedMusic,
+                        callBackImage: _selectImage,
+                        callBackDescription: _descritpion,
+                        callBackCity: _selectLocation)),
                 SizedBox(
                   height: 40.h,
                 ),
-                PostButtonComponent(empty: selectedMusic == null),
+                PostButtonComponent(
+                  empty: selectedMusic == null,
+                  callback: displayinfo,
+                ),
                 SizedBox(
                   height: 40.h,
                 ),

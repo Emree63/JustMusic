@@ -20,7 +20,16 @@ import 'buttonPostComponent.dart';
 
 class EditablePostComponent extends StatefulWidget {
   final Music? music;
-  const EditablePostComponent({Key? key, this.music}) : super(key: key);
+  final Function callBackImage;
+  final Function callBackCity;
+  final Function callBackDescription;
+  const EditablePostComponent(
+      {Key? key,
+      this.music,
+      required this.callBackImage,
+      required this.callBackCity,
+      required this.callBackDescription})
+      : super(key: key);
 
   @override
   State<EditablePostComponent> createState() => _EditablePostComponentState();
@@ -60,16 +69,24 @@ class _EditablePostComponentState extends State<EditablePostComponent>
       final imageTemp = File(image.path);
       setState(() {
         this.image = imageTemp;
+        widget.callBackImage(imageTemp);
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
 
+  void _updateDescription(String text) {
+    setState(() {
+      widget.callBackDescription(text);
+    });
+  }
+
   void _selectLocation(Tuple2<String, String> location) {
     Navigator.pop(context);
     setState(() {
       selectedCity = location;
+      widget.callBackCity(location);
     });
   }
 
@@ -94,6 +111,13 @@ class _EditablePostComponentState extends State<EditablePostComponent>
             child: SearchCityScreen(callback: _selectLocation));
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -276,6 +300,9 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                   child: SizedBox(
                     width: double.infinity,
                     child: TextFormField(
+                      onChanged: (value) {
+                        _updateDescription(value);
+                      },
                       keyboardAppearance: Brightness.dark,
                       minLines: 1,
                       cursorColor: primaryColor,
