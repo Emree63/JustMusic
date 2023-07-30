@@ -4,8 +4,10 @@ import 'dart:convert';
 
 import 'package:tuple/tuple.dart';
 
+import '../values/keys.dart';
+
 class GeoApi {
-  final String apiKey = "85a2724ad38b3994c2b7ebe1d239bbff";
+  final String apiKey = geoKey;
   Future<List<Tuple2<String, String>>?> getNearbyCities() async {
     try {
       LocationPermission permission = await Geolocator.checkPermission();
