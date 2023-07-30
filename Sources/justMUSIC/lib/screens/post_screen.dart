@@ -94,10 +94,8 @@ class _PostScreenState extends State<PostScreen>
   }
 
   handleSubmit() async {
-    print("ccccccccccccc");
     await MyApp.postViewModel.addPost(
         description, (selectedMusic?.id)!, selectedImage, selectedCity);
-    print("ccccccccccccc");
     quit();
   }
 

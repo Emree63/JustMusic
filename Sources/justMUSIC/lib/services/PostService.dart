@@ -19,16 +19,12 @@ class PostService {
     };
 
     var postAdd = await MyApp.db.collection("posts").add(post);
-    print("cc");
     if (image != null) {
-      print("cc3");
       var imageRef = FirebaseStorage.instance.ref('$id${postAdd.id}.jpg');
       await imageRef.putFile(image);
       var imageUrl = await imageRef.getDownloadURL();
-      print(imageUrl);
       postAdd.update({"selfie": imageUrl});
     }
-    print("cc2");
   }
 
   deletePost() {}

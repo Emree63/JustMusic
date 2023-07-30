@@ -248,7 +248,7 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                               )),
                           Container(width: 10),
                           AutoSizeText(
-                            "2013",
+                            widget.music?.date.toString() ?? "unknown",
                             style: GoogleFonts.plusJakartaSans(
                                 color: Colors.white.withOpacity(0.5),
                                 fontWeight: FontWeight.w300,
