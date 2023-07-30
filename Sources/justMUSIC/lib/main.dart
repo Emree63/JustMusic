@@ -1,4 +1,6 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +13,7 @@ import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/UserViewModel.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -23,10 +25,10 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // ugly as fuck
   static FirebaseFirestore db = FirebaseFirestore.instance;
   static UserViewModel userViewModel = UserViewModel();
   static MusicViewModel musicViewModel = MusicViewModel();
+  static AudioPlayer audioPlayer = AudioPlayer();
 
   const MyApp({super.key});
 
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
     return ScreenUtilInit(
+      useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
             routes: {

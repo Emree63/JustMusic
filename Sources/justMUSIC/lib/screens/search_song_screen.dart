@@ -11,7 +11,8 @@ import '../values/constants.dart';
 import '../main.dart';
 
 class SearchSongScreen extends StatefulWidget {
-  const SearchSongScreen({Key? key}) : super(key: key);
+  final Function callback;
+  const SearchSongScreen({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<SearchSongScreen> createState() => _SearchSongScreenState();
@@ -20,6 +21,7 @@ class SearchSongScreen extends StatefulWidget {
 class _SearchSongScreenState extends State<SearchSongScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
+  int? playingIndex;
 
   Future<void> resetFullScreen() async {
     await SystemChannels.platform.invokeMethod<void>(
@@ -62,6 +64,18 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
 
   List<Music> filteredData = [];
 
+  void playMusic(int index) {
+    if (playingIndex == index) {
+      setState(() {
+        playingIndex = null;
+      });
+    } else {
+      setState(() {
+        playingIndex = index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -101,10 +115,11 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      autofocus: true,
                       controller: _textEditingController,
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
-                      onChanged: (value) async {
+                      onSubmitted: (value) async {
                         if (_textEditingController.text.isEmpty) {
                         } else if (value == " ") {
                           print("popular");
@@ -152,13 +167,41 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     child: ScrollConfiguration(
                   behavior: ScrollBehavior().copyWith(scrollbars: true),
                   child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                          decelerationRate: ScrollDecelerationRate.fast),
                       controller: _scrollController,
                       itemCount: filteredData.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: MusicListComponent(music: filteredData[index]),
-                        );
+                        if (playingIndex == index) {
+                          return InkWell(
+                              onTap: () {
+                                widget.callback(filteredData[index]);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: MusicListComponent(
+                                  music: filteredData[index],
+                                  playing: true,
+                                  callback: playMusic,
+                                  index: index,
+                                ),
+                              ));
+                        }
+                        return InkWell(
+                            onTap: () {
+                              widget.callback(filteredData[index]);
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: MusicListComponent(
+                                music: filteredData[index],
+                                playing: false,
+                                callback: playMusic,
+                                index: index,
+                              ),
+                            ));
                       }),
                 ))
               ],

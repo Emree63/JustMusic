@@ -6,9 +6,15 @@ import '../model/Music.dart';
 
 class MusicListComponent extends StatelessWidget {
   final Music music;
-  const MusicListComponent({
+  final bool playing;
+  final int index;
+  final Function(int) callback;
+  MusicListComponent({
     Key? key,
     required this.music,
+    required this.playing,
+    required this.callback,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -71,11 +77,13 @@ class MusicListComponent extends StatelessWidget {
                             intervalSpaces: 10,
                           ),
                         )),
-                    Icon(
-                      Icons.explicit,
-                      color: Colors.grey.withOpacity(0.7),
-                      size: 17,
-                    ),
+                    music.explicit
+                        ? Icon(
+                            Icons.explicit,
+                            color: Colors.grey.withOpacity(0.7),
+                            size: 17,
+                          )
+                        : Container(),
                   ],
                 ),
                 ScrollConfiguration(
@@ -90,9 +98,14 @@ class MusicListComponent extends StatelessWidget {
             ),
           ),
           Spacer(),
-          PlayButtonComponent(
-            urlPreview: music.previewUrl,
-          )
+          music.previewUrl != null
+              ? PlayButtonComponent(
+                  music: music,
+                  callback: callback,
+                  playing: playing,
+                  index: index,
+                )
+              : Container()
         ],
       ),
     );

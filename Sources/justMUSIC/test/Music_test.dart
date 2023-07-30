@@ -57,4 +57,27 @@ Future<void> main() async {
     }
   }
 
+  print('\nPlaylist Musics :');
+
+  List<Music> playlistMusics = await musicVM.getMusicsWithPlaylistId('37i9dQZF1DX1X23oiQRTB5');
+  for (Music m in playlistMusics) {
+    print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
+    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
+    for (Artist a in m.artists) {
+      print("id : ${a.id}, name : ${a.name}");
+    }
+  }
+
+  print('\nMusics With Ids :');
+
+  List<Music> musicsIds = await musicVM.getMusicsWithIds(['6D1HiF2e3Z0F8FwQ5uLxwn','6IGg7qsBvA5xbrwz3MNHWK']);
+  for (Music m in musicsIds) {
+    print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
+    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
+    for (Artist a in m.artists) {
+      print("id : ${a.id}, name : ${a.name}");
+    }
+  }
+
 }
+

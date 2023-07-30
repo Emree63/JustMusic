@@ -27,42 +27,27 @@ class MusicViewModel {
         return Artist(artist['id'], artist['name'], '');
       }));
 
-      return Music(
-          responseData['id'],
-          responseData['name'],
-          responseData['album']['images'][0]['url'],
-          responseData['preview_url'],
-          DateTime.parse(responseData['album']['release_date']),
-          responseData['duration_ms'] / 1000,
-          responseData['explicit'],
-          artists);
+      return _getMusicFromResponse(responseData);
     } else {
       throw Exception(
           'Error retrieving music information : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
-  List<Music> _getMusicsFromResponse(Map<String, dynamic> responseData) {
-    List<Music> musics = [];
+  Music _getMusicFromResponse(dynamic track) {
+    List<Artist> artists = List<Artist>.from(track['artists'].map((artist) {
+      return Artist(artist['id'], artist['name'], '');
+    }));
 
-    List<dynamic> tracks = responseData['tracks']['items'];
-    for (var track in tracks) {
-      List<Artist> artists = List<Artist>.from(track['artists'].map((artist) {
-        return Artist(artist['id'], artist['name'], '');
-      }));
-
-      musics.add(Music(
-          track['id'],
-          track['name'],
-          track['album']['images'][0]['url'],
-          track['preview_url'],
-          DateTime.now(),
-          track['duration_ms'] / 1000,
-          track['explicit'],
-          artists));
-    }
-
-    return musics;
+    return Music(
+        track['id'],
+        track['name'],
+        track['album']['images'][0]['url'],
+        track['preview_url'],
+        int.parse(track['album']['release_date'].split('-')[0]),
+        track['duration_ms'] / 1000,
+        track['explicit'],
+        artists);
   }
 
   Future<List<Music>> getMusicsWithName(String name,
@@ -77,7 +62,9 @@ class MusicViewModel {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseData = jsonDecode(response.body);
-      return _getMusicsFromResponse(responseData);
+      return List<Music>.from(responseData['tracks']['items'].map((track) {
+        return _getMusicFromResponse(track);
+      }));
     } else {
       throw Exception(
           'Error while retrieving music : ${response.statusCode} ${response.reasonPhrase}');
@@ -96,7 +83,9 @@ class MusicViewModel {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseData = jsonDecode(response.body);
-      return _getMusicsFromResponse(responseData);
+      return List<Music>.from(responseData['tracks']['items'].map((track) {
+        return _getMusicFromResponse(track);
+      }));
     } else {
       throw Exception(
           'Error while retrieving music : ${response.statusCode} ${response.reasonPhrase}');
@@ -175,26 +164,58 @@ class MusicViewModel {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseData = jsonDecode(response.body);
+      return List<Music>.from(responseData['tracks'].map((track) {
+        return _getMusicFromResponse(track);
+      }));
+    } else {
+      throw Exception(
+          'Error while retrieving music : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  Future<List<Music>> getMusicsWithPlaylistId(String id,
+      {String market = "FR"}) async {
+    var accessToken = await _token.getAccessToken();
+    var response = await http
+        .get(Uri.parse('$API_URL/playlists/$id?market=$market'), headers: {
+      'Authorization': 'Bearer $accessToken',
+    });
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+
       List<Music> musics = [];
 
-      List<dynamic> tracks = responseData['tracks'];
+      List<dynamic> tracks = responseData['tracks']['items'];
       for (var track in tracks) {
-        List<Artist> artists = List<Artist>.from(track['artists'].map((artist) {
-          return Artist(artist['id'], artist['name'], '');
-        }));
-
-        musics.add(Music(
-            track['id'],
-            track['name'],
-            track['album']['images'][0]['url'],
-            track['preview_url'],
-            DateTime.now(),
-            track['duration_ms'] / 1000,
-            track['explicit'],
-            artists));
+        musics.add(_getMusicFromResponse(track['track']));
       }
 
       return musics;
+    } else {
+      throw Exception(
+          'Error while retrieving music : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  Future<List<Music>> getMusicsWithIds(List<String> ids,
+      {String market = "FR"}) async {
+    var accessToken = await _token.getAccessToken();
+    String url = API_URL + '/tracks?market=$market&ids=';
+
+    if (ids.length == 0) return [];
+
+    url += ids.join('%2C');
+
+    var response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Bearer $accessToken',
+    });
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      return List<Music>.from(responseData['tracks'].map((track) {
+        return _getMusicFromResponse(track);
+      }));
     } else {
       throw Exception(
           'Error while retrieving music : ${response.statusCode} ${response.reasonPhrase}');

@@ -1,11 +1,14 @@
+import 'package:audioplayers/audioplayers.dart';
+
 import 'Artist.dart';
+import '../main.dart';
 
 class Music {
   final String _id;
   String? _title;
   String? _cover;
   String? _previewUrl;
-  DateTime? _date;
+  int? _date;
   double? _duration;
   bool _explicit = false;
   List<Artist> _artists;
@@ -35,9 +38,9 @@ class Music {
     _previewUrl = value;
   }
 
-  DateTime? get date => _date;
+  int? get date => _date;
 
-  set date(DateTime? value) {
+  set date(int? value) {
     _date = value;
   }
 
@@ -57,5 +60,15 @@ class Music {
 
   set artists(List<Artist> value) {
     _artists = value;
+  }
+
+  Future<void> playSong() async {
+    if (previewUrl != null) {
+      await MyApp.audioPlayer.play(UrlSource(previewUrl!));
+    }
+  }
+
+  Future<void> stopSong() async {
+    await MyApp.audioPlayer.stop();
   }
 }

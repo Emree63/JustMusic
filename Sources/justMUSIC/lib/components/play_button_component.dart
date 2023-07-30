@@ -3,9 +3,20 @@ import 'package:flutter/Material.dart';
 import 'package:flutter_animated_play_button/flutter_animated_play_button.dart';
 import 'package:ionicons/ionicons.dart';
 
+import '../main.dart';
+import '../model/Music.dart';
+
 class PlayButtonComponent extends StatefulWidget {
-  final String? urlPreview;
-  const PlayButtonComponent({Key? key, required this.urlPreview})
+  final Music music;
+  final Function callback;
+  final int index;
+  final bool playing;
+  const PlayButtonComponent(
+      {Key? key,
+      required this.music,
+      required this.callback,
+      required this.playing,
+      required this.index})
       : super(key: key);
 
   @override
@@ -13,31 +24,24 @@ class PlayButtonComponent extends StatefulWidget {
 }
 
 class _PlayButtonComponentState extends State<PlayButtonComponent> {
-  bool isPlaying = true;
   final player = AudioPlayer();
-  void switchStatePlaying() {
-    setState(() {
-      isPlaying = !isPlaying;
-    });
-    stopSong();
-  }
 
   @override
   void initState() {
-    player.onPlayerComplete.listen((event) {
-      switchStatePlaying();
+    MyApp.audioPlayer.onPlayerComplete.listen((event) {
+      widget.callback(widget.index);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!isPlaying) {
-      playSong();
-    } else {}
-    return isPlaying
+    return !widget.playing
         ? GestureDetector(
-            onTap: switchStatePlaying,
+            onTap: () {
+              widget.music.playSong();
+              widget.callback(widget.index);
+            },
             child: Container(
                 width: 30,
                 height: 30,
@@ -48,25 +52,21 @@ class _PlayButtonComponentState extends State<PlayButtonComponent> {
                 )),
           )
         : GestureDetector(
-            onTap: switchStatePlaying,
+            onTap: () {
+              widget.music.stopSong();
+
+              widget.callback(widget.index);
+            },
             child: Container(
               width: 30,
               height: 30,
               child: AnimatedPlayButton(
                 stopped: false,
                 color: Colors.grey.withOpacity(0.3),
-                onPressed: () {},
+                onPressed: () {
+                  print("cc");
+                },
               ),
             ));
-  }
-
-  Future<void> playSong() async {
-    if (widget.urlPreview != null) {
-      await player.play(UrlSource(widget.urlPreview ?? ""));
-    }
-  }
-
-  Future<void> stopSong() async {
-    await player.stop();
   }
 }

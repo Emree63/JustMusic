@@ -88,7 +88,7 @@ class _FeedScreenState extends State<FeedScreen>
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      builder: ((context) {
+      builder: ((BuildContext context) {
         return GestureDetector(
           onTap: () {
             FocusScopeNode currentFocus = FocusScope.of(context);
@@ -122,6 +122,8 @@ class _FeedScreenState extends State<FeedScreen>
                       padding: EdgeInsets.only(
                           left: defaultPadding, right: defaultPadding),
                       child: SingleChildScrollView(
+                        physics: BouncingScrollPhysics(
+                            decelerationRate: ScrollDecelerationRate.fast),
                         child: Wrap(
                           // to apply margin in the main axis of the wrap
                           runSpacing: 10,
@@ -246,6 +248,8 @@ class _FeedScreenState extends State<FeedScreen>
             animation: animation,
             centerOffset: Offset(30.w, -100),
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                  decelerationRate: ScrollDecelerationRate.fast),
               child: SizedBox(
                   width: double.infinity,
                   child: Align(
