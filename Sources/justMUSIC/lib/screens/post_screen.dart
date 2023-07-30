@@ -103,10 +103,7 @@ class _PostScreenState extends State<PostScreen>
                     SizedBox(
                       height: 100.h,
                     ),
-                    GestureDetector(
-                      onTap: openDetailPost,
-                      child: EditablePostComponent(),
-                    ),
+                    EditablePostComponent(callback: openDetailPost),
                     SizedBox(
                       height: 40.h,
                     ),
