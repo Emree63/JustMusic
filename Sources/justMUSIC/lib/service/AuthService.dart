@@ -26,12 +26,13 @@ class AuthService {
           .catchError((error) => print("Failed to add user: $error"));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        throw ('The password provided is too weak.');
+        throw ('Mot de passe trop court');
       } else if (e.code == 'email-already-in-use') {
-        throw ('The account already exists for that email.');
+        throw ('Mail déjà utilisé');
+      } else if (e.code == 'invalid-email') {
+        throw ('Mauvais format de mail');
       }
-    } catch (e) {
-      throw (e);
+      rethrow;
     }
   }
 
@@ -40,14 +41,14 @@ class AuthService {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      if(e.code == 'user-not-found') {
-        throw('Mail incorrect');
-      } else if(e.code ==  'wrong-password') {
-        throw('Mot de passe incorrect');
-      } else if(e.code == 'invalid-email') {
-        throw('Format de mail incorrect');
-      } else if(e.code == 'too-many-requests') {
-        throw('L\'accès à ce compte a été temporairement désactivé en raison de nombreuses tentatives de connexion infructueuses. Réessayer plus tard.');
+      if (e.code == 'user-not-found') {
+        throw ('Mail incorrect');
+      } else if (e.code == 'wrong-password') {
+        throw ('Mot de passe incorrect');
+      } else if (e.code == 'invalid-email') {
+        throw ('Format de mail incorrect');
+      } else if (e.code == 'too-many-requests') {
+        throw ('L\'accès à ce compte a été temporairement désactivé en raison de nombreuses tentatives de connexion infructueuses. Réessayer plus tard.');
       }
       rethrow;
     }

@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await MyApp.userViewModel
             .login(_userMailTextField.text, _passwordTextField.text);
-        Navigator.pushNamed(context, '/explanation');
+        Navigator.pushNamed(context, '/feed');
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

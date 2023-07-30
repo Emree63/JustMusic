@@ -38,13 +38,17 @@ class UserViewModel {
   }
 
   register(String pseudo, String password, String email) async {
-    _authService.register(pseudo, email, password);
-    final user = await MyApp.db
-        .collection("users")
-        .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-        .get();
-    User? data = UserMapper.toModel(user, null);
-    _userCurrent = data;
+    try {
+      await _authService.register(pseudo, email, password);
+      final user = await MyApp.db
+          .collection("users")
+          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
+          .get();
+      User data = UserMapper.toModel(user, null);
+      _userCurrent = data;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   logout() {
