@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../main.dart';
 
@@ -9,10 +10,13 @@ class AuthService {
         password: password,
       );
 
+      String uniqueId = await generateUniqueId(pseudo);
+
       final user = <String, dynamic>{
         "mail": email,
         "pseudo": pseudo,
         "phone_number": "",
+        "unique_id": uniqueId,
         "picture":
             "https://media.licdn.com/dms/image/D4E03AQHvc_b89ogFtQ/profile-displayphoto-shrink_400_400/0/1665060931103?e=1695859200&v=beta&t=wVLbxqeokYiPJ13nJ3SMq97iZvcm3ra0ufWFZCSzhjg",
         "friends": []
@@ -34,6 +38,22 @@ class AuthService {
       }
       rethrow;
     }
+  }
+
+  Future<String> generateUniqueId(String pseudo) async {
+    String uniqueId = '$pseudo#0001';
+    int suffix = 1;
+    final CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection("users");
+    final QuerySnapshot querySnapshot =
+        await usersCollection.where('pseudo', isEqualTo: pseudo).get();
+
+    for (final doc in querySnapshot.docs) {
+      suffix++;
+      uniqueId = '$pseudo#${suffix.toString().padLeft(4, '0')}';
+    }
+
+    return uniqueId;
   }
 
   login(String email, String password) async {

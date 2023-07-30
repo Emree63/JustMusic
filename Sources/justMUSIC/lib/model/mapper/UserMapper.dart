@@ -7,7 +7,7 @@ class UserMapper {
     final data = snapshot.data();
     return User(
         data?["uid"] ?? "",
-        data?["pseudo"] ?? "",
+        data?["unique_id"] ?? "",
         data?["country"] ?? "",
         data?["mail"] ?? "",
         data?["profilePicture"] ?? "",
