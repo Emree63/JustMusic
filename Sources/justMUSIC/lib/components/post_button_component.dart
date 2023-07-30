@@ -16,6 +16,12 @@ class _PostButtonComponentState extends State<PostButtonComponent>
   late AnimationController _controller;
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     _controller = AnimationController(
@@ -132,14 +138,11 @@ class _PostButtonComponentState extends State<PostButtonComponent>
                 ),
               )),
           ClipOval(
-            child: Positioned(
-              left: -15,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5, top: 5),
-                child: Image(
-                  image: AssetImage("assets/images/rocket_button.png"),
-                  height: 65,
-                ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5, top: 5),
+              child: Image(
+                image: AssetImage("assets/images/rocket_button.png"),
+                height: 65,
               ),
             ),
           )
