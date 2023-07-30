@@ -353,7 +353,7 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                 pickImage(ImageSource.gallery);
                 Navigator.pop(context);
               },
-              child: const Text('Gallerie'),
+              child: const Text('Galerie'),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
