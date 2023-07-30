@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:justmusic/model/Post.dart';
 import 'package:justmusic/services/PostService.dart';
+import 'package:tuple/tuple.dart';
 
 class PostViewModel {
   List<Post> _postsFriends = [];
@@ -15,8 +18,9 @@ class PostViewModel {
   List<Post> get bestPosts => _bestPosts;
 
   // Methods
-  addPost(Post post) async {
-    await _postService.createPost(post);
+  addPost(String? description, String idMusic, File? image,
+      Tuple2<String, String>? location) async {
+    await _postService.createPost(description, idMusic, image, location);
   }
 
   List<Post> getPostsFriends() {

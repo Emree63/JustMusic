@@ -7,7 +7,9 @@ import 'package:justmusic/screens/search_song_screen.dart';
 import 'package:tuple/tuple.dart';
 import '../components/editable_post_component.dart';
 import '../components/post_button_component.dart';
+import '../main.dart';
 import '../model/Music.dart';
+import '../model/Post.dart';
 import '../values/constants.dart';
 
 class PostScreen extends StatefulWidget {
@@ -91,10 +93,9 @@ class _PostScreenState extends State<PostScreen>
     );
   }
 
-  displayinfo() {
-    print("cc");
-    print(
-        "${selectedCity},${selectedMusic?.title},${selectedImage?.path},${description}");
+  handleSubmit() async {
+    await MyApp.postViewModel.addPost(
+        description, (selectedMusic?.id)!, selectedImage, selectedCity);
   }
 
   @override
@@ -150,7 +151,7 @@ class _PostScreenState extends State<PostScreen>
                 ),
                 PostButtonComponent(
                   empty: selectedMusic == null,
-                  callback: displayinfo,
+                  callback: handleSubmit,
                 ),
                 SizedBox(
                   height: 40.h,

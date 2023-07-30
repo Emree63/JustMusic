@@ -6,7 +6,7 @@ class UserMapper {
       SnapshotOptions? options) {
     final data = snapshot.data();
     return User(
-        data?["uid"] ?? "",
+        snapshot.id,
         data?["unique_id"] ?? "",
         data?["country"] ?? "",
         data?["mail"] ?? "",

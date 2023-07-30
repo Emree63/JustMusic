@@ -12,6 +12,7 @@ import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
+import 'package:justmusic/view_model/PostViewModel.dart';
 import 'package:justmusic/view_model/UserViewModel.dart';
 
 import 'firebase_options.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   static FirebaseFirestore db = FirebaseFirestore.instance;
   static UserViewModel userViewModel = UserViewModel();
   static MusicViewModel musicViewModel = MusicViewModel();
+  static PostViewModel postViewModel = PostViewModel();
   static AudioPlayer audioPlayer = AudioPlayer();
 
   const MyApp({super.key});
