@@ -54,6 +54,10 @@ dependencies:
   ionicons: ^0.2.2
   top_snackbar_flutter: ^3.1.0
   image_picker: ^1.0.1
+  insta_image_viewer: ^1.0.2
+  pinch_zoom: ^1.0.0
+  smooth_list_view: ^1.0.4
+  animated_appear: ^0.0.4
 
 dev_dependencies:
   flutter_test:

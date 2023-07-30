@@ -5,6 +5,7 @@ import 'package:justmusic/components/back_button.dart';
 import 'package:justmusic/screens/search_song_screen.dart';
 import '../components/editable_post_component.dart';
 import '../components/post_button_component.dart';
+import '../model/Music.dart';
 import '../values/constants.dart';
 
 class PostScreen extends StatefulWidget {
@@ -18,7 +19,8 @@ class _PostScreenState extends State<PostScreen>
     with SingleTickerProviderStateMixin {
   final scrollController = ScrollController();
   late AnimationController _controller;
-  late Animation<double> _animation;
+
+  Music? selectedMusic;
 
   @override
   void initState() {
@@ -27,13 +29,14 @@ class _PostScreenState extends State<PostScreen>
       duration: const Duration(milliseconds: 400),
     );
 
-    _animation = Tween<double>(begin: 0.0, end: 400.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOut,
-      ),
-    );
     super.initState();
+  }
+
+  void _selectMusic(Music music) {
+    Navigator.pop(context);
+    setState(() {
+      selectedMusic = music;
+    });
   }
 
   void openDetailPost() {
@@ -51,10 +54,10 @@ class _PostScreenState extends State<PostScreen>
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((context) {
-        return const ClipRRect(
+        return ClipRRect(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            child: SearchSongScreen());
+            child: SearchSongScreen(callback: _selectMusic));
       }),
     );
   }
@@ -90,32 +93,29 @@ class _PostScreenState extends State<PostScreen>
             fit: BoxFit.cover,
           ),
         ),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            ScrollConfiguration(
-              behavior: ScrollBehavior().copyWith(scrollbars: false),
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 100.h,
-                    ),
-                    EditablePostComponent(callback: openDetailPost),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    PostButtonComponent(),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                  ],
+        child: ScrollConfiguration(
+          behavior: ScrollBehavior().copyWith(scrollbars: false),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 100.h,
                 ),
-              ),
+                GestureDetector(
+                    onTap: openDetailPost,
+                    child: EditablePostComponent(music: selectedMusic)),
+                SizedBox(
+                  height: 40.h,
+                ),
+                PostButtonComponent(),
+                SizedBox(
+                  height: 40.h,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
