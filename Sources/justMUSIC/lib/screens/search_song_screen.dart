@@ -115,6 +115,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      autofocus: true,
                       controller: _textEditingController,
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,

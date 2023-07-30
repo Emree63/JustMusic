@@ -111,7 +111,7 @@ class _PostScreenState extends State<PostScreen>
                 SizedBox(
                   height: 40.h,
                 ),
-                PostButtonComponent(),
+                PostButtonComponent(empty: selectedMusic == null),
                 SizedBox(
                   height: 40.h,
                 ),

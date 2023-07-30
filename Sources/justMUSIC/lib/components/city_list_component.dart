@@ -12,7 +12,7 @@ class CityListComponent extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
