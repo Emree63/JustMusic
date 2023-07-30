@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:justmusic/service/AuthService.dart';
+import 'package:justmusic/services/AuthService.dart';
 
 import '../model/User.dart';
 import '../model/mapper/UserMapper.dart';

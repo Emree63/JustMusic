@@ -1,8 +1,10 @@
 import 'package:justmusic/model/Post.dart';
+import 'package:justmusic/services/PostService.dart';
 
 class PostViewModel {
   List<Post> _postsFriends = [];
   List<Post> _bestPosts = [];
+  final PostService _postService = PostService();
 
   // Constructor
   PostViewModel();
@@ -13,6 +15,10 @@ class PostViewModel {
   List<Post> get bestPosts => _bestPosts;
 
   // Methods
+  addPost(Post post) async {
+    await _postService.createPost(post);
+  }
+
   List<Post> getPostsFriends() {
     throw new Error();
   }
