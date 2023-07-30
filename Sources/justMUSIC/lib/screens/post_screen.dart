@@ -96,6 +96,11 @@ class _PostScreenState extends State<PostScreen>
   handleSubmit() async {
     await MyApp.postViewModel.addPost(
         description, (selectedMusic?.id)!, selectedImage, selectedCity);
+    quit();
+  }
+
+  quit() {
+    Navigator.pop(context);
   }
 
   @override
