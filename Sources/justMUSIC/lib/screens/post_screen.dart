@@ -3,6 +3,7 @@ import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:justmusic/components/back_button.dart';
 import 'package:justmusic/screens/search_song_screen.dart';
+import 'package:tuple/tuple.dart';
 import '../components/editable_post_component.dart';
 import '../components/post_button_component.dart';
 import '../model/Music.dart';
@@ -21,6 +22,7 @@ class _PostScreenState extends State<PostScreen>
   late AnimationController _controller;
 
   Music? selectedMusic;
+  Tuple2<String, String>? selectedCity;
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _PostScreenState extends State<PostScreen>
     });
   }
 
-  void openDetailPost() {
+  void openSearchSong() {
     showModalBottomSheet(
       transitionAnimationController: _controller,
       barrierColor: Colors.black.withOpacity(0.7),
@@ -68,11 +70,11 @@ class _PostScreenState extends State<PostScreen>
       resizeToAvoidBottomInset: true,
       backgroundColor: bgColor,
       extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size(double.infinity, 80),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
                 left: defaultPadding,
                 right: defaultPadding,
                 top: defaultPadding),
@@ -104,7 +106,7 @@ class _PostScreenState extends State<PostScreen>
                   height: 100.h,
                 ),
                 GestureDetector(
-                    onTap: openDetailPost,
+                    onTap: openSearchSong,
                     child: EditablePostComponent(music: selectedMusic)),
                 SizedBox(
                   height: 40.h,

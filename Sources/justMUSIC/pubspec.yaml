@@ -58,6 +58,8 @@ dependencies:
   pinch_zoom: ^1.0.0
   smooth_list_view: ^1.0.4
   animated_appear: ^0.0.4
+  geolocator: ^9.0.2
+  tuple: ^2.0.2
 
 dev_dependencies:
   flutter_test:

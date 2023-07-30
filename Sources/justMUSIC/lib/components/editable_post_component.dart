@@ -11,8 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:justmusic/values/constants.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:tuple/tuple.dart';
 
 import '../model/Music.dart';
+import '../screens/search_location_screen.dart';
 import 'buttonPostComponent.dart';
 
 class EditablePostComponent extends StatefulWidget {
@@ -28,7 +30,27 @@ class _EditablePostComponentState extends State<EditablePostComponent>
   final ImagePicker picker = ImagePicker();
   late Animation<double> animation;
   late AnimationController animationController;
+  late AnimationController _controller;
   File? image;
+  Tuple2<String, String>? selectedCity;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
+    animation = CurvedAnimation(
+      parent: animationController,
+      curve: Curves.easeInOutSine,
+    );
+    animationController.forward();
+    super.initState();
+  }
 
   Future pickImage() async {
     try {
@@ -43,18 +65,34 @@ class _EditablePostComponentState extends State<EditablePostComponent>
     }
   }
 
-  @override
-  void initState() {
-    animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 400),
+  void _selectLocation(Tuple2<String, String> location) {
+    Navigator.pop(context);
+    setState(() {
+      selectedCity = location;
+    });
+  }
+
+  void searchLocation() {
+    showModalBottomSheet(
+      transitionAnimationController: _controller,
+      barrierColor: Colors.black.withOpacity(0.7),
+      backgroundColor: Colors.transparent,
+      elevation: 1,
+      constraints: const BoxConstraints(
+        maxWidth: 600,
+      ),
+      isScrollControlled: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      builder: ((context) {
+        return ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            child: SearchCityScreen(callback: _selectLocation));
+      }),
     );
-    animation = CurvedAnimation(
-      parent: animationController,
-      curve: Curves.easeInOutSine,
-    );
-    animationController.forward();
-    super.initState();
   }
 
   @override
@@ -219,8 +257,14 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                     ),
                     Expanded(
                       flex: 5,
-                      child: LocationPostComponent(
-                        empty: true,
+                      child: GestureDetector(
+                        onTap: () {
+                          manageLocation();
+                        },
+                        child: LocationPostComponent(
+                          empty: selectedCity == null,
+                          location: selectedCity,
+                        ),
                       ),
                     ),
                   ],
@@ -278,6 +322,16 @@ class _EditablePostComponentState extends State<EditablePostComponent>
       });
     } else {
       pickImage();
+    }
+  }
+
+  void manageLocation() {
+    if (selectedCity != null) {
+      setState(() {
+        selectedCity = null;
+      });
+    } else {
+      searchLocation();
     }
   }
 }
