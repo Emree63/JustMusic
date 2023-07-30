@@ -11,7 +11,8 @@ import '../values/constants.dart';
 import '../main.dart';
 
 class SearchSongScreen extends StatefulWidget {
-  const SearchSongScreen({Key? key}) : super(key: key);
+  final Function callback;
+  const SearchSongScreen({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<SearchSongScreen> createState() => _SearchSongScreenState();
@@ -165,29 +166,41 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     child: ScrollConfiguration(
                   behavior: ScrollBehavior().copyWith(scrollbars: true),
                   child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                          decelerationRate: ScrollDecelerationRate.fast),
                       controller: _scrollController,
                       itemCount: filteredData.length,
                       itemBuilder: (context, index) {
                         if (playingIndex == index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: MusicListComponent(
-                              music: filteredData[index],
-                              playing: true,
-                              callback: playMusic,
-                              index: index,
-                            ),
-                          );
+                          return InkWell(
+                              onTap: () {
+                                widget.callback(filteredData[index]);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: MusicListComponent(
+                                  music: filteredData[index],
+                                  playing: true,
+                                  callback: playMusic,
+                                  index: index,
+                                ),
+                              ));
                         }
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: MusicListComponent(
-                            music: filteredData[index],
-                            playing: false,
-                            callback: playMusic,
-                            index: index,
-                          ),
-                        );
+                        return InkWell(
+                            onTap: () {
+                              widget.callback(filteredData[index]);
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: MusicListComponent(
+                                music: filteredData[index],
+                                playing: false,
+                                callback: playMusic,
+                                index: index,
+                              ),
+                            ));
                       }),
                 ))
               ],

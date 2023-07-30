@@ -20,6 +20,8 @@ const bgAppBar = Color(0xFF181818);
 const grayText = Color(0xFF898989);
 const settingColor = Color(0xFF232323);
 const searchBarColor = Color(0xFF161616);
+const postbutton = Color(0xFF1B1B1B);
+const fillButton = Color(0xFF633AF4);
 // All constants important too us
 
 const defaultPadding = 30.0;

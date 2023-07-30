@@ -60,6 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: double.infinity,
         color: bgColor,
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(
+              decelerationRate: ScrollDecelerationRate.fast),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: settingPadding),
             child: Column(
