@@ -53,6 +53,9 @@ dependencies:
   audioplayers: ^4.1.0
   ionicons: ^0.2.2
   top_snackbar_flutter: ^3.1.0
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  cloud_firestore: ^4.8.4
   image_picker: ^1.0.1
   insta_image_viewer: ^1.0.2
   pinch_zoom: ^1.0.0

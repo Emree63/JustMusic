@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginButton extends StatefulWidget {
-  const LoginButton({Key? key}) : super(key: key);
+  final Function callback;
+
+  const LoginButton({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<LoginButton> createState() => _LoginButtonState();
@@ -14,7 +16,7 @@ class _LoginButtonState extends State<LoginButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, '/explanation');
+        widget.callback();
       },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF1C1C1C)),
