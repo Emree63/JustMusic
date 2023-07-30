@@ -201,22 +201,16 @@ class MusicViewModel {
           return Artist(artist['id'], artist['name'], '');
         }));
 
-        DateTime releaseDate =
-            DateTime.parse(track['track']['album']['release_date']);
-
         musics.add(Music(
             track['track']['id'],
             track['track']['name'],
             track['track']['album']['images'][0]['url'],
             track['track']['preview_url'],
-            int.parse(responseData['album']['release_date'].split('-')[0]),
+            int.parse(track['track']['album']['release_date'].split('-')[0]),
             track['track']['duration_ms'] / 1000,
             track['track']['explicit'],
             artists));
       }
-      /*
-      List<Music> musics = _getMusicsFromResponse(responseData['tracks']['items']);
-      }*/
 
       return musics;
     } else {
