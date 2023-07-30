@@ -166,6 +166,8 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     child: ScrollConfiguration(
                   behavior: ScrollBehavior().copyWith(scrollbars: true),
                   child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                          decelerationRate: ScrollDecelerationRate.fast),
                       controller: _scrollController,
                       itemCount: filteredData.length,
                       itemBuilder: (context, index) {

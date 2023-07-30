@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
-import '../main.dart';
 import '../values/constants.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -124,6 +122,8 @@ class _FeedScreenState extends State<FeedScreen>
                       padding: EdgeInsets.only(
                           left: defaultPadding, right: defaultPadding),
                       child: SingleChildScrollView(
+                        physics: BouncingScrollPhysics(
+                            decelerationRate: ScrollDecelerationRate.fast),
                         child: Wrap(
                           // to apply margin in the main axis of the wrap
                           runSpacing: 10,
@@ -237,10 +237,6 @@ class _FeedScreenState extends State<FeedScreen>
     );
   }
 
-  void _onModalClosed() {
-    print("modal closed");
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,6 +248,8 @@ class _FeedScreenState extends State<FeedScreen>
             animation: animation,
             centerOffset: Offset(30.w, -100),
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                  decelerationRate: ScrollDecelerationRate.fast),
               child: SizedBox(
                   width: double.infinity,
                   child: Align(
