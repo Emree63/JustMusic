@@ -4,6 +4,7 @@ import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/Material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,9 +53,9 @@ class _EditablePostComponentState extends State<EditablePostComponent>
     super.initState();
   }
 
-  Future pickImage() async {
+  Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() {
@@ -321,7 +322,7 @@ class _EditablePostComponentState extends State<EditablePostComponent>
         image = null;
       });
     } else {
-      pickImage();
+      _showActionSheet(context);
     }
   }
 
@@ -333,5 +334,44 @@ class _EditablePostComponentState extends State<EditablePostComponent>
     } else {
       searchLocation();
     }
+  }
+
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.5),
+      builder: (BuildContext context) => Container(
+        color: Colors.black,
+        child: CupertinoActionSheet(
+          title: Text(
+            'Ajouter une photo',
+            style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+          ),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              onPressed: () {
+                pickImage(ImageSource.gallery);
+                Navigator.pop(context);
+              },
+              child: const Text('Gallerie'),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                pickImage(ImageSource.camera);
+                Navigator.pop(context);
+              },
+              child: const Text('Prendre un selfie'),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Annuler'),
+          ),
+        ),
+      ),
+    );
   }
 }

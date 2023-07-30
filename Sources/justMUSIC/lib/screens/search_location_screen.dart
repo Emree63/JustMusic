@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/Material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../components/city_list_component.dart';
 import '../services/GeoApi.dart';
@@ -71,7 +72,8 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                         });
                   } else {
                     return Center(
-                      child: CircularProgressIndicator(
+                      child: CupertinoActivityIndicator(
+                        radius: 15,
                         color: grayColor,
                       ),
                     );
