@@ -10,8 +10,8 @@ class PlayButtonComponent extends StatefulWidget {
   final Music music;
   final Function callback;
   final int index;
-  bool playing;
-  PlayButtonComponent(
+  final bool playing;
+  const PlayButtonComponent(
       {Key? key,
       required this.music,
       required this.callback,
@@ -63,7 +63,9 @@ class _PlayButtonComponentState extends State<PlayButtonComponent> {
               child: AnimatedPlayButton(
                 stopped: false,
                 color: Colors.grey.withOpacity(0.3),
-                onPressed: () {},
+                onPressed: () {
+                  print("cc");
+                },
               ),
             ));
   }

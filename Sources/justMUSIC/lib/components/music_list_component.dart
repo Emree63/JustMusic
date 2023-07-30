@@ -9,7 +9,7 @@ class MusicListComponent extends StatelessWidget {
   final bool playing;
   final int index;
   final Function(int) callback;
-  const MusicListComponent({
+  MusicListComponent({
     Key? key,
     required this.music,
     required this.playing,
