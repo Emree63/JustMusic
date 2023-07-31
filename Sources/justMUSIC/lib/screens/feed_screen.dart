@@ -216,45 +216,52 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: bgColor,
-      body: Stack(
-        children: [
-          CircularRevealAnimation(
-            animation: animation,
-            centerOffset: Offset(30.w, -100),
-            child: Container(
-                constraints: BoxConstraints(maxWidth: 600),
-                padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                  clipBehavior: Clip.none,
-                  shrinkWrap: true,
-                  itemCount: displayFeed.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 40),
-                      child: PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
-                    );
-                  },
-                )),
-          ),
-          IgnorePointer(
-            child: Container(
-              height: 240.h,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      stops: [0.3, 1],
-                      colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        width: double.infinity,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Align(
+              child: CircularRevealAnimation(
+                animation: animation,
+                centerOffset: Offset(30.w, -100),
+                child: Container(
+                    constraints: BoxConstraints(maxWidth: 600),
+                    padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                      clipBehavior: Clip.none,
+                      shrinkWrap: true,
+                      itemCount: displayFeed.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 40),
+                          child: PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
+                        );
+                      },
+                    )),
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: TopNavBarComponent(callback: changeFeed),
+            IgnorePointer(
+              child: Container(
+                height: 100.h,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        stops: [0.3, 1],
+                        colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+              ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 800),
+                child: TopNavBarComponent(callback: changeFeed),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
