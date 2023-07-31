@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -336,16 +338,18 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                                   fit: BoxFit.fitHeight,
                                   width: double.infinity,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(15),
-                                  child: AutoSizeText(
-                                    '“${widget.post.description}”',
-                                    style: GoogleFonts.plusJakartaSans(
-                                        color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15.sp),
-                                    maxFontSize: 20,
-                                    maxLines: 1,
-                                  ),
-                                ),
+                                widget.post.description.isNull
+                                    ? Container()
+                                    : Padding(
+                                        padding: EdgeInsets.all(15),
+                                        child: AutoSizeText(
+                                          '“${widget.post.description}”',
+                                          style: GoogleFonts.plusJakartaSans(
+                                              color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15.sp),
+                                          maxFontSize: 20,
+                                          maxLines: 1,
+                                        ),
+                                      ),
                                 widget.post.selfie != null
                                     ? Positioned(
                                         top: 0,
