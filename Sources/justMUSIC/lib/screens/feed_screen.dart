@@ -54,14 +54,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     if (choice) {
       setState(() {
         animationController.reset();
-        displayFeed = MyApp.postViewModel.postsFriends;
+        displayFeed = MyApp.postViewModel.postsFriends.reversed.toList();
         animationController.forward();
         print(displayFeed.length);
       });
     } else {
       setState(() {
         animationController.reset();
-        displayFeed = MyApp.postViewModel.bestPosts;
+        displayFeed = MyApp.postViewModel.bestPosts.reversed.toList();
         print(displayFeed.length);
         animationController.forward();
       });

@@ -22,8 +22,7 @@ class PostViewModel {
   List<Post> get bestPosts => _bestPosts;
 
   // Methods
-  addPost(String? description, String idMusic, File? image,
-      Tuple2<String, String>? location) async {
+  addPost(String? description, String idMusic, File? image, Tuple2<String, String>? location) async {
     await _postService.createPost(description, idMusic, image, location);
   }
 
