@@ -77,6 +77,12 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
   }
 
   @override
+  void dispose() {
+    MyApp.audioPlayer.pause();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
