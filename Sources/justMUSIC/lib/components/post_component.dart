@@ -20,7 +20,7 @@ class PostComponent extends StatefulWidget {
   State<PostComponent> createState() => _PostComponentState();
 }
 
-class _PostComponentState extends State<PostComponent> {
+class _PostComponentState extends State<PostComponent> with TickerProviderStateMixin {
   bool choice = false;
   DateTime today = DateTime.now();
 
@@ -332,6 +332,7 @@ class _PostComponentState extends State<PostComponent> {
                                 ),
                                 Image(
                                   image: AssetImage("assets/images/shadow_post.png"),
+                                  opacity: AnimationController(vsync: this, value: 0.7),
                                   fit: BoxFit.fitHeight,
                                   width: double.infinity,
                                 ),
