@@ -35,8 +35,7 @@ class EditablePostComponent extends StatefulWidget {
   State<EditablePostComponent> createState() => _EditablePostComponentState();
 }
 
-class _EditablePostComponentState extends State<EditablePostComponent>
-    with TickerProviderStateMixin {
+class _EditablePostComponentState extends State<EditablePostComponent> with TickerProviderStateMixin {
   final ImagePicker picker = ImagePicker();
   late Animation<double> animation;
   late AnimationController animationController;
@@ -64,7 +63,10 @@ class _EditablePostComponentState extends State<EditablePostComponent>
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
+      final image = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 25,
+      );
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() {
@@ -102,12 +104,10 @@ class _EditablePostComponentState extends State<EditablePostComponent>
       isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((context) {
         return ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             child: SearchCityScreen(callback: _selectLocation));
       }),
     );
@@ -153,8 +153,7 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                                     width: double.infinity,
                                   )
                                 : Image(
-                                    image:
-                                        NetworkImage(widget.music?.cover ?? ""),
+                                    image: NetworkImage(widget.music?.cover ?? ""),
                                     fit: BoxFit.cover,
                                     width: double.infinity,
                                   ),
@@ -178,10 +177,7 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                                       ),
                                       color: grayColor,
                                       borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(
-                                          style: BorderStyle.solid,
-                                          color: Colors.white,
-                                          width: 4)),
+                                      border: Border.all(style: BorderStyle.solid, color: Colors.white, width: 4)),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
                                     child: InstaImageViewer(
@@ -209,18 +205,13 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                               child: TextScroll(
                                 (widget.music?.title)!,
                                 style: GoogleFonts.plusJakartaSans(
-                                    height: 1,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 26.h),
+                                    height: 1, color: Colors.white, fontWeight: FontWeight.w600, fontSize: 26.h),
                                 mode: TextScrollMode.endless,
                                 pauseBetween: Duration(milliseconds: 500),
-                                velocity:
-                                    Velocity(pixelsPerSecond: Offset(20, 0)),
+                                velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
                               )),
                           Padding(
-                            padding: EdgeInsets.only(
-                                bottom: 10.h, right: 5.w, left: 5.w),
+                            padding: EdgeInsets.only(bottom: 10.h, right: 5.w, left: 5.w),
                             child: ClipOval(
                               child: Container(
                                 width: 5.h,
@@ -236,13 +227,9 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                                 child: TextScroll(
                                   (widget.music?.artists[0].name)!,
                                   style: GoogleFonts.plusJakartaSans(
-                                      height: 1,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 16.h),
+                                      height: 1, color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.h),
                                   mode: TextScrollMode.endless,
-                                  velocity:
-                                      Velocity(pixelsPerSecond: Offset(50, 20)),
+                                  velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
                                   pauseBetween: Duration(milliseconds: 500),
                                 ),
                               )),
@@ -250,9 +237,7 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                           AutoSizeText(
                             widget.music?.date.toString() ?? "unknown",
                             style: GoogleFonts.plusJakartaSans(
-                                color: Colors.white.withOpacity(0.5),
-                                fontWeight: FontWeight.w300,
-                                fontSize: 16.h),
+                                color: Colors.white.withOpacity(0.5), fontWeight: FontWeight.w300, fontSize: 16.h),
                             textAlign: TextAlign.end,
                             maxFontSize: 20,
                           ),
@@ -306,35 +291,25 @@ class _EditablePostComponentState extends State<EditablePostComponent>
                       keyboardAppearance: Brightness.dark,
                       minLines: 1,
                       cursorColor: primaryColor,
-                      style: GoogleFonts.plusJakartaSans(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w300),
+                      style:
+                          GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w300),
                       maxLines: 4,
                       maxLength: 120,
                       decoration: InputDecoration(
-                        counterStyle: GoogleFonts.plusJakartaSans(
-                            color: grayText, fontSize: 9),
+                        counterStyle: GoogleFonts.plusJakartaSans(color: grayText, fontSize: 9),
                         focusedBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 0, color: Colors.transparent),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        contentPadding:
-                            const EdgeInsets.only(top: 0, bottom: 0, left: 0),
+                            borderSide: BorderSide(width: 0, color: Colors.transparent),
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        contentPadding: const EdgeInsets.only(top: 0, bottom: 0, left: 0),
                         fillColor: Colors.transparent,
                         filled: true,
                         focusColor: Colors.transparent,
                         enabledBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 0, color: Colors.transparent),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                            borderSide: BorderSide(width: 0, color: Colors.transparent),
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
                         hintText: 'Description...',
-                        hintStyle: GoogleFonts.plusJakartaSans(
-                            color: grayText,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w300),
+                        hintStyle:
+                            GoogleFonts.plusJakartaSans(color: grayText, fontSize: 13, fontWeight: FontWeight.w300),
                       ),
                     ),
                   )),

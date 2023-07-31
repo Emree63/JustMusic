@@ -34,7 +34,7 @@ class PostViewModel {
     throw new Error();
   }
 
-  getBestPosts() async {
+  Future<List<Post>> getBestPosts() async {
     try {
       var responseData = await _postService.getPopularPosts();
       List<String> ids = [];
@@ -47,8 +47,10 @@ class PostViewModel {
       for (int i = 0; i < _bestPosts.length; i++) {
         _bestPosts[i].music = musics[i];
       }
+      return _bestPosts;
     } catch (e) {
       print(e);
+      return [];
     }
   }
 

@@ -8,8 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../main.dart';
 
 class PostService {
-  createPost(String? description, String idMusic, File? image,
-      Tuple2<String, String>? location) async {
+  createPost(String? description, String idMusic, File? image, Tuple2<String, String>? location) async {
     var id = MyApp.userViewModel.userCurrent.id;
     final post = <String, dynamic>{
       "user_id": id,
@@ -29,6 +28,7 @@ class PostService {
       if (userSnapshot.exists) {
         int currentNbCapsules = userSnapshot.data()?['nbCapsules'] ?? 0;
         transaction.update(userRef, {'nbCapsules': currentNbCapsules + 1});
+        MyApp.userViewModel.userCurrent.capsules++;
       }
     });
 
@@ -44,13 +44,9 @@ class PostService {
 
   getPostsById(String id) {}
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(
-      {int limit = 10, int offset = 0}) async {
-    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore.instance
-        .collection("posts")
-        .limit(limit)
-        .orderBy("likes").get();
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts({int limit = 10, int offset = 0}) async {
+    QuerySnapshot<Map<String, dynamic>> response =
+        await FirebaseFirestore.instance.collection("posts").limit(limit).orderBy("likes").get();
     return response.docs;
-
   }
 }
