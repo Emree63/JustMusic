@@ -1,5 +1,4 @@
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,6 +46,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     await SystemChannels.platform.invokeMethod<void>(
       'SystemChrome.restoreSystemUIOverlays',
     );
+  }
+
+  Future _refresh() async {
+    print("refresh");
+    discoveryFeed = await MyApp.postViewModel.getBestPosts();
+    setState(() {
+      displayFeed = discoveryFeed.reversed.toList();
+    });
   }
 
   void changeFeed(bool choice) {
@@ -120,9 +127,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                               index: index,
                             ),
                             Container(height: 5),
-                            Text('${displayFeed[index].description ?? ""}',
-                                style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w200)),
-                            Container(height: 20),
+                            displayFeed[index].description == null
+                                ? Container()
+                                : Padding(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    child: Text('${displayFeed[index].description ?? ""}',
+                                        style: GoogleFonts.plusJakartaSans(
+                                            color: Colors.white, fontWeight: FontWeight.w200)),
+                                  ),
                             Align(
                               child: RichText(
                                   text: TextSpan(
@@ -275,18 +287,23 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                         child: Container(
                             constraints: BoxConstraints(maxWidth: 600),
                             padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
-                            child: ListView.builder(
-                              physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                              clipBehavior: Clip.none,
-                              shrinkWrap: true,
-                              itemCount: displayFeed.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 40),
-                                  child:
-                                      PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
-                                );
-                              },
+                            child: RefreshIndicator(
+                              displacement: 20,
+                              triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                              onRefresh: _refresh,
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                                clipBehavior: Clip.none,
+                                shrinkWrap: true,
+                                itemCount: displayFeed.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 40),
+                                    child:
+                                        PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
+                                  );
+                                },
+                              ),
                             )),
                       ),
                     ),

@@ -1,7 +1,4 @@
-import 'dart:js_interop';
-
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -338,7 +335,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                                   fit: BoxFit.fitHeight,
                                   width: double.infinity,
                                 ),
-                                widget.post.description.isNull
+                                widget.post.description == null
                                     ? Container()
                                     : Padding(
                                         padding: EdgeInsets.all(15),
