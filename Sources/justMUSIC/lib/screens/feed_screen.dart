@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
+import '../main.dart';
+import '../model/Post.dart';
 import '../values/constants.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -20,27 +22,15 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
-  late List<PostComponent> friendFeed;
-  late List<PostComponent> discoveryFeed;
-  late List<PostComponent> displayFeed;
+  late List<Post> friendFeed;
+  late List<Post> discoveryFeed;
+  late List<Post> displayFeed;
 
   @override
   void initState() {
     super.initState();
-    friendFeed = [
-      PostComponent(
-        callback: openDetailPost,
-      ),
-      PostComponent(
-        callback: openDetailPost,
-      ),
-      PostComponent(
-        callback: openDetailPost,
-      ),
-    ];
-    discoveryFeed = [
-      PostComponent(callback: openDetailPost),
-    ];
+    friendFeed = [];
+    discoveryFeed = MyApp.postViewModel.bestPosts;
     displayFeed = friendFeed;
     animationController = AnimationController(
       vsync: this,
@@ -140,13 +130,13 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600),
                                       children: [
-                                    TextSpan(
-                                      text: " commentaires",
-                                      style: GoogleFonts.plusJakartaSans(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300),
-                                    )
-                                  ])),
+                                        TextSpan(
+                                          text: " commentaires",
+                                          style: GoogleFonts.plusJakartaSans(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w300),
+                                        )
+                                      ])),
                             ),
                             SizedBox(height: 20),
                             CommentComponent(),
@@ -161,7 +151,10 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                      bottom: MediaQuery
+                          .of(context)
+                          .viewInsets
+                          .bottom),
                   child: Container(
                       height: 70,
                       width: double.infinity,
@@ -213,7 +206,7 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                                       fillColor: bgModal,
                                       filled: true,
                                       focusColor:
-                                          Color.fromRGBO(255, 255, 255, 0.30),
+                                      Color.fromRGBO(255, 255, 255, 0.30),
                                       enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               width: 1, color: grayText),
@@ -263,9 +256,12 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                           child: Padding(
                               padding: EdgeInsets.only(top: 100.h),
                               child: SingleChildScrollView(
-                                child: Wrap(
-                                  runSpacing: 60,
-                                  children: displayFeed,
+                                child: ListView.builder(
+                                  itemBuilder: (BuildContext context,
+                                      int index) {
+                                    return PostComponent(callback: openDetailPost,);
+                                  },
+
                                 ),
                               )),
                         ),
@@ -279,12 +275,12 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
               height: 240.h,
               decoration: BoxDecoration(
                   gradient: LinearGradient(begin: Alignment.topRight, stops: [
-                0.3,
-                1
-              ], colors: [
-                bgColor.withOpacity(0.9),
-                bgColor.withOpacity(0)
-              ])),
+                    0.3,
+                    1
+                  ], colors: [
+                    bgColor.withOpacity(0.9),
+                    bgColor.withOpacity(0)
+                  ])),
             ),
           ),
           Align(

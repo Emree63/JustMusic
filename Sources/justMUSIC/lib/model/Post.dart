@@ -1,9 +1,11 @@
+import 'package:tuple/tuple.dart';
+
 class Post {
-  final int _id;
-  final int _idUser;
+  final String _id;
+  final String _idUser;
   String? _description;
   String _idMusic;
-  String _location;
+  Tuple2<String,String> _location;
   int _nblikes;
   String? _selfie;
   DateTime _date;
@@ -13,9 +15,9 @@ class Post {
       this._nblikes, this._selfie, this._date);
 
   //Getters and setters
-  int get id => _id;
+  String get id => _id;
 
-  int get idUser => _idUser;
+  String get idUser => _idUser;
 
   String? get description => _description;
 
@@ -29,9 +31,9 @@ class Post {
     _idMusic = value;
   }
 
-  String get location => _location;
+  Tuple2<String, String> get location => _location;
 
-  set location(String value) {
+  set location(Tuple2<String, String> value) {
     _location = value;
   }
 

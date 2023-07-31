@@ -4,6 +4,8 @@ import 'package:justmusic/model/Post.dart';
 import 'package:justmusic/services/PostService.dart';
 import 'package:tuple/tuple.dart';
 
+import '../model/mapper/PostMapper.dart';
+
 class PostViewModel {
   List<Post> _postsFriends = [];
   List<Post> _bestPosts = [];
@@ -31,8 +33,15 @@ class PostViewModel {
     throw new Error();
   }
 
-  List<Post> getBestPosts() {
-    throw new Error();
+  getBestPosts() async {
+    try {
+      var responseData = await _postService.getPopularPosts();
+
+      _bestPosts =
+          responseData.map((value) => PostMapper.toModel(value)).toList();
+    } catch (e) {
+      print(e);
+    }
   }
 
   List<Post> getMoreBestPosts() {

@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tuple/tuple.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -30,4 +32,14 @@ class PostService {
   deletePost() {}
 
   getPostsById(String id) {}
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(
+      {int limit = 10, int offset = 0}) async {
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore.instance
+        .collection("posts")
+        .limit(limit)
+        .orderBy("likes").get();
+    return response.docs;
+
+  }
 }

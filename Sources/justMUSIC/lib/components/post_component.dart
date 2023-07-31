@@ -7,9 +7,12 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+import '../model/Post.dart';
+
 class PostComponent extends StatefulWidget {
   final VoidCallback? callback;
-  PostComponent({Key? key, required this.callback}) : super(key: key);
+  final Post post;
+  PostComponent({Key? key, required this.callback, required this.post}) : super(key: key);
 
   @override
   State<PostComponent> createState() => _PostComponentState();

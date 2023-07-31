@@ -19,7 +19,8 @@ class AuthService {
         "unique_id": uniqueId,
         "picture":
             "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/defaultImage.png?alt=media&token=cff5ae0a-e29e-4845-91f7-817597962f6b",
-        "friends": []
+        "friends": [],
+        "comments": []
       };
 
       MyApp.db

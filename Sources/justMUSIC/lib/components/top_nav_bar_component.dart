@@ -7,6 +7,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../config/routes.dart';
+import '../main.dart';
 import '../values/constants.dart';
 
 class TopNavBarComponent extends StatefulWidget {
@@ -23,6 +24,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
 
   void actionSurBouton() {
     widget.callback(choice);
+    MyApp.postViewModel.getBestPosts();
   }
 
   @override
