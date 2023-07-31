@@ -155,17 +155,22 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                     ),
                   ),
                   GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.rotationY(3.14159265),
-                        child: Container(
-                            height: 25,
-                            width: 25,
-                            child: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 15)),
-                      )),
+                          alignment: Alignment.center,
+                          transform: Matrix4.rotationY(3.14159265),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            height: 30,
+                            width: 30,
+                            child: const Image(
+                              image: AssetImage("assets/images/return_icon.png"),
+                              height: 8,
+                            ),
+                          ))),
                 ],
               ),
             ),

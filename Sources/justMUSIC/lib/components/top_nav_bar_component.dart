@@ -84,6 +84,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
             Flexible(
               flex: 1,
               child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Navigator.of(context).push(routeAddFriend());
                 },
@@ -145,6 +146,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           if (choice) {
                             setState(() {

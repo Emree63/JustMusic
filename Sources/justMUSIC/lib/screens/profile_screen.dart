@@ -30,12 +30,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               alignment: Alignment.centerLeft,
               children: [
                 GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
-                      height: 15,
-                      width: 15,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      height: 30,
+                      width: 30,
                       child: Image(
                         image: AssetImage("assets/images/return_icon.png"),
                         height: 8,
@@ -44,10 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Align(
                   child: Text(
                     "Profile",
-                    style: GoogleFonts.plusJakartaSans(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 )
               ],
@@ -60,8 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: double.infinity,
         color: bgColor,
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(
-              decelerationRate: ScrollDecelerationRate.fast),
+          physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: settingPadding),
             child: Column(
@@ -70,18 +68,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 68.h, bottom: 40),
-                  child:
-                      ProfileComponent(user: MyApp.userViewModel.userCurrent),
+                  child: ProfileComponent(user: MyApp.userViewModel.userCurrent),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 12, left: defaultPadding),
+                  padding: const EdgeInsets.only(bottom: 12, left: defaultPadding),
                   child: Text(
                     "Compte",
-                    style: GoogleFonts.plusJakartaSans(
-                        color: grayText,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16),
+                    style: GoogleFonts.plusJakartaSans(color: grayText, fontWeight: FontWeight.w800, fontSize: 16),
                   ),
                 ),
                 ClipRRect(
@@ -113,14 +106,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 12, left: defaultPadding, top: 40),
+                  padding: const EdgeInsets.only(bottom: 12, left: defaultPadding, top: 40),
                   child: Text(
                     "Préférences",
-                    style: GoogleFonts.plusJakartaSans(
-                        color: grayText,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16),
+                    style: GoogleFonts.plusJakartaSans(color: grayText, fontWeight: FontWeight.w800, fontSize: 16),
                   ),
                 ),
                 ClipRRect(
