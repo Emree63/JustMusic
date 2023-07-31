@@ -189,8 +189,8 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                 child: ClipOval(
                   child: SizedBox.fromSize(
                     // Image radius
-                    child: const Image(
-                      image: AssetImage("assets/images/exemple_profile.png"),
+                    child: Image(
+                      image: NetworkImage(MyApp.userViewModel.userCurrent.pp),
                       width: 30,
                     ),
                   ),

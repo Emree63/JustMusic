@@ -99,9 +99,10 @@ class _PostComponentState extends State<PostComponent> {
                                     ),
                                   ),
                                 ),
-                                widget.post.date.isAtSameMomentAs(DateTime.now())
+                                DateTime(today.year, today.month, today.day).isAtSameMomentAs(
+                                        DateTime(widget.post.date.year, widget.post.date.month, widget.post.date.day))
                                     ? Text(
-                                        "Aujourd'hui, ${widget.post.date.hour}",
+                                        "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
                                         style: GoogleFonts.plusJakartaSans(
                                             color: Colors.white.withOpacity(0.4),
                                             fontWeight: FontWeight.w300,
@@ -165,8 +166,8 @@ class _PostComponentState extends State<PostComponent> {
                                                     padding: EdgeInsets.all(12),
                                                     child: Container(
                                                       constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
-                                                      width: 80.sp,
-                                                      height: 80.sp,
+                                                      width: 90.sp,
+                                                      height: 90.sp,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
                                                         // add border
@@ -268,8 +269,8 @@ class _PostComponentState extends State<PostComponent> {
                               ClipOval(
                                 child: SizedBox.fromSize(
                                   // Image radius
-                                  child: const Image(
-                                    image: AssetImage("assets/images/exemple_profile.png"),
+                                  child: Image(
+                                    image: NetworkImage(user.pp),
                                     width: 40,
                                   ),
                                 ),
@@ -377,8 +378,8 @@ class _PostComponentState extends State<PostComponent> {
                                                   padding: EdgeInsets.all(12),
                                                   child: Container(
                                                     constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
-                                                    width: 80.sp,
-                                                    height: 80.sp,
+                                                    width: 90.sp,
+                                                    height: 90.sp,
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       // add border

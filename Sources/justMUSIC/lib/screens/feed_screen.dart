@@ -119,7 +119,10 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                               post: displayFeed[index],
                               index: index,
                             ),
-                            Container(height: 10),
+                            Container(height: 5),
+                            Text('${displayFeed[index].description ?? ""}',
+                                style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w200)),
+                            Container(height: 20),
                             Align(
                               child: RichText(
                                   text: TextSpan(

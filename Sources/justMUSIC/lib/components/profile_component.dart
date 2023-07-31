@@ -20,7 +20,7 @@ class ProfileComponent extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 200, maxHeight: 200),
             child: Image(
-              image: AssetImage("assets/images/exemple_profile.png"),
+              image: NetworkImage(user.pp),
               height: 100.w,
               width: 100.w,
             ),
