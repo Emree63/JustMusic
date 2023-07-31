@@ -18,7 +18,7 @@ class AuthService {
         "phone_number": "",
         "unique_id": uniqueId,
         "picture":
-            "https://media.licdn.com/dms/image/D4E03AQHvc_b89ogFtQ/profile-displayphoto-shrink_400_400/0/1665060931103?e=1695859200&v=beta&t=wVLbxqeokYiPJ13nJ3SMq97iZvcm3ra0ufWFZCSzhjg",
+            "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/defaultImage.png?alt=media&token=cff5ae0a-e29e-4845-91f7-817597962f6b",
         "friends": []
       };
 

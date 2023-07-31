@@ -31,7 +31,7 @@ class ProfileComponent extends StatelessWidget {
         ),
         GestureDetector(
           onLongPress: () async {
-            await Clipboard.setData(ClipboardData(text: user.pseudo));
+            await Clipboard.setData(ClipboardData(text: user.uniquePseudo));
           },
           child: AutoSizeText(
             "${user.pseudo}",

@@ -39,7 +39,7 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                 ScrollConfiguration(
                   behavior: ScrollBehavior().copyWith(scrollbars: false),
                   child: Text(
-                    widget.user.pseudo,
+                    widget.user.uniquePseudo,
                     style: GoogleFonts.plusJakartaSans(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -48,7 +48,7 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                 ScrollConfiguration(
                     behavior: ScrollBehavior().copyWith(scrollbars: false),
                     child: Text(
-                      widget.user.id,
+                      widget.user.pseudo,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontWeight: FontWeight.w400),
                     ))
