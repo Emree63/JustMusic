@@ -243,14 +243,17 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                     )),
               ),
             ),
-            IgnorePointer(
-              child: Container(
-                height: 100.h,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        stops: [0.3, 1],
-                        colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+            Align(
+              alignment: Alignment.topCenter,
+              child: IgnorePointer(
+                child: Container(
+                  height: 240.h,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          stops: [0.3, 1],
+                          colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+                ),
               ),
             ),
             Align(
