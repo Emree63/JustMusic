@@ -1,14 +1,13 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/main.dart';
 import '../components/comment_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
-import '../main.dart';
 import '../model/Post.dart';
 import '../values/constants.dart';
 
@@ -19,7 +18,7 @@ class FeedScreen extends StatefulWidget {
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
+class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
   late List<Post> friendFeed;
@@ -29,9 +28,10 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    friendFeed = [];
+    friendFeed = MyApp.postViewModel.postsFriends;
+    MyApp.postViewModel.getBestPosts();
     discoveryFeed = MyApp.postViewModel.bestPosts;
-    displayFeed = friendFeed;
+    displayFeed = [];
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -54,19 +54,21 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
     if (choice) {
       setState(() {
         animationController.reset();
-        displayFeed = friendFeed;
+        displayFeed = MyApp.postViewModel.postsFriends;
         animationController.forward();
+        print(displayFeed.length);
       });
     } else {
       setState(() {
         animationController.reset();
-        displayFeed = discoveryFeed;
+        displayFeed = MyApp.postViewModel.bestPosts;
+        print(displayFeed.length);
         animationController.forward();
       });
     }
   }
 
-  void openDetailPost() {
+  void openDetailPost(int index) {
     showModalBottomSheet(
       backgroundColor: bgModal,
       elevation: 1,
@@ -76,8 +78,7 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
       isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((BuildContext context) {
         return GestureDetector(
           onTap: () {
@@ -96,47 +97,42 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                   child: Container(
                       width: 60,
                       height: 5,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(20))),
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: BorderRadius.circular(20))),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Expanded(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        topLeft: Radius.circular(15)),
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                     child: Padding(
-                      padding: EdgeInsets.only(
-                          left: defaultPadding, right: defaultPadding),
+                      padding: EdgeInsets.only(left: defaultPadding, right: defaultPadding),
                       child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(
-                            decelerationRate: ScrollDecelerationRate.fast),
+                        physics: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
                         child: Wrap(
                           // to apply margin in the main axis of the wrap
                           runSpacing: 10,
                           children: [
                             PostComponent(
                               callback: null,
+                              post: displayFeed[index],
+                              index: index,
                             ),
                             Container(height: 10),
                             Align(
                               child: RichText(
                                   text: TextSpan(
                                       text: "3",
-                                      style: GoogleFonts.plusJakartaSans(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
+                                      style:
+                                          GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600),
                                       children: [
-                                        TextSpan(
-                                          text: " commentaires",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w300),
-                                        )
-                                      ])),
+                                    TextSpan(
+                                      text: " commentaires",
+                                      style:
+                                          GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w300),
+                                    )
+                                  ])),
                             ),
                             SizedBox(height: 20),
                             CommentComponent(),
@@ -150,18 +146,12 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery
-                          .of(context)
-                          .viewInsets
-                          .bottom),
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Container(
                       height: 70,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                          border: Border(
-                              top: BorderSide(color: grayColor, width: 2)),
-                          color: textFieldMessage),
+                          border: Border(top: BorderSide(color: grayColor, width: 2)), color: textFieldMessage),
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -171,8 +161,7 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                                 child: SizedBox.fromSize(
                                   // Image radius
                                   child: const Image(
-                                    image: AssetImage(
-                                        "assets/images/exemple_profile.png"),
+                                    image: AssetImage("assets/images/exemple_profile.png"),
                                     width: 45,
                                   ),
                                 ),
@@ -185,8 +174,7 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                                   keyboardAppearance: Brightness.dark,
                                   cursorColor: primaryColor,
                                   keyboardType: TextInputType.emailAddress,
-                                  style: GoogleFonts.plusJakartaSans(
-                                      color: Colors.white),
+                                  style: GoogleFonts.plusJakartaSans(color: Colors.white),
                                   decoration: InputDecoration(
                                       suffixIcon: Icon(
                                         Icons.send,
@@ -194,27 +182,17 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
                                         size: 20,
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 1, color: grayText),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(100))),
-                                      contentPadding: EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 0,
-                                          left: 20,
-                                          right: 20),
+                                          borderSide: BorderSide(width: 1, color: grayText),
+                                          borderRadius: BorderRadius.all(Radius.circular(100))),
+                                      contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
                                       fillColor: bgModal,
                                       filled: true,
-                                      focusColor:
-                                      Color.fromRGBO(255, 255, 255, 0.30),
+                                      focusColor: Color.fromRGBO(255, 255, 255, 0.30),
                                       enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 1, color: grayText),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(100))),
+                                          borderSide: BorderSide(width: 1, color: grayText),
+                                          borderRadius: BorderRadius.all(Radius.circular(100))),
                                       hintText: 'Ajoutez une réponse...',
-                                      hintStyle: GoogleFonts.plusJakartaSans(
-                                          color: grayText)),
+                                      hintStyle: GoogleFonts.plusJakartaSans(color: grayText)),
                                 ),
                               )
                             ],
@@ -240,47 +218,30 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
           CircularRevealAnimation(
             animation: animation,
             centerOffset: Offset(30.w, -100),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(
-                  decelerationRate: ScrollDecelerationRate.fast),
-              child: SizedBox(
-                  width: double.infinity,
-                  child: Align(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 600),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: defaultPadding),
-                        child: Container(
-                          width: double.infinity,
-                          child: Padding(
-                              padding: EdgeInsets.only(top: 100.h),
-                              child: SingleChildScrollView(
-                                child: ListView.builder(
-                                  itemBuilder: (BuildContext context,
-                                      int index) {
-                                    return PostComponent(callback: openDetailPost,);
-                                  },
-
-                                ),
-                              )),
-                        ),
-                      ),
-                    ),
-                  )),
-            ),
+            child: Container(
+                constraints: BoxConstraints(maxWidth: 600),
+                padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                  clipBehavior: Clip.none,
+                  shrinkWrap: true,
+                  itemCount: displayFeed.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
+                    );
+                  },
+                )),
           ),
           IgnorePointer(
             child: Container(
               height: 240.h,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topRight, stops: [
-                    0.3,
-                    1
-                  ], colors: [
-                    bgColor.withOpacity(0.9),
-                    bgColor.withOpacity(0)
-                  ])),
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      stops: [0.3, 1],
+                      colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
             ),
           ),
           Align(

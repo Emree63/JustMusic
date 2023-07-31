@@ -20,8 +20,7 @@ class PostViewModel {
   List<Post> get bestPosts => _bestPosts;
 
   // Methods
-  addPost(String? description, String idMusic, File? image,
-      Tuple2<String, String>? location) async {
+  addPost(String? description, String idMusic, File? image, Tuple2<String, String>? location) async {
     await _postService.createPost(description, idMusic, image, location);
   }
 
@@ -37,8 +36,8 @@ class PostViewModel {
     try {
       var responseData = await _postService.getPopularPosts();
 
-      _bestPosts =
-          responseData.map((value) => PostMapper.toModel(value)).toList();
+      _bestPosts = responseData.map((value) => PostMapper.toModel(value)).toList();
+      print(_bestPosts.length);
     } catch (e) {
       print(e);
     }
