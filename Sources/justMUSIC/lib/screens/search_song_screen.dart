@@ -36,25 +36,20 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
   }
 
   Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      filteredData.addAll(await MyApp.musicViewModel.getMusicsWithName(
-          _textEditingController.text,
-          limit: 10,
-          offset: filteredData.length));
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      filteredData.addAll(await MyApp.musicViewModel
+          .getMusicsWithName(_textEditingController.text, limit: 10, offset: filteredData.length));
       setState(() {
         filteredData = filteredData;
       });
     }
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
+    if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       setState(() {
         //you can do anything here
       });
     }
-    if (_scrollController.offset <=
-            _scrollController.position.minScrollExtent &&
+    if (_scrollController.offset <= _scrollController.position.minScrollExtent &&
         !_scrollController.position.outOfRange) {
       setState(() {
         Timer(Duration(milliseconds: 1), () => _scrollController.jumpTo(0));
@@ -109,15 +104,13 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                       width: 60,
                       height: 5,
                       decoration: BoxDecoration(
-                          color: Color(0xFF3A3A3A).withOpacity(0.6),
-                          borderRadius: BorderRadius.circular(20))),
+                          color: Color(0xFF3A3A3A).withOpacity(0.6), borderRadius: BorderRadius.circular(20))),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 10, left: 20, right: 20),
+                  padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
                   child: SizedBox(
                     height: 40,
                     child: TextField(
@@ -130,8 +123,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                         } else if (value == " ") {
                           print("popular");
                         } else {
-                          filteredData = await MyApp.musicViewModel
-                              .getMusicsWithName(value);
+                          filteredData = await MyApp.musicViewModel.getMusicsWithName(value);
                           setState(() {
                             filteredData = filteredData;
                           });
@@ -146,26 +138,18 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                             color: grayColor,
                           ),
                           focusedBorder: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: grayColor),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          contentPadding: const EdgeInsets.only(
-                              top: 0,
-                              bottom: 0,
-                              left: defaultPadding,
-                              right: defaultPadding),
+                              borderSide: BorderSide(width: 1, color: grayColor),
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          contentPadding:
+                              const EdgeInsets.only(top: 0, bottom: 0, left: defaultPadding, right: defaultPadding),
                           fillColor: searchBarColor,
                           filled: true,
                           focusColor: grayText,
                           enabledBorder: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: grayColor),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                              borderSide: BorderSide(width: 1, color: grayColor),
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
                           hintText: 'Chercher un son',
-                          hintStyle:
-                              GoogleFonts.plusJakartaSans(color: grayColor)),
+                          hintStyle: GoogleFonts.plusJakartaSans(color: grayHint)),
                     ),
                   ),
                 ),
@@ -173,8 +157,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     child: ScrollConfiguration(
                   behavior: ScrollBehavior().copyWith(scrollbars: true),
                   child: ListView.builder(
-                      physics: const BouncingScrollPhysics(
-                          decelerationRate: ScrollDecelerationRate.fast),
+                      physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
                       controller: _scrollController,
                       itemCount: filteredData.length,
                       itemBuilder: (context, index) {
@@ -184,8 +167,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                                 widget.callback(filteredData[index]);
                               },
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: MusicListComponent(
                                   music: filteredData[index],
                                   playing: true,
@@ -199,8 +181,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                               widget.callback(filteredData[index]);
                             },
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: MusicListComponent(
                                 music: filteredData[index],
                                 playing: false,

@@ -11,15 +11,13 @@ import '../values/constants.dart';
 
 class TopNavBarComponent extends StatefulWidget {
   final Function(bool) callback;
-  const TopNavBarComponent({Key? key, required this.callback})
-      : super(key: key);
+  const TopNavBarComponent({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<TopNavBarComponent> createState() => _TopNavBarComponentState();
 }
 
-class _TopNavBarComponentState extends State<TopNavBarComponent>
-    with TickerProviderStateMixin {
+class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProviderStateMixin {
   bool choice = true;
   late AnimationController _controller;
 
@@ -87,7 +85,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent>
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  showCapsuleDot();
+                  Navigator.of(context).push(routeAddFriend());
                 },
                 child: const Icon(
                   Icons.person_add_alt_1_rounded,
@@ -105,6 +103,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent>
                       enableLongTapRepeatEvent: false,
                       longTapRepeatDuration: const Duration(milliseconds: 100),
                       begin: 1.0,
+                      onTap: showCapsuleDot,
                       end: 0.97,
                       beginDuration: const Duration(milliseconds: 70),
                       endDuration: const Duration(milliseconds: 100),
@@ -128,23 +127,18 @@ class _TopNavBarComponentState extends State<TopNavBarComponent>
                           }
                         },
                         child: LayoutBuilder(
-                          builder: (BuildContext context,
-                              BoxConstraints constraints) {
+                          builder: (BuildContext context, BoxConstraints constraints) {
                             if (choice) {
                               return AutoSizeText(
                                 "Mes amis",
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                    fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
                               );
                             } else {
                               return AutoSizeText(
                                 "Mes amis",
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 16,
-                                    color: unactiveFeed),
+                                    fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
                               );
                             }
                           },
@@ -160,23 +154,18 @@ class _TopNavBarComponentState extends State<TopNavBarComponent>
                           }
                         },
                         child: LayoutBuilder(
-                          builder: (BuildContext context,
-                              BoxConstraints constraints) {
+                          builder: (BuildContext context, BoxConstraints constraints) {
                             if (choice) {
                               return AutoSizeText(
                                 "Discovery",
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 16,
-                                    color: unactiveFeed),
+                                    fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
                               );
                             } else {
                               return AutoSizeText(
                                 "Discovery",
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                    fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
                               );
                             }
                           },
@@ -191,7 +180,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent>
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(createRoute());
+                  Navigator.of(context).push(routeProfile());
                 },
                 child: ClipOval(
                   child: SizedBox.fromSize(

@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
 import 'package:justmusic/screens/login_screen.dart';
@@ -44,13 +45,14 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
             routes: {
-              '/welcome': (context) => WellcomeScreen(),
-              '/feed': (context) => FeedScreen(),
-              '/login': (context) => LoginScreen(),
-              '/register': (context) => RegistrationScreen(),
-              '/post': (context) => PostScreen(),
-              '/profile': (context) => ProfileScreen(),
-              '/explanation': (context) => ExplanationsScreen(),
+              '/welcome': (context) => const WellcomeScreen(),
+              '/feed': (context) => const FeedScreen(),
+              '/login': (context) => const LoginScreen(),
+              '/register': (context) => const RegistrationScreen(),
+              '/post': (context) => const PostScreen(),
+              '/profile': (context) => const ProfileScreen(),
+              '/explanation': (context) => const ExplanationsScreen(),
+              '/addFriend': (context) => const AddFriendScreen(),
             },
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

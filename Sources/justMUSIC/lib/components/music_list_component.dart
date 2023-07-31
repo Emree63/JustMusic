@@ -9,7 +9,7 @@ class MusicListComponent extends StatelessWidget {
   final bool playing;
   final int index;
   final Function(int) callback;
-  MusicListComponent({
+  const MusicListComponent({
     Key? key,
     required this.music,
     required this.playing,
@@ -23,8 +23,7 @@ class MusicListComponent extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 14),
       child: Row(
         children: [
-          LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
+          LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
             if (music.cover != null) {
               return ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -63,14 +62,11 @@ class MusicListComponent extends StatelessWidget {
                     Flexible(
                         flex: 8,
                         child: ScrollConfiguration(
-                          behavior:
-                              ScrollBehavior().copyWith(scrollbars: false),
+                          behavior: ScrollBehavior().copyWith(scrollbars: false),
                           child: TextScroll(
                             music.title ?? "Unknown",
                             style: GoogleFonts.plusJakartaSans(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
                             mode: TextScrollMode.endless,
                             pauseBetween: Duration(milliseconds: 2500),
                             velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
@@ -91,8 +87,7 @@ class MusicListComponent extends StatelessWidget {
                     child: Text(
                       music.artists.first.name ?? "Unknown",
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.plusJakartaSans(
-                          color: Colors.grey, fontWeight: FontWeight.w400),
+                      style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontWeight: FontWeight.w400),
                     ))
               ],
             ),
