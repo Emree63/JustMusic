@@ -21,6 +21,17 @@ class PostService {
     };
 
     var postAdd = await MyApp.db.collection("posts").add(post);
+
+    var userRef = MyApp.db.collection("users").doc(id);
+
+    await MyApp.db.runTransaction((transaction) async {
+      var userSnapshot = await transaction.get(userRef);
+      if (userSnapshot.exists) {
+        int currentNbCapsules = userSnapshot.data()?['nbCapsules'] ?? 0;
+        transaction.update(userRef, {'nbCapsules': currentNbCapsules + 1});
+      }
+    });
+
     if (image != null) {
       var imageRef = FirebaseStorage.instance.ref('$id${postAdd.id}.jpg');
       await imageRef.putFile(image);

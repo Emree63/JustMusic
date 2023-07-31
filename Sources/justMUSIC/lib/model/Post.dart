@@ -1,23 +1,26 @@
 import 'package:tuple/tuple.dart';
 
+import 'Music.dart';
+import 'User.dart';
+
 class Post {
   final String _id;
-  final String _idUser;
+  final User _user;
   String? _description;
-  String _idMusic;
-  Tuple2<String,String> _location;
+  late Music _music;
+  Tuple2<String?,String?> _location;
   int _nblikes;
   String? _selfie;
   DateTime _date;
 
   // Constructor
-  Post(this._id, this._idUser, this._description, this._idMusic, this._location,
+  Post(this._id, this._user, this._description, this._location,
       this._nblikes, this._selfie, this._date);
 
   //Getters and setters
   String get id => _id;
 
-  String get idUser => _idUser;
+  User get user => _user;
 
   String? get description => _description;
 
@@ -25,15 +28,15 @@ class Post {
     _description = value;
   }
 
-  String get idMusic => _idMusic;
+  Music get music => _music;
 
-  set idMusic(String value) {
-    _idMusic = value;
+  set music(Music value) {
+    _music = value;
   }
 
-  Tuple2<String, String> get location => _location;
+  Tuple2<String?, String?> get location => _location;
 
-  set location(Tuple2<String, String> value) {
+  set location(Tuple2<String?, String?> value) {
     _location = value;
   }
 

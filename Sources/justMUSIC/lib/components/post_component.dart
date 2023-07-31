@@ -16,7 +16,13 @@ class PostComponent extends StatefulWidget {
   final Function(int)? callback;
   final Post post;
   final int index;
-  PostComponent({Key? key, required this.callback, required this.post, required this.index}) : super(key: key);
+
+  PostComponent(
+      {Key? key,
+      required this.callback,
+      required this.post,
+      required this.index})
+      : super(key: key);
 
   @override
   State<PostComponent> createState() => _PostComponentState();
@@ -27,11 +33,11 @@ class _PostComponentState extends State<PostComponent> {
   DateTime today = DateTime.now();
 
   Future<User?> fetchUserData() async {
-    return await MyApp.userViewModel.getUser(widget.post.idUser);
+    //return await MyApp.userViewModel.getUser(widget.post.idUser);
   }
 
-  Future<Music> fetchMusicData() async {
-    return await MyApp.musicViewModel.getMusic(widget.post.idMusic);
+  Future<Music?> fetchMusicData() async {
+    //return await MyApp.musicViewModel.getMusic(widget.post.idMusic);
   }
 
   void switchChoice() {
@@ -81,37 +87,58 @@ class _PostComponentState extends State<PostComponent> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 10),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           user.pseudo,
                                           style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white, fontWeight: FontWeight.w600),
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
                                         ),
-                                        Text(
-                                          "${widget.post.location.item1}, ${widget.post.location.item2}",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white.withOpacity(0.4),
-                                              fontWeight: FontWeight.w300,
+                                        widget.post.location.item2 != null
+                                            ? Text(
+                                                "${widget.post.location?.item1}, ${widget.post.location?.item2}",
+                                                style:
+                                                    GoogleFonts.plusJakartaSans(
+                                                        color: Colors.white
+                                                            .withOpacity(0.4),
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        fontSize: 13),
+                                              )
+                                            : Text(
+                                          "",
+                                          style:
+                                          GoogleFonts.plusJakartaSans(
+                                              color: Colors.white
+                                                  .withOpacity(0.4),
+                                              fontWeight:
+                                              FontWeight.w300,
                                               fontSize: 13),
                                         )
                                       ],
                                     ),
                                   ),
                                 ),
-                                DateTime(today.year, today.month, today.day).isAtSameMomentAs(
-                                        DateTime(widget.post.date.year, widget.post.date.month, widget.post.date.day))
+                                DateTime(today.year, today.month, today.day)
+                                        .isAtSameMomentAs(DateTime(
+                                            widget.post.date.year,
+                                            widget.post.date.month,
+                                            widget.post.date.day))
                                     ? Text(
                                         "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
                                         style: GoogleFonts.plusJakartaSans(
-                                            color: Colors.white.withOpacity(0.4),
+                                            color:
+                                                Colors.white.withOpacity(0.4),
                                             fontWeight: FontWeight.w300,
                                             fontSize: 13),
                                       )
                                     : Text(
                                         "${widget.post.date.day}/${widget.post.date.month}/${widget.post.date.year}-${widget.post.date.hour}:${widget.post.date.minute}",
                                         style: GoogleFonts.plusJakartaSans(
-                                            color: Colors.white.withOpacity(0.4),
+                                            color:
+                                                Colors.white.withOpacity(0.4),
                                             fontWeight: FontWeight.w300,
                                             fontSize: 13),
                                       ),
@@ -125,7 +152,8 @@ class _PostComponentState extends State<PostComponent> {
                                   }
                                 },
                                 enableLongTapRepeatEvent: false,
-                                longTapRepeatDuration: const Duration(milliseconds: 100),
+                                longTapRepeatDuration:
+                                    const Duration(milliseconds: 100),
                                 begin: 1.0,
                                 end: 0.99,
                                 beginDuration: const Duration(milliseconds: 70),
@@ -138,10 +166,13 @@ class _PostComponentState extends State<PostComponent> {
                                     decoration: BoxDecoration(
                                       // add border
                                       border: const GradientBoxBorder(
-                                        gradient: LinearGradient(colors: [
-                                          Colors.transparent,
-                                          Color(0xFF323232),
-                                        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              Colors.transparent,
+                                              Color(0xFF323232),
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter),
                                         width: 2.5,
                                       ),
                                       // set border radius
@@ -154,7 +185,9 @@ class _PostComponentState extends State<PostComponent> {
                                         alignment: Alignment.bottomCenter,
                                         children: [
                                           Image(
-                                            image: NetworkImage(choice ? widget.post.selfie! : music.cover!),
+                                            image: NetworkImage(choice
+                                                ? widget.post.selfie!
+                                                : music.cover!),
                                             fit: BoxFit.cover,
                                             width: double.infinity,
                                           ),
@@ -165,22 +198,35 @@ class _PostComponentState extends State<PostComponent> {
                                                   child: Padding(
                                                     padding: EdgeInsets.all(12),
                                                     child: Container(
-                                                      constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
+                                                      constraints:
+                                                          BoxConstraints(
+                                                              maxWidth: 140,
+                                                              maxHeight: 140),
                                                       width: 90.sp,
                                                       height: 90.sp,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
                                                         // add border
-                                                        border: Border.all(width: 3, color: Colors.white),
+                                                        border: Border.all(
+                                                            width: 3,
+                                                            color:
+                                                                Colors.white),
                                                         // set border radius
-                                                        borderRadius: BorderRadius.circular(15),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
                                                       ),
                                                       child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(13),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(13),
                                                         // implement image
                                                         child: Image(
-                                                          image:
-                                                              NetworkImage(choice ? music.cover! : widget.post.selfie!),
+                                                          image: NetworkImage(
+                                                              choice
+                                                                  ? music.cover!
+                                                                  : widget.post
+                                                                      .selfie!),
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
@@ -202,13 +248,18 @@ class _PostComponentState extends State<PostComponent> {
                                     child: TextScroll(
                                       music.artists.first.name!,
                                       style: GoogleFonts.plusJakartaSans(
-                                          height: 1, color: Colors.white, fontWeight: FontWeight.w600, fontSize: 26.h),
+                                          height: 1,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 26.h),
                                       mode: TextScrollMode.endless,
                                       pauseBetween: Duration(milliseconds: 500),
-                                      velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                      velocity: Velocity(
+                                          pixelsPerSecond: Offset(20, 0)),
                                     )),
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 10.h, right: 5.w, left: 5.w),
+                                  padding: EdgeInsets.only(
+                                      bottom: 10.h, right: 5.w, left: 5.w),
                                   child: ClipOval(
                                     child: Container(
                                       width: 5.h,
@@ -229,8 +280,10 @@ class _PostComponentState extends State<PostComponent> {
                                             fontWeight: FontWeight.w300,
                                             fontSize: 16.h),
                                         mode: TextScrollMode.endless,
-                                        velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
-                                        pauseBetween: Duration(milliseconds: 500),
+                                        velocity: Velocity(
+                                            pixelsPerSecond: Offset(50, 20)),
+                                        pauseBetween:
+                                            Duration(milliseconds: 500),
                                       ),
                                     )),
                                 Container(width: 10),
@@ -280,26 +333,45 @@ class _PostComponentState extends State<PostComponent> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         user.pseudo,
                                         style: GoogleFonts.plusJakartaSans(
-                                            color: Colors.white, fontWeight: FontWeight.w600),
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      Text(
-                                        "${widget.post.location.item1}, ${widget.post.location.item2}",
-                                        style: GoogleFonts.plusJakartaSans(
-                                            color: Colors.white.withOpacity(0.4),
-                                            fontWeight: FontWeight.w300,
+                                      widget.post.location.item2 != null
+                                          ? Text(
+                                        "${widget.post.location?.item1}, ${widget.post.location?.item2}",
+                                        style:
+                                        GoogleFonts.plusJakartaSans(
+                                            color: Colors.white
+                                                .withOpacity(0.4),
+                                            fontWeight:
+                                            FontWeight.w300,
+                                            fontSize: 13),
+                                      )
+                                          : Text(
+                                        "",
+                                        style:
+                                        GoogleFonts.plusJakartaSans(
+                                            color: Colors.white
+                                                .withOpacity(0.4),
+                                            fontWeight:
+                                            FontWeight.w300,
                                             fontSize: 13),
                                       )
                                     ],
                                   ),
                                 ),
                               ),
-                              DateTime(today.year, today.month, today.day).isAtSameMomentAs(
-                                      DateTime(widget.post.date.year, widget.post.date.month, widget.post.date.day))
+                              DateTime(today.year, today.month, today.day)
+                                      .isAtSameMomentAs(DateTime(
+                                          widget.post.date.year,
+                                          widget.post.date.month,
+                                          widget.post.date.day))
                                   ? Text(
                                       "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
                                       style: GoogleFonts.plusJakartaSans(
@@ -322,7 +394,8 @@ class _PostComponentState extends State<PostComponent> {
                                 widget.callback!(widget.index);
                               },
                               enableLongTapRepeatEvent: false,
-                              longTapRepeatDuration: const Duration(milliseconds: 100),
+                              longTapRepeatDuration:
+                                  const Duration(milliseconds: 100),
                               begin: 1.0,
                               end: 0.99,
                               beginDuration: const Duration(milliseconds: 70),
@@ -335,10 +408,13 @@ class _PostComponentState extends State<PostComponent> {
                                   decoration: BoxDecoration(
                                     // add border
                                     border: const GradientBoxBorder(
-                                      gradient: LinearGradient(colors: [
-                                        Colors.transparent,
-                                        Color(0xFF323232),
-                                      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Colors.transparent,
+                                            Color(0xFF323232),
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter),
                                       width: 2.5,
                                     ),
                                     // set border radius
@@ -356,7 +432,8 @@ class _PostComponentState extends State<PostComponent> {
                                           width: double.infinity,
                                         ),
                                         Image(
-                                          image: AssetImage("assets/images/shadow_post.png"),
+                                          image: AssetImage(
+                                              "assets/images/shadow_post.png"),
                                           fit: BoxFit.fitHeight,
                                           width: double.infinity,
                                         ),
@@ -365,7 +442,9 @@ class _PostComponentState extends State<PostComponent> {
                                           child: AutoSizeText(
                                             '“${widget.post.description}”',
                                             style: GoogleFonts.plusJakartaSans(
-                                                color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15.sp),
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15.sp),
                                             maxFontSize: 20,
                                             maxLines: 1,
                                           ),
@@ -377,21 +456,31 @@ class _PostComponentState extends State<PostComponent> {
                                                 child: Padding(
                                                   padding: EdgeInsets.all(12),
                                                   child: Container(
-                                                    constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: 140,
+                                                        maxHeight: 140),
                                                     width: 90.sp,
                                                     height: 90.sp,
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       // add border
-                                                      border: Border.all(width: 3, color: Colors.white),
+                                                      border: Border.all(
+                                                          width: 3,
+                                                          color: Colors.white),
                                                       // set border radius
-                                                      borderRadius: BorderRadius.circular(15),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
                                                     ),
                                                     child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(13),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              13),
                                                       // implement image
                                                       child: Image(
-                                                        image: NetworkImage(widget.post.selfie!),
+                                                        image: NetworkImage(
+                                                            widget
+                                                                .post.selfie!),
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -413,13 +502,18 @@ class _PostComponentState extends State<PostComponent> {
                                   child: TextScroll(
                                     music.artists.first.name!,
                                     style: GoogleFonts.plusJakartaSans(
-                                        height: 1, color: Colors.white, fontWeight: FontWeight.w600, fontSize: 26.h),
+                                        height: 1,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 26.h),
                                     mode: TextScrollMode.endless,
                                     pauseBetween: Duration(milliseconds: 500),
-                                    velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                    velocity: Velocity(
+                                        pixelsPerSecond: Offset(20, 0)),
                                   )),
                               Padding(
-                                padding: EdgeInsets.only(bottom: 10.h, right: 5.w, left: 5.w),
+                                padding: EdgeInsets.only(
+                                    bottom: 10.h, right: 5.w, left: 5.w),
                                 child: ClipOval(
                                   child: Container(
                                     width: 5.h,
@@ -435,9 +529,13 @@ class _PostComponentState extends State<PostComponent> {
                                     child: TextScroll(
                                       music.title!,
                                       style: GoogleFonts.plusJakartaSans(
-                                          height: 1, color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.h),
+                                          height: 1,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 16.h),
                                       mode: TextScrollMode.endless,
-                                      velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
+                                      velocity: Velocity(
+                                          pixelsPerSecond: Offset(50, 20)),
                                       pauseBetween: Duration(milliseconds: 500),
                                     ),
                                   )),
@@ -445,7 +543,9 @@ class _PostComponentState extends State<PostComponent> {
                               AutoSizeText(
                                 music.date.toString(),
                                 style: GoogleFonts.plusJakartaSans(
-                                    color: Colors.white.withOpacity(0.5), fontWeight: FontWeight.w300, fontSize: 16.h),
+                                    color: Colors.white.withOpacity(0.5),
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 16.h),
                                 textAlign: TextAlign.end,
                                 maxFontSize: 20,
                               ),
