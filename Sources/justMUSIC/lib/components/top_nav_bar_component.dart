@@ -2,8 +2,10 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../config/routes.dart';
@@ -22,6 +24,8 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
   bool choice = true;
   late AnimationController _controller;
 
+  final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
   void actionSurBouton() {
     widget.callback(choice);
     MyApp.postViewModel.getBestPosts();
@@ -36,39 +40,71 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
     super.initState();
   }
 
-  void showCapsuleDot() {
-    Flushbar(
-      maxWidth: 210,
-      animationDuration: Duration(seconds: 1),
-      forwardAnimationCurve: Curves.easeOutCirc,
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      icon: Icon(
-        Ionicons.sparkles,
-        color: Colors.grey,
-        size: 22,
-      ),
-      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-      messageText: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          "Capsule disponible",
-          style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-        ),
-      ),
-      flushbarStyle: FlushbarStyle.FLOATING,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      textDirection: Directionality.of(context),
-      borderRadius: BorderRadius.circular(1000),
-      borderWidth: 1,
-      borderColor: Colors.white.withOpacity(0.04),
-      duration: const Duration(minutes: 100),
-      leftBarIndicatorColor: Colors.transparent,
-      positionOffset: 20,
-      onTap: (_) {
-        Navigator.pop(context);
-        Navigator.pushNamed(context, '/post');
-      },
-    ).show(context);
+  void showCapsuleDot(bool isAvailable) {
+    isAvailable
+        ? Flushbar(
+            maxWidth: 210,
+            animationDuration: Duration(seconds: 1),
+            forwardAnimationCurve: Curves.easeOutCirc,
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            icon: Icon(
+              Ionicons.sparkles,
+              color: Colors.white,
+              size: 18,
+            ),
+            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+            messageText: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Capsule disponible",
+                style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
+              ),
+            ),
+            flushbarStyle: FlushbarStyle.FLOATING,
+            flushbarPosition: FlushbarPosition.BOTTOM,
+            textDirection: Directionality.of(context),
+            borderRadius: BorderRadius.circular(1000),
+            borderWidth: 1,
+            borderColor: Colors.white.withOpacity(0.04),
+            duration: const Duration(minutes: 100),
+            leftBarIndicatorColor: Colors.transparent,
+            positionOffset: 20,
+            onTap: (_) {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/post');
+            },
+          ).show(context)
+        : Flushbar(
+            maxWidth: 155,
+            animationDuration: Duration(seconds: 1),
+            forwardAnimationCurve: Curves.easeOutCirc,
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            icon: Lottie.asset(
+              'assets/animations/LottieHourGlass.json',
+              width: 26,
+              fit: BoxFit.fill,
+            ),
+            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+            messageText: Align(
+              alignment: Alignment.centerLeft,
+              child: CountdownTimer(
+                endTime: midnight.millisecondsSinceEpoch - 2 * 60 * 60 * 1000,
+                textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
+              ),
+            ),
+            flushbarStyle: FlushbarStyle.FLOATING,
+            flushbarPosition: FlushbarPosition.BOTTOM,
+            textDirection: Directionality.of(context),
+            borderRadius: BorderRadius.circular(1000),
+            borderWidth: 1,
+            borderColor: Colors.white.withOpacity(0.04),
+            duration: const Duration(minutes: 100),
+            leftBarIndicatorColor: Colors.transparent,
+            positionOffset: 20,
+            onTap: (_) {
+              Navigator.pop(context);
+            },
+          ).show(context);
   }
 
   @override
@@ -106,7 +142,9 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                       enableLongTapRepeatEvent: false,
                       longTapRepeatDuration: const Duration(milliseconds: 100),
                       begin: 1.0,
-                      onTap: showCapsuleDot,
+                      onTap: () {
+                        showCapsuleDot(true);
+                      },
                       end: 0.97,
                       beginDuration: const Duration(milliseconds: 70),
                       endDuration: const Duration(milliseconds: 100),
