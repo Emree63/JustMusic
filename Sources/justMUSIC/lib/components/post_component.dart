@@ -53,7 +53,7 @@ class _PostComponentState extends State<PostComponent> {
       onTap: switchChoice,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (choice && widget.callback == null) {
+          if (widget.callback == null) {
             return SizedBox(
                 width: double.infinity,
                 child: FutureBuilder(
@@ -119,7 +119,9 @@ class _PostComponentState extends State<PostComponent> {
                             SizedBox(height: 10),
                             ZoomTapAnimation(
                                 onTap: () {
-                                  widget.callback!(widget.index);
+                                  if (widget.post.selfie != null) {
+                                    switchChoice();
+                                  }
                                 },
                                 enableLongTapRepeatEvent: false,
                                 longTapRepeatDuration: const Duration(milliseconds: 100),
@@ -151,36 +153,39 @@ class _PostComponentState extends State<PostComponent> {
                                         alignment: Alignment.bottomCenter,
                                         children: [
                                           Image(
-                                            image: NetworkImage(user.pp),
+                                            image: NetworkImage(choice ? widget.post.selfie! : music.cover!),
                                             fit: BoxFit.cover,
                                             width: double.infinity,
                                           ),
-                                          Positioned(
-                                              top: 0,
-                                              right: 0,
-                                              child: Padding(
-                                                padding: EdgeInsets.all(12),
-                                                child: Container(
-                                                  constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
-                                                  width: 80.sp,
-                                                  height: 80.sp,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    // add border
-                                                    border: Border.all(width: 3, color: Colors.white),
-                                                    // set border radius
-                                                    borderRadius: BorderRadius.circular(15),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(13),
-                                                    // implement image
-                                                    child: Image(
-                                                      image: NetworkImage(music.cover!),
-                                                      fit: BoxFit.cover,
+                                          widget.post.selfie != null
+                                              ? Positioned(
+                                                  top: 0,
+                                                  right: 0,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(12),
+                                                    child: Container(
+                                                      constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
+                                                      width: 80.sp,
+                                                      height: 80.sp,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        // add border
+                                                        border: Border.all(width: 3, color: Colors.white),
+                                                        // set border radius
+                                                        borderRadius: BorderRadius.circular(15),
+                                                      ),
+                                                      child: ClipRRect(
+                                                        borderRadius: BorderRadius.circular(13),
+                                                        // implement image
+                                                        child: Image(
+                                                          image:
+                                                              NetworkImage(choice ? music.cover! : widget.post.selfie!),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ))
+                                                  ))
+                                              : Container(),
                                         ],
                                       ),
                                     ),
@@ -246,6 +251,7 @@ class _PostComponentState extends State<PostComponent> {
                       }
                     }));
           }
+
           return SizedBox(
               width: double.infinity,
               child: FutureBuilder(
@@ -363,32 +369,34 @@ class _PostComponentState extends State<PostComponent> {
                                             maxLines: 1,
                                           ),
                                         ),
-                                        Positioned(
-                                            top: 0,
-                                            right: 0,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(12),
-                                              child: Container(
-                                                constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
-                                                width: 80.sp,
-                                                height: 80.sp,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  // add border
-                                                  border: Border.all(width: 3, color: Colors.white),
-                                                  // set border radius
-                                                  borderRadius: BorderRadius.circular(15),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(13),
-                                                  // implement image
-                                                  child: Image(
-                                                    image: NetworkImage(user.pp),
-                                                    fit: BoxFit.cover,
+                                        widget.post.selfie != null
+                                            ? Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(12),
+                                                  child: Container(
+                                                    constraints: BoxConstraints(maxWidth: 140, maxHeight: 140),
+                                                    width: 80.sp,
+                                                    height: 80.sp,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      // add border
+                                                      border: Border.all(width: 3, color: Colors.white),
+                                                      // set border radius
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(13),
+                                                      // implement image
+                                                      child: Image(
+                                                        image: NetworkImage(widget.post.selfie!),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ))
+                                                ))
+                                            : Container(),
                                       ],
                                     ),
                                   ),
