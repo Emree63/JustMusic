@@ -8,6 +8,7 @@ import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
 import 'package:justmusic/screens/login_screen.dart';
+import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
               '/profile': (context) => const ProfileScreen(),
               '/explanation': (context) => const ExplanationsScreen(),
               '/addFriend': (context) => const AddFriendScreen(),
+              '/launchingRocket': (context) => const LaunchingRocketScreen(),
             },
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

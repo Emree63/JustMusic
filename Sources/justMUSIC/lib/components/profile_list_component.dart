@@ -1,4 +1,5 @@
 import 'package:flutter/Material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../main.dart';
 import '../model/User.dart';
@@ -82,6 +83,17 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                       splashColor: Colors.white.withOpacity(0.3),
                       onTap: () async {
                         await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Vous ne suivez plus ${widget.user.pseudo}",
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
+                            ),
+                            backgroundColor: Colors.red,
+                            closeIconColor: Colors.white,
+                          ),
+                        );
                         setState(() {});
                       },
                       child: Container(
@@ -100,6 +112,16 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                       splashColor: Colors.white.withOpacity(0.3),
                       onTap: () async {
                         await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: primaryColor,
+                            content: Text(
+                              "Vous suivez à present ${widget.user.pseudo}",
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
+                            ),
+                          ),
+                        );
                         setState(() {});
                       },
                       child: Container(

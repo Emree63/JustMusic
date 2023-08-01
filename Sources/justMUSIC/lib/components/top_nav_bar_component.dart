@@ -138,10 +138,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
-                  bool returnFromOtherPage = await Navigator.of(context).push(routeAddFriend());
-                  if (returnFromOtherPage == true) {
-                    checkAvailable();
-                  }
+                  Navigator.of(context).push(routeAddFriend());
                 },
                 child: const Icon(
                   Icons.person_add_alt_1_rounded,
@@ -159,7 +156,9 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                       enableLongTapRepeatEvent: false,
                       longTapRepeatDuration: const Duration(milliseconds: 100),
                       begin: 1.0,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/launchingRocket');
+                      },
                       end: 0.97,
                       beginDuration: const Duration(milliseconds: 70),
                       endDuration: const Duration(milliseconds: 100),
@@ -238,19 +237,16 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
               child: GestureDetector(
                 onTap: () async {
                   await MyApp.userViewModel.updateUserCurrent();
-                  bool returnFromOtherPage = await Navigator.of(context).push(routeProfile());
-                  if (returnFromOtherPage == true) {
-                    checkAvailable();
-                  }
+                  Navigator.of(context).push(routeProfile());
                 },
                 child: ClipOval(
                   child: SizedBox.fromSize(
-                    // Image radius
-                    child: Image(
-                      image: NetworkImage(MyApp.userViewModel.userCurrent.pp),
-                      width: 30,
-                    ),
-                  ),
+                      // Image radius
+                      child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/loadingPlaceholder.gif',
+                    image: MyApp.userViewModel.userCurrent.pp,
+                    width: 30,
+                  )),
                 ),
               ),
             )
