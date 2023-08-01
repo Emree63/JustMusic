@@ -15,7 +15,6 @@ class AuthService {
       final user = <String, dynamic>{
         "mail": email,
         "pseudo": pseudo,
-        "phone_number": "",
         "unique_id": uniqueId,
         "followed": [],
         "nbCapsules": 0,

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:justmusic/services/AuthService.dart';
+import 'package:justmusic/services/UserService.dart';
 
 import '../model/User.dart';
 import '../model/mapper/UserMapper.dart';
@@ -8,6 +9,7 @@ import '../main.dart';
 class UserViewModel {
   late User _userCurrent;
   final AuthService _authService = AuthService();
+  final UserService _userService = UserService();
 
   User get userCurrent => _userCurrent;
 
@@ -20,7 +22,7 @@ class UserViewModel {
   // Methods
   Future<User?> getUser(String id) async {
     final user = await MyApp.db.collection("users").doc(id).get();
-    return UserMapper.toModel(user, null);
+    return UserMapper.toModel(user);
   }
 
   login(String pseudo, String password) async {
@@ -30,7 +32,7 @@ class UserViewModel {
           .collection("users")
           .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
           .get();
-      User data = UserMapper.toModel(user, null);
+      User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
       rethrow;
@@ -48,7 +50,7 @@ class UserViewModel {
           .collection("users")
           .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
           .get();
-      User data = UserMapper.toModel(user, null);
+      User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
       print(e);
@@ -66,10 +68,23 @@ class UserViewModel {
           .collection("users")
           .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
           .get();
-      User data = UserMapper.toModel(user, null);
+      User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<List<User>> getUsersByUniqueId(String uniqueId) async {
+    try {
+      var response = await _userService.getUsersByIdUnique(uniqueId.toLowerCase());
+      var users = response.map((value) {
+        return UserMapper.toModel(value);
+      }).toList();
+      return users;
+    } catch(e) {
+      print(e);
+      return [];
     }
   }
 

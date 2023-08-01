@@ -2,7 +2,6 @@ class User {
   final String _id;
   String _pseudo;
   String _uniquePseudo;
-  String _country;
   String _mail;
   String _pp;
   List<String> _followers;
@@ -10,7 +9,7 @@ class User {
   List<String> _followed;
 
   // Constructor
-  User(this._id, this._pseudo, this._uniquePseudo, this._country, this._mail,
+  User(this._id, this._pseudo, this._uniquePseudo, this._mail,
       this._pp, this._followers, this._capsules, this._followed);
 
   //Getters and setters
@@ -26,12 +25,6 @@ class User {
 
   set uniquePseudo(String value) {
     _uniquePseudo = value;
-  }
-
-  String get country => _country;
-
-  set country(String value) {
-    _country = value;
   }
 
   String get mail => _mail;
