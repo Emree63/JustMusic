@@ -169,7 +169,7 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, true);
                       },
                       child: Transform(
                           alignment: Alignment.center,
