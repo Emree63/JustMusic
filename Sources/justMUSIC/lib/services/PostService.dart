@@ -46,7 +46,7 @@ class PostService {
       {int limit = 10, int offset = 0}) async {
     DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
     Timestamp twentyFourHoursAgoTimestamp =
-    Timestamp.fromDate(twentyFourHoursAgo);
+        Timestamp.fromDate(twentyFourHoursAgo);
 
     QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
         .instance
@@ -62,21 +62,21 @@ class PostService {
     return filteredPosts;
   }
 
+  Timestamp _getTwentyFourHoursAgoTimestamp() {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    return Timestamp.fromDate(twentyFourHoursAgo);
+  }
+
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPostsFriends(
       {int limit = 10, int offset = 0}) async {
-    var response = await FirebaseFirestore
-        .instance
+    var timestamp = _getTwentyFourHoursAgoTimestamp();
+    var response = await FirebaseFirestore.instance
         .collection("posts")
         .where("user_id", whereIn: MyApp.userViewModel.userCurrent.followed)
+        .where("date", isGreaterThan: timestamp)
+        .orderBy("date")
         .limit(limit)
         .get();
-
-    response.docs.sort((a, b) {
-      DateTime aDate = a.data()['date'].toDate();
-      DateTime bDate = b.data()['date'].toDate();
-
-      return bDate.compareTo(aDate);
-    });
 
     return response.docs;
   }
