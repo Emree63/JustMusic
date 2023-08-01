@@ -63,10 +63,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(
-        source: source,
-        imageQuality: 20
-      );
+      final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() {
@@ -130,69 +127,66 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
           color: warningBttnColor,
           child: Column(
             children: [
-              CircularRevealAnimation(
-                  animation: animation,
-                  centerOffset: Offset(30.w, -100),
-                  child: Stack(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            // add border
-                            border: Border.all(width: 3.0, color: grayColor),
-                            // set border radius
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(18),
-                            // implement image
-                            child: widget.music == null
-                                ? Container(
-                                    color: grayColor,
-                                    width: double.infinity,
-                                  )
-                                : Image(
-                                    image: NetworkImage(widget.music?.cover ?? ""),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                  ),
-                          ),
-                        ),
+              Stack(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // add border
+                        border: Border.all(width: 3.0, color: grayColor),
+                        // set border radius
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      image != null
-                          ? Positioned(
-                              top: 10,
-                              right: 10,
-                              child: AnimatedAppear(
-                                delay: Duration(milliseconds: 500),
-                                duration: Duration(milliseconds: 400),
-                                child: Container(
-                                  width: 110,
-                                  height: 110,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: FileImage(image!),
-                                        fit: BoxFit.cover,
-                                      ),
-                                      color: grayColor,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(style: BorderStyle.solid, color: Colors.white, width: 4)),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: InstaImageViewer(
-                                      backgroundIsTransparent: true,
-                                      child: Image(
-                                        image: FileImage(image!),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        // implement image
+                        child: widget.music == null
+                            ? Container(
+                                color: grayColor,
+                                width: double.infinity,
+                              )
+                            : Image(
+                                image: NetworkImage(widget.music?.cover ?? ""),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                      ),
+                    ),
+                  ),
+                  image != null
+                      ? Positioned(
+                          top: 10,
+                          right: 10,
+                          child: AnimatedAppear(
+                            delay: Duration(milliseconds: 500),
+                            duration: Duration(milliseconds: 400),
+                            child: Container(
+                              width: 110,
+                              height: 110,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(image!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  color: grayColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(style: BorderStyle.solid, color: Colors.white, width: 4)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: InstaImageViewer(
+                                  backgroundIsTransparent: true,
+                                  child: Image(
+                                    image: FileImage(image!),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ))
-                          : Container()
-                    ],
-                  )),
+                              ),
+                            ),
+                          ))
+                      : Container()
+                ],
+              ),
               widget.music != null
                   ? Padding(
                       padding: const EdgeInsets.all(10),

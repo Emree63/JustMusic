@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:animations/animations.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:justmusic/components/back_button.dart';
+import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/search_song_screen.dart';
 import 'package:tuple/tuple.dart';
 import '../components/editable_post_component.dart';
@@ -96,6 +98,7 @@ class _PostScreenState extends State<PostScreen> with SingleTickerProviderStateM
   }
 
   quit() {
+    Navigator.of(context).pop();
     Navigator.pushNamed(context, '/launchingRocket');
   }
 
@@ -146,9 +149,21 @@ class _PostScreenState extends State<PostScreen> with SingleTickerProviderStateM
                 SizedBox(
                   height: 40.h,
                 ),
-                PostButtonComponent(
-                  empty: selectedMusic == null,
-                  callback: handleSubmit,
+                OpenContainer(
+                  openBuilder: (context, closedContainer) {
+                    return const LaunchingRocketScreen();
+                  },
+                  openColor: Colors.transparent,
+                  closedShape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100.0))),
+                  closedColor: Colors.transparent,
+                  closedElevation: 6,
+                  transitionDuration: const Duration(milliseconds: 2000),
+                  closedBuilder: (context, openContainer) {
+                    return PostButtonComponent(
+                      empty: selectedMusic == null,
+                      callback: handleSubmit,
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 40.h,

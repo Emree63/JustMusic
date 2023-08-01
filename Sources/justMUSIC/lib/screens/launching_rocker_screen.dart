@@ -1,4 +1,5 @@
 import 'package:flutter/Material.dart';
+import 'package:justmusic/config/routes.dart';
 import 'package:lottie/lottie.dart';
 
 import '../values/constants.dart';
@@ -18,24 +19,24 @@ class _LaunchingRocketScreenState extends State<LaunchingRocketScreen> with Tick
 
   @override
   initState() {
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 3));
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 7));
 
     _controller2 = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: Duration(milliseconds: 900),
     );
 
     final CurvedAnimation curve = CurvedAnimation(parent: _controller2, curve: Curves.easeIn);
 
     _animation = Tween<double>(
       begin: 0,
-      end: 1,
+      end: 0.6,
     ).animate(curve);
 
     _controller2.addStatusListener((status) {
       print("cccccccc");
       if (status == AnimationStatus.completed) {
-        Navigator.of(context).popUntil((route) => route.settings.name == '/feed');
+        Navigator.of(context).push(routeRocket());
       }
     });
 
@@ -100,7 +101,7 @@ class CirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = Colors.white;
+    Paint paint = Paint()..color = bgColor;
     double radius = 50 * circlePosition; // Remplacez par le rayon souhaité de votre cercle
     Offset center = Offset(size.width / 2, size.height / 2);
 
