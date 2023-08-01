@@ -36,11 +36,12 @@ class PostViewModel {
         ids.add(value.data()["song_id"]);
         return PostMapper.toModel(value);
       }).toList();
-      _postsFriends = await Future.wait(postsFutures);
+      var posts = await Future.wait(postsFutures);
       List<Music> musics = await MyApp.musicViewModel.getMusicsWithIds(ids);
-      for (int i = 0; i < _postsFriends.length; i++) {
-        _postsFriends[i].music = musics[i];
+      for (int i = 0; i < posts.length; i++) {
+        posts[i].music = musics[i];
       }
+      _postsFriends = posts;
       return _postsFriends;
     } catch (e) {
       print(e);
@@ -61,11 +62,12 @@ class PostViewModel {
         ids.add(value.data()["song_id"]);
         return PostMapper.toModel(value);
       }).toList();
-      _bestPosts = await Future.wait(postsFutures);
+      var posts = await Future.wait(postsFutures);
       List<Music> musics = await MyApp.musicViewModel.getMusicsWithIds(ids);
-      for (int i = 0; i < _bestPosts.length; i++) {
-        _bestPosts[i].music = musics[i];
+      for (int i = 0; i < posts.length; i++) {
+        posts[i].music = musics[i];
       }
+      _bestPosts = posts;
       return _bestPosts;
     } catch (e) {
       print(e);
