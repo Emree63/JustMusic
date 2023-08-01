@@ -78,10 +78,10 @@ class UserViewModel {
     }
   }
 
-  AddOrDeleteFriend(String id) async {
+  addOrDeleteFriend(String id) async {
     try {
       await _userService.addOrDeleteFriend(id);
-    } catch(e) {
+    } catch (e) {
       print(e);
       rethrow;
     }
@@ -94,6 +94,4 @@ class UserViewModel {
   bool isFriend(String id) {
     return _userCurrent.followed.contains(id);
   }
-
-  void addOrDeleteFriend(String id) {}
 }

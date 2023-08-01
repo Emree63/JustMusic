@@ -91,6 +91,10 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                     onSubmitted: (value) async {
                       if (_textEditingController.text.isNotEmpty) {
                         updateList(value);
+                      } else {
+                        setState(() {
+                          _listUsers = [];
+                        });
                       }
                     },
                     cursorColor: Colors.white,

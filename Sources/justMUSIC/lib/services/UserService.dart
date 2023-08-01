@@ -19,20 +19,29 @@ class UserService {
   }
 
   addOrDeleteFriend(String id) async {
-
     var userRef = MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
+    var actionUserRef = MyApp.db.collection("users").doc(id);
 
     if (MyApp.userViewModel.isFriend(id)) {
       await MyApp.db.runTransaction((transaction) async {
-        transaction.update(userRef, {'followed': FieldValue.arrayRemove([id])});
+        transaction.update(userRef, {
+          'followed': FieldValue.arrayRemove([id])
+        });
+        transaction.update(actionUserRef, {
+          'followers': FieldValue.arrayRemove([id])
+        });
       });
       MyApp.userViewModel.userCurrent.followed.remove(id);
     } else {
       await MyApp.db.runTransaction((transaction) async {
-        transaction.update(userRef, {'followed': FieldValue.arrayUnion([id])});
+        transaction.update(userRef, {
+          'followed': FieldValue.arrayUnion([id])
+        });
+        transaction.update(actionUserRef, {
+          'followers': FieldValue.arrayUnion([id])
+        });
       });
       MyApp.userViewModel.userCurrent.followed.add(id);
     }
   }
-
 }
