@@ -1,5 +1,6 @@
 import 'package:flutter/Material.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
+import 'package:justmusic/screens/feed_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 
 Route routeProfile() {
@@ -32,6 +33,18 @@ Route routeAddFriend() {
 
       return SlideTransition(
         position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route routeRocket() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => FeedScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
         child: child,
       );
     },

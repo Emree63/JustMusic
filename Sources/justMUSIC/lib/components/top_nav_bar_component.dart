@@ -109,7 +109,8 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
   }
 
   void checkAvailable() async {
-    print("test");
+    showCapsuleDot(true);
+    /*print("test");
     var res = await MyApp.postViewModel.getAvailable();
     print(res);
     ModalRoute<dynamic>? route = ModalRoute.of(context);
@@ -118,7 +119,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
         print("yes");
         showCapsuleDot(res);
       }
-    }
+    }*/
   }
 
   @override
