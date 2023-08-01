@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../main.dart';
-import '../Music.dart';
 import '../Post.dart';
 import '../User.dart';
 

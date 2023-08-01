@@ -14,8 +14,25 @@ class UserService {
       String id = doc["unique_id"];
       return id != MyApp.userViewModel.userCurrent.uniquePseudo;
     }).toList();
-    print("cc34" + users.toString());
 
     return users;
   }
+
+  addOrDeleteFriend(String id) async {
+
+    var userRef = MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
+
+    if (MyApp.userViewModel.isFriend(id)) {
+      await MyApp.db.runTransaction((transaction) async {
+        transaction.update(userRef, {'followed': FieldValue.arrayRemove([id])});
+      });
+      MyApp.userViewModel.userCurrent.followed.remove(id);
+    } else {
+      await MyApp.db.runTransaction((transaction) async {
+        transaction.update(userRef, {'followed': FieldValue.arrayUnion([id])});
+      });
+      MyApp.userViewModel.userCurrent.followed.add(id);
+    }
+  }
+
 }

@@ -78,6 +78,15 @@ class UserViewModel {
     }
   }
 
+  AddOrDeleteFriend(String id) async {
+    try {
+      await _userService.addOrDeleteFriend(id);
+    } catch(e) {
+      print(e);
+      rethrow;
+    }
+  }
+
   logout() {
     _authService.signOut();
   }

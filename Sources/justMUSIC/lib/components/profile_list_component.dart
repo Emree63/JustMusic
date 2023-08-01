@@ -74,6 +74,7 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                   child: InkWell(
                       splashColor: Colors.white.withOpacity(0.3),
                       onTap: () {
+                        MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
                         setState(() {
                           clicked = !clicked;
                         });
@@ -93,6 +94,7 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                   child: InkWell(
                       splashColor: Colors.white.withOpacity(0.3),
                       onTap: () {
+                        MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
                         setState(() {
                           clicked = !clicked;
                         });
