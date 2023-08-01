@@ -22,7 +22,8 @@ class PostViewModel {
   List<Post> get bestPosts => _bestPosts;
 
   // Methods
-  addPost(String? description, String idMusic, File? image, Tuple2<String, String>? location) async {
+  addPost(String? description, String idMusic, File? image,
+      Tuple2<String, String>? location) async {
     await _postService.createPost(description, idMusic, image, location);
   }
 
@@ -50,11 +51,22 @@ class PostViewModel {
       return _bestPosts;
     } catch (e) {
       print(e);
+      _bestPosts = [];
       return [];
     }
   }
 
   List<Post> getMoreBestPosts() {
     throw new Error();
+  }
+
+  Future<bool> getAvailable() async {
+    try {
+      return await _postService
+          .getAvailable(MyApp.userViewModel.userCurrent.id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 }

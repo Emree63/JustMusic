@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),

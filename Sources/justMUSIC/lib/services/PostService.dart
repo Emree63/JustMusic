@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -45,8 +46,34 @@ class PostService {
   getPostsById(String id) {}
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts({int limit = 10, int offset = 0}) async {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    Timestamp twentyFourHoursAgoTimestamp = Timestamp.fromDate(twentyFourHoursAgo);
+
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore.instance
+        .collection("posts")
+        .where("date", isGreaterThan: twentyFourHoursAgoTimestamp)
+        .limit(limit)
+        .get();
+
+    var filteredPosts = response.docs.where((doc) {
+      String user = doc["user_id"]; // Assuming the field name is "date"
+      return user != MyApp.userViewModel.userCurrent.id;
+    }).toList();
+    return filteredPosts;
+  }
+
+  Future<bool> getAvailable(String idUser) async {
+    DateTime today = DateTime.now();
+
     QuerySnapshot<Map<String, dynamic>> response =
-        await FirebaseFirestore.instance.collection("posts").limit(limit).orderBy("likes").get();
-    return response.docs;
+        await FirebaseFirestore.instance.collection("posts").where("user_id", isEqualTo: idUser).get();
+
+    // Utiliser any() pour vérifier s'il y a au moins un document avec la date d'aujourd'hui
+    bool isTodayAvailable = response.docs.any((doc) {
+      DateTime date = doc["date"].toDate(); // Assuming the field name is "date"
+      return date.day == today.day && date.month == today.month && date.year == today.year;
+    });
+
+    return !isTodayAvailable;
   }
 }

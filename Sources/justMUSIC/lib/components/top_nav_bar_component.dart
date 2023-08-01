@@ -23,6 +23,7 @@ class TopNavBarComponent extends StatefulWidget {
 class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProviderStateMixin {
   bool choice = true;
   late AnimationController _controller;
+  bool isDismissed = true;
 
   final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
 
@@ -107,6 +108,19 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
           ).show(context);
   }
 
+  void checkAvailable() async {
+    print("test");
+    var res = await MyApp.postViewModel.getAvailable();
+    print(res);
+    ModalRoute<dynamic>? route = ModalRoute.of(context);
+    if (route != null) {
+      if (route.settings.name != '/flushbarRoute') {
+        print("yes");
+        showCapsuleDot(res);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -123,8 +137,11 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
               flex: 1,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  Navigator.of(context).push(routeAddFriend());
+                onTap: () async {
+                  bool returnFromOtherPage = await Navigator.of(context).push(routeAddFriend());
+                  if (returnFromOtherPage == true) {
+                    checkAvailable();
+                  }
                 },
                 child: const Icon(
                   Icons.person_add_alt_1_rounded,
@@ -142,9 +159,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                       enableLongTapRepeatEvent: false,
                       longTapRepeatDuration: const Duration(milliseconds: 100),
                       begin: 1.0,
-                      onTap: () {
-                        showCapsuleDot(true);
-                      },
+                      onTap: () {},
                       end: 0.97,
                       beginDuration: const Duration(milliseconds: 70),
                       endDuration: const Duration(milliseconds: 100),
@@ -221,8 +236,11 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
             Flexible(
               flex: 1,
               child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(routeProfile());
+                onTap: () async {
+                  bool returnFromOtherPage = await Navigator.of(context).push(routeProfile());
+                  if (returnFromOtherPage == true) {
+                    checkAvailable();
+                  }
                 },
                 child: ClipOval(
                   child: SizedBox.fromSize(
