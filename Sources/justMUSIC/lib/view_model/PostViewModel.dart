@@ -29,12 +29,14 @@ class PostViewModel {
 
   Future<List<Post>> getPostsFriends() async {
     try {
+      _postsFriends = [];
       var responseData = await _postService.getPostsFriends();
       List<String> ids = [];
       var postsFutures = responseData.map((value) {
         ids.add(value.data()["song_id"]);
         return PostMapper.toModel(value);
       }).toList();
+      _postsFriends = await Future.wait(postsFutures);
       List<Music> musics = await MyApp.musicViewModel.getMusicsWithIds(ids);
       for (int i = 0; i < _postsFriends.length; i++) {
         _postsFriends[i].music = musics[i];
