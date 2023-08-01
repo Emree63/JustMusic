@@ -28,6 +28,7 @@ class _FeedScreenState extends State<FeedScreen>
   @override
   void initState() {
     super.initState();
+    MyApp.postViewModel.getPostsFriends();
     friendFeed = MyApp.postViewModel.postsFriends;
     MyApp.postViewModel.getBestPosts();
     discoveryFeed = MyApp.postViewModel.bestPosts;

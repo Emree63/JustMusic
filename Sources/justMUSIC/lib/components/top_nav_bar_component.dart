@@ -27,9 +27,10 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
 
   final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
 
-  void actionSurBouton() {
+  void actionSurBouton() async {
     widget.callback(choice);
-    MyApp.postViewModel.getBestPosts();
+    await MyApp.postViewModel.getBestPosts();
+    await MyApp.postViewModel.getPostsFriends();
   }
 
   @override
