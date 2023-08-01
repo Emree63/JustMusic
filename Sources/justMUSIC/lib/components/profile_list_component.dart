@@ -1,5 +1,7 @@
 import 'package:flutter/Material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../main.dart';
 import '../model/User.dart';
 import '../values/constants.dart';
 
@@ -12,10 +14,11 @@ class ProfileListComponent extends StatefulWidget {
 }
 
 class _ProfileListComponentState extends State<ProfileListComponent> {
-  bool clicked = false;
+  late bool clicked;
 
   @override
   Widget build(BuildContext context) {
+    clicked = MyApp.userViewModel.isFriend(widget.user.id);
     return Container(
       padding: const EdgeInsets.only(bottom: 5),
       child: Row(
@@ -36,22 +39,38 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ScrollConfiguration(
-                  behavior: ScrollBehavior().copyWith(scrollbars: false),
-                  child: Text(
-                    widget.user.uniquePseudo,
-                    style: GoogleFonts.plusJakartaSans(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
+                Text(
+                  widget.user.pseudo,
+                  style: GoogleFonts.plusJakartaSans(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
-                ScrollConfiguration(
-                    behavior: ScrollBehavior().copyWith(scrollbars: false),
-                    child: Text(
-                      widget.user.pseudo,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      widget.user.uniquePseudo,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontWeight: FontWeight.w400),
-                    ))
+                    ),
+                    widget.user.followed.contains(MyApp.userViewModel.userCurrent.id)
+                        ? Container(
+                            padding: const EdgeInsets.all(2),
+                            margin: const EdgeInsets.only(left: 10),
+                            decoration: const BoxDecoration(
+                              color: grayColor,
+                              borderRadius: BorderRadius.all(Radius.circular(3)),
+                            ),
+                            child: Text(
+                              "Vous suit",
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.grey.withOpacity(0.4), fontWeight: FontWeight.w700, fontSize: 12),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                )
               ],
             ),
           ),
@@ -62,10 +81,20 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                   color: selectedButton,
                   child: InkWell(
                       splashColor: Colors.white.withOpacity(0.3),
-                      onTap: () {
-                        setState(() {
-                          clicked = !clicked;
-                        });
+                      onTap: () async {
+                        await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Vous ne suivez plus ${widget.user.pseudo}",
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
+                            ),
+                            backgroundColor: Colors.red,
+                            closeIconColor: Colors.white,
+                          ),
+                        );
+                        setState(() {});
                       },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(28, 7, 28, 7),
@@ -81,10 +110,19 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
                   color: primaryColor,
                   child: InkWell(
                       splashColor: Colors.white.withOpacity(0.3),
-                      onTap: () {
-                        setState(() {
-                          clicked = !clicked;
-                        });
+                      onTap: () async {
+                        await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: primaryColor,
+                            content: Text(
+                              "Vous suivez à present ${widget.user.pseudo}",
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
+                            ),
+                          ),
+                        );
+                        setState(() {});
                       },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(25, 7, 25, 7),

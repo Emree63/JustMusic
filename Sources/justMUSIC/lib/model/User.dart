@@ -2,17 +2,15 @@ class User {
   final String _id;
   String _pseudo;
   String _uniquePseudo;
-  String _country;
   String _mail;
   String _pp;
-  int _followers;
+  List<String> _followers;
   int _capsules;
-  int _followed;
-  List<User> friends = [];
+  List<String> _followed;
 
   // Constructor
-  User(this._id, this._pseudo, this._uniquePseudo, this._country, this._mail, this._pp,
-      this._followers, this._capsules, this._followed, this.friends);
+  User(this._id, this._pseudo, this._uniquePseudo, this._mail,
+      this._pp, this._followers, this._capsules, this._followed);
 
   //Getters and setters
   String get id => _id;
@@ -27,12 +25,6 @@ class User {
 
   set uniquePseudo(String value) {
     _uniquePseudo = value;
-  }
-
-  String get country => _country;
-
-  set country(String value) {
-    _country = value;
   }
 
   String get mail => _mail;
@@ -53,15 +45,15 @@ class User {
     _capsules = value;
   }
 
-  int get followed => _followed;
+  List<String> get followed => _followed;
 
-  set followed(int value) {
+  set followed(List<String> value) {
     _followed = value;
   }
 
-  int get followers => _followers;
+  List<String> get followers => _followers;
 
-  set followers(int value) {
+  set followers(List<String> value) {
     _followers = value;
   }
 }

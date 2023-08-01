@@ -20,7 +20,7 @@ class StatisticsComponent extends StatelessWidget {
           child: Column(
             children: [
               AutoSizeText(
-                user.followed.toString(),
+                user.followed.length.toString(),
                 style: GoogleFonts.plusJakartaSans(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class StatisticsComponent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AutoSizeText(
-              user.followers.toString(),
+              user.followers.length.toString(),
               style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
