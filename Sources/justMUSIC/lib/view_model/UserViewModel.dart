@@ -42,6 +42,19 @@ class UserViewModel {
     return alphaNumericRegExp.hasMatch(input);
   }
 
+  updateUserCurrent() async {
+    try {
+      final user = await MyApp.db
+          .collection("users")
+          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
+          .get();
+      User data = UserMapper.toModel(user, null);
+      _userCurrent = data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   register(String pseudo, String password, String email) async {
     if (!_isAlphaNumeric(pseudo)) {
       throw ("Le pseudo doit contenir seulement des lettres et des chiffres");

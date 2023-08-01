@@ -12,10 +12,9 @@ class UserMapper {
         data?["country"] ?? "",
         data?["mail"],
         data?["picture"],
-        data?["followers"] ?? 0,
+        List<String>.from(data?["followers"] as List),
         data?["nbCapsules"] ?? 0,
-        data?["followed"] ?? 0,
-        data?['friends'] is List<User> ? List.from(data?['friends']) : []);
+        List<String>.from(data?["followed"] as List));
   }
 /*
   static Map<String, dynamic> toFirebase(User user) {

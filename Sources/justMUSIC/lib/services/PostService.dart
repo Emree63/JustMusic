@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -43,8 +41,6 @@ class PostService {
 
   deletePost() {}
 
-  getPostsById(String id) {}
-
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts({int limit = 10, int offset = 0}) async {
     DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
     Timestamp twentyFourHoursAgoTimestamp = Timestamp.fromDate(twentyFourHoursAgo);
@@ -68,7 +64,6 @@ class PostService {
     QuerySnapshot<Map<String, dynamic>> response =
         await FirebaseFirestore.instance.collection("posts").where("user_id", isEqualTo: idUser).get();
 
-    // Utiliser any() pour vérifier s'il y a au moins un document avec la date d'aujourd'hui
     bool isTodayAvailable = response.docs.any((doc) {
       DateTime date = doc["date"].toDate(); // Assuming the field name is "date"
       return date.day == today.day && date.month == today.month && date.year == today.year;

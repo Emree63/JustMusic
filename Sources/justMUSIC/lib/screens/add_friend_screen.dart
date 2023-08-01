@@ -25,9 +25,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2UYSIpWSnX4gJhZJzaN4q.jpg?alt=media&token=39baf86a-4d19-4534-b777-1a4feca67359",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -35,9 +35,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -45,9 +45,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -55,9 +55,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -65,9 +65,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -75,9 +75,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -85,9 +85,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -95,9 +95,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -105,9 +105,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -115,9 +115,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -125,9 +125,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
     User(
         "&",
         "_pseudo",
@@ -135,9 +135,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         "_country",
         "_mail",
         "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/RUiGpZ8AzCQPqiVJKwuQeIqiC4B2bafPGRGLh2La72LkmQst.jpg?alt=media&token=ac1916f0-e08d-43bd-977a-2c2d94182609",
-        1,
+        [],
         12,
-        23, []),
+        []),
   ];
 
   Future<void> resetFullScreen() async {
@@ -162,8 +162,10 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                   Align(
                     child: Text(
                       "Ajouter des amis",
-                      style:
-                          GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.plusJakartaSans(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   GestureDetector(
@@ -179,7 +181,8 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                             height: 30,
                             width: 30,
                             child: const Image(
-                              image: AssetImage("assets/images/return_icon.png"),
+                              image:
+                                  AssetImage("assets/images/return_icon.png"),
                               height: 8,
                             ),
                           ))),
@@ -193,7 +196,8 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 20),
+                padding: const EdgeInsets.only(
+                    bottom: 20, left: 20, right: 20, top: 20),
                 child: SizedBox(
                   height: 40,
                   child: TextField(
@@ -216,31 +220,40 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                         ),
                         focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(width: 1, color: grayColor),
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
-                        contentPadding:
-                            const EdgeInsets.only(top: 0, bottom: 0, left: defaultPadding, right: defaultPadding),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        contentPadding: const EdgeInsets.only(
+                            top: 0,
+                            bottom: 0,
+                            left: defaultPadding,
+                            right: defaultPadding),
                         fillColor: searchBarColor,
                         filled: true,
                         focusColor: grayText,
                         enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(width: 1, color: grayColor),
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         hintText: 'Chercher un ami',
-                        hintStyle: GoogleFonts.plusJakartaSans(color: grayHint)),
+                        hintStyle:
+                            GoogleFonts.plusJakartaSans(color: grayHint)),
                   ),
                 ),
               ),
               Flexible(
                   child: ScrollConfiguration(
-                      behavior: const ScrollBehavior().copyWith(scrollbars: true),
+                      behavior:
+                          const ScrollBehavior().copyWith(scrollbars: true),
                       child: ListView.builder(
-                        physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                        physics: const BouncingScrollPhysics(
+                            decelerationRate: ScrollDecelerationRate.fast),
                         itemCount: fakeList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             child: Padding(
                                 padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                                child: ProfileListComponent(user: fakeList[index])),
+                                child: ProfileListComponent(
+                                    user: fakeList[index])),
                           );
                         },
                       )))

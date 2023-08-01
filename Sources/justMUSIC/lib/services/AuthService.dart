@@ -17,13 +17,11 @@ class AuthService {
         "pseudo": pseudo,
         "phone_number": "",
         "unique_id": uniqueId,
-        "followed": 0,
+        "followed": [],
         "nbCapsules": 0,
-        "followers": 0,
+        "followers": [],
         "picture":
-            "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/justMusicDefaultImage.png?alt=media&token=020d0fcb-b7df-4d4d-b380-e99597293fcc",
-        "friends": [],
-        "comments": []
+            "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/justMusicDefaultImage.png?alt=media&token=020d0fcb-b7df-4d4d-b380-e99597293fcc"
       };
 
       MyApp.db
@@ -52,10 +50,10 @@ class AuthService {
     final QuerySnapshot querySnapshot =
         await usersCollection.where('pseudo', isEqualTo: pseudo).get();
 
-    for (final doc in querySnapshot.docs) {
+    querySnapshot.docs.forEach((snapshot) {
       suffix++;
       uniqueId = '$pseudo#${suffix.toString().padLeft(4, '0')}';
-    }
+    });
 
     return uniqueId;
   }

@@ -237,6 +237,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
               flex: 1,
               child: GestureDetector(
                 onTap: () async {
+                  await MyApp.userViewModel.updateUserCurrent();
                   bool returnFromOtherPage = await Navigator.of(context).push(routeProfile());
                   if (returnFromOtherPage == true) {
                     checkAvailable();
