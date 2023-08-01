@@ -1,5 +1,6 @@
 import 'package:flutter/Material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../main.dart';
 import '../model/User.dart';
 import '../values/constants.dart';
 
@@ -12,7 +13,17 @@ class ProfileListComponent extends StatefulWidget {
 }
 
 class _ProfileListComponentState extends State<ProfileListComponent> {
-  bool clicked = false;
+  late bool clicked;
+
+  @override
+  void initState() {
+    if (MyApp.userViewModel.isFriend(widget.user.id)) {
+      clicked = true;
+    } else {
+      clicked = false;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

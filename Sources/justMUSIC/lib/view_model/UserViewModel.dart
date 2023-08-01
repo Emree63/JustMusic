@@ -28,10 +28,7 @@ class UserViewModel {
   login(String pseudo, String password) async {
     try {
       await _authService.login(pseudo, password);
-      final user = await MyApp.db
-          .collection("users")
-          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-          .get();
+      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -46,10 +43,7 @@ class UserViewModel {
 
   updateUserCurrent() async {
     try {
-      final user = await MyApp.db
-          .collection("users")
-          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-          .get();
+      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -64,10 +58,7 @@ class UserViewModel {
 
     try {
       await _authService.register(pseudo.toLowerCase(), email, password);
-      final user = await MyApp.db
-          .collection("users")
-          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-          .get();
+      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -82,8 +73,7 @@ class UserViewModel {
         return UserMapper.toModel(value);
       }).toList();
       return users;
-    } catch(e) {
-      print(e);
+    } catch (e) {
       return [];
     }
   }
@@ -91,4 +81,10 @@ class UserViewModel {
   logout() {
     _authService.signOut();
   }
+
+  bool isFriend(String id) {
+    return _userCurrent.followed.contains(id);
+  }
+
+  void addOrDeleteFriend(String id) {}
 }
