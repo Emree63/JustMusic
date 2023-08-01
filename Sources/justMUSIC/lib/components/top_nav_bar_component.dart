@@ -31,6 +31,11 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
     MyApp.postViewModel.getBestPosts();
   }
 
+  void checkAvailable() async {
+    var res = await MyApp.postViewModel.getAvailable();
+    showCapsuleDot(res);
+  }
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -109,6 +114,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
 
   @override
   Widget build(BuildContext context) {
+    checkAvailable();
     return Padding(
       padding: const EdgeInsets.only(top: defaultPadding),
       child: Container(
@@ -142,9 +148,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                       enableLongTapRepeatEvent: false,
                       longTapRepeatDuration: const Duration(milliseconds: 100),
                       begin: 1.0,
-                      onTap: () {
-                        showCapsuleDot(true);
-                      },
+                      onTap: () {},
                       end: 0.97,
                       beginDuration: const Duration(milliseconds: 70),
                       endDuration: const Duration(milliseconds: 100),

@@ -8,7 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../main.dart';
 
 class PostService {
-  createPost(String? description, String idMusic, File? image, Tuple2<String, String>? location) async {
+  createPost(String? description, String idMusic, File? image,
+      Tuple2<String, String>? location) async {
     var id = MyApp.userViewModel.userCurrent.id;
     final post = <String, dynamic>{
       "user_id": id,
@@ -44,9 +45,38 @@ class PostService {
 
   getPostsById(String id) {}
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts({int limit = 10, int offset = 0}) async {
-    QuerySnapshot<Map<String, dynamic>> response =
-        await FirebaseFirestore.instance.collection("posts").limit(limit).orderBy("likes").get();
-    return response.docs;
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(
+      {int limit = 10, int offset = 0}) async {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    Timestamp twentyFourHoursAgoTimestamp =
+        Timestamp.fromDate(twentyFourHoursAgo);
+
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
+        .instance
+        .collection("posts")
+        .where("date", isGreaterThan: twentyFourHoursAgoTimestamp)
+        .limit(limit)
+        .get();
+
+    var filteredPosts = response.docs.where((doc) {
+      String user = doc["user_id"]; // Assuming the field name is "date"
+      return user != MyApp.userViewModel.userCurrent.id;
+    }).toList();
+    return filteredPosts;
+  }
+
+  Future<bool> getAvailable(String idUser) async {
+    DateTime today = DateTime.now();
+    today = DateTime(today.year, today.month, today.day);
+
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
+        .instance
+        .collection("posts")
+        .where("user_id", isEqualTo: idUser)
+        .where("date", isGreaterThanOrEqualTo: today)
+        .where("date", isLessThan: today.add(Duration(days: 1)))
+        .get();
+
+    return response.docs.isNotEmpty;
   }
 }

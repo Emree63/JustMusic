@@ -21,7 +21,7 @@ class AuthService {
         "nbCapsules": 0,
         "followers": 0,
         "picture":
-            "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/defaultImage.png?alt=media&token=cff5ae0a-e29e-4845-91f7-817597962f6b",
+            "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/justMusicDefaultImage.png?alt=media&token=020d0fcb-b7df-4d4d-b380-e99597293fcc",
         "friends": [],
         "comments": []
       };

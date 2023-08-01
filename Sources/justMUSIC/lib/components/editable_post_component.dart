@@ -65,7 +65,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
     try {
       final image = await ImagePicker().pickImage(
         source: source,
-        imageQuality: 25,
+        imageQuality: 10
       );
       if (image == null) return;
       final imageTemp = File(image.path);
