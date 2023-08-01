@@ -19,8 +19,7 @@ class PostScreen extends StatefulWidget {
   State<PostScreen> createState() => _PostScreenState();
 }
 
-class _PostScreenState extends State<PostScreen>
-    with SingleTickerProviderStateMixin {
+class _PostScreenState extends State<PostScreen> with SingleTickerProviderStateMixin {
   final scrollController = ScrollController();
   late AnimationController _controller;
 
@@ -82,25 +81,22 @@ class _PostScreenState extends State<PostScreen>
       isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((context) {
         return ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             child: SearchSongScreen(callback: _selectMusic));
       }),
     );
   }
 
   handleSubmit() async {
-    await MyApp.postViewModel.addPost(
-        description, (selectedMusic?.id)!, selectedImage, selectedCity);
+    MyApp.postViewModel.addPost(description, (selectedMusic?.id)!, selectedImage, selectedCity);
     quit();
   }
 
   quit() {
-    Navigator.pop(context);
+    Navigator.pushNamed(context, '/launchingRocket');
   }
 
   @override
@@ -113,10 +109,7 @@ class _PostScreenState extends State<PostScreen>
         preferredSize: Size(double.infinity, 80),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(
-                left: defaultPadding,
-                right: defaultPadding,
-                top: defaultPadding),
+            padding: EdgeInsets.only(left: defaultPadding, right: defaultPadding, top: defaultPadding),
             child: Row(
               children: [BackButtonComponent()],
             ),
@@ -124,8 +117,7 @@ class _PostScreenState extends State<PostScreen>
         ),
       ),
       body: Container(
-        padding:
-            const EdgeInsets.only(left: defaultPadding, right: defaultPadding),
+        padding: const EdgeInsets.only(left: defaultPadding, right: defaultPadding),
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(

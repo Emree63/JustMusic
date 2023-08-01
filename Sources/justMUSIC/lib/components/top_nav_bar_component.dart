@@ -157,7 +157,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                       longTapRepeatDuration: const Duration(milliseconds: 100),
                       begin: 1.0,
                       onTap: () {
-                        Navigator.of(context).pushNamed('/launchingRocket');
+                        checkAvailable();
                       },
                       end: 0.97,
                       beginDuration: const Duration(milliseconds: 70),
