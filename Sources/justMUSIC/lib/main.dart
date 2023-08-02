@@ -16,6 +16,7 @@ import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
+import 'package:justmusic/services/NotificationService.dart';
 import 'package:justmusic/values/constants.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/PostViewModel.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await NotificationService().initNotifications();
   runApp(const MyApp());
 }
 
