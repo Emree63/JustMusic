@@ -123,7 +123,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                         } else if (value == " ") {
                           print("popular");
                         } else {
-                          filteredData = await MyApp.musicViewModel.getMusicsWithName(value);
+                          filteredData = await MyApp.musicViewModel.getMusicsWithNameOrArtistName(value);
                           setState(() {
                             filteredData = filteredData;
                           });

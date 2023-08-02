@@ -79,5 +79,16 @@ Future<void> main() async {
     }
   }
 
+  print('\nMusics With Name or Artist Name :');
+
+  List<Music> musicsArtistOrName = await musicVM.getMusicsWithNameOrArtistName('la bandite');
+  for (Music m in musicsArtistOrName) {
+    print("id : ${m.id.toString()}, cover : ${m.cover}, title : ${m.title}");
+    print("date : ${m.date.toString()}, preview : ${m.previewUrl}, duration : ${m.duration}, explicit : ${m.explicit}");
+    for (Artist a in m.artists) {
+      print("id : ${a.id}, name : ${a.name}");
+    }
+  }
+
 }
 

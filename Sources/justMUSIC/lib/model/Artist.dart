@@ -5,7 +5,7 @@ class Artist {
 
   Artist(this._id, this._name, this._image);
 
-  String? get id => _id;
+  String get id => _id;
 
   String? get name => _name;
 
