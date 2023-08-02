@@ -1,22 +1,15 @@
 import 'dart:async';
-
-import 'package:another_flushbar/flushbar.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:justmusic/main.dart';
-import 'package:lottie/lottie.dart';
-
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
 import '../model/Post.dart';
 import '../values/constants.dart';
 import 'detail_post_screen.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -53,101 +46,6 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
       curve: Curves.easeInOutSine,
     );
     animationController.forward();
-  }
-
-  Future<void> showCapsuleDot() async {
-    // Get the timezone for France
-    final franceTimeZone = tz.getLocation('Europe/Paris');
-
-    // Get the current date and time in France timezone
-    var now = tz.TZDateTime.now(franceTimeZone);
-
-    // Calculate the midnight time for the next day in France timezone
-    var midnight = tz.TZDateTime(franceTimeZone, now.year, now.month, now.day + 1);
-
-    bool res = await MyApp.postViewModel.getAvailable();
-    if (isDismissed) {
-      if (res) {
-        setState(() {
-          isDismissed = !isDismissed;
-        });
-        Flushbar(
-          maxWidth: 210,
-          animationDuration: Duration(seconds: 1),
-          forwardAnimationCurve: Curves.easeOutCirc,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          icon: Icon(
-            Ionicons.sparkles,
-            color: Colors.white,
-            size: 18,
-          ),
-          padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-          messageText: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Capsule disponible",
-              style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-            ),
-          ),
-          flushbarStyle: FlushbarStyle.FLOATING,
-          flushbarPosition: FlushbarPosition.BOTTOM,
-          textDirection: Directionality.of(context),
-          borderRadius: BorderRadius.circular(1000),
-          borderWidth: 1,
-          isDismissible: false,
-          borderColor: Colors.white.withOpacity(0.04),
-          duration: const Duration(minutes: 100),
-          leftBarIndicatorColor: Colors.transparent,
-          positionOffset: 20,
-          onTap: (_) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/post');
-          },
-        ).show(context).then((value) {
-          isDismissed = !isDismissed;
-        });
-      } else {
-        setState(() {
-          isDismissed = !isDismissed;
-        });
-        Flushbar(
-          maxWidth: 155,
-          animationDuration: Duration(seconds: 1),
-          isDismissible: false,
-          forwardAnimationCurve: Curves.easeOutCirc,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          icon: Lottie.asset(
-            'assets/animations/LottieHourGlass.json',
-            width: 26,
-            fit: BoxFit.fill,
-          ),
-          padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-          messageText: Align(
-            alignment: Alignment.centerLeft,
-            child: CountdownTimer(
-              endTime: midnight.millisecondsSinceEpoch,
-              textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-            ),
-          ),
-          flushbarStyle: FlushbarStyle.FLOATING,
-          flushbarPosition: FlushbarPosition.BOTTOM,
-          textDirection: Directionality.of(context),
-          borderRadius: BorderRadius.circular(1000),
-          borderWidth: 1,
-          borderColor: Colors.white.withOpacity(0.04),
-          duration: const Duration(minutes: 100),
-          leftBarIndicatorColor: Colors.transparent,
-          positionOffset: 20,
-          onTap: (_) {},
-        ).show(context).then((value) {
-          {
-            setState(() {
-              isDismissed = !isDismissed;
-            });
-          }
-        });
-      }
-    }
   }
 
   Future _refresh() async {
@@ -198,7 +96,6 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    showCapsuleDot();
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: bgColor,

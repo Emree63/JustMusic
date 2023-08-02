@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../config/routes.dart';
+import 'package:timezone/timezone.dart' as tz;
 import '../main.dart';
 import '../values/constants.dart';
 
@@ -22,7 +23,7 @@ class TopNavBarComponent extends StatefulWidget {
 
 class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProviderStateMixin {
   bool choice = true;
-  late AnimationController _controller;
+
   bool isDismissed = true;
 
   final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
@@ -35,90 +36,100 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
 
   @override
   void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 3),
-    );
     super.initState();
   }
 
-  void showCapsuleDot(bool isAvailable) {
-    isAvailable
-        ? Flushbar(
-            maxWidth: 210,
-            animationDuration: Duration(seconds: 1),
-            forwardAnimationCurve: Curves.easeOutCirc,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            icon: Icon(
-              Ionicons.sparkles,
-              color: Colors.white,
-              size: 18,
-            ),
-            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-            messageText: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Capsule disponible",
-                style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-              ),
-            ),
-            flushbarStyle: FlushbarStyle.FLOATING,
-            flushbarPosition: FlushbarPosition.BOTTOM,
-            textDirection: Directionality.of(context),
-            borderRadius: BorderRadius.circular(1000),
-            borderWidth: 1,
-            borderColor: Colors.white.withOpacity(0.04),
-            duration: const Duration(minutes: 100),
-            leftBarIndicatorColor: Colors.transparent,
-            positionOffset: 20,
-            onTap: (_) {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/post');
-            },
-          ).show(context)
-        : Flushbar(
-            maxWidth: 155,
-            animationDuration: Duration(seconds: 1),
-            forwardAnimationCurve: Curves.easeOutCirc,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            icon: Lottie.asset(
-              'assets/animations/LottieHourGlass.json',
-              width: 26,
-              fit: BoxFit.fill,
-            ),
-            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-            messageText: Align(
-              alignment: Alignment.centerLeft,
-              child: CountdownTimer(
-                endTime: midnight.millisecondsSinceEpoch - 2 * 60 * 60 * 1000,
-                textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-              ),
-            ),
-            flushbarStyle: FlushbarStyle.FLOATING,
-            flushbarPosition: FlushbarPosition.BOTTOM,
-            textDirection: Directionality.of(context),
-            borderRadius: BorderRadius.circular(1000),
-            borderWidth: 1,
-            borderColor: Colors.white.withOpacity(0.04),
-            duration: const Duration(minutes: 100),
-            leftBarIndicatorColor: Colors.transparent,
-            positionOffset: 20,
-            onTap: (_) {
-              Navigator.pop(context);
-            },
-          ).show(context);
+  Future<void> showCapsuleDot() async {
+    // Get the timezone for France
+    final franceTimeZone = tz.getLocation('Europe/Paris');
+
+    // Get the current date and time in France timezone
+    var now = tz.TZDateTime.now(franceTimeZone);
+
+    // Calculate the midnight time for the next day in France timezone
+    var midnight = tz.TZDateTime(franceTimeZone, now.year, now.month, now.day + 1);
+
+    bool res = await MyApp.postViewModel.getAvailable();
+    if (res) {
+      Flushbar(
+        maxWidth: 210,
+        animationDuration: Duration(seconds: 1),
+        forwardAnimationCurve: Curves.easeOutCirc,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        icon: Icon(
+          Ionicons.sparkles,
+          color: Colors.white,
+          size: 18,
+        ),
+        padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+        messageText: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Capsule disponible",
+            style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
+          ),
+        ),
+        flushbarStyle: FlushbarStyle.FLOATING,
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        textDirection: Directionality.of(context),
+        borderRadius: BorderRadius.circular(1000),
+        borderWidth: 1,
+        borderColor: Colors.white.withOpacity(0.04),
+        duration: const Duration(minutes: 100),
+        leftBarIndicatorColor: Colors.transparent,
+        positionOffset: 20,
+        onTap: (_) {
+          Navigator.pop(context);
+          Navigator.pushNamed(context, '/post');
+        },
+      ).show(context).then((value) {
+        setState(() {
+          isDismissed = !isDismissed;
+        });
+      });
+    } else {
+      Flushbar(
+        maxWidth: 155,
+        animationDuration: Duration(seconds: 1),
+        forwardAnimationCurve: Curves.easeOutCirc,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        icon: Lottie.asset(
+          'assets/animations/LottieHourGlass.json',
+          width: 26,
+          fit: BoxFit.fill,
+        ),
+        padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+        messageText: Align(
+          alignment: Alignment.centerLeft,
+          child: CountdownTimer(
+            endTime: midnight.millisecondsSinceEpoch,
+            textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
+          ),
+        ),
+        flushbarStyle: FlushbarStyle.FLOATING,
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        textDirection: Directionality.of(context),
+        borderRadius: BorderRadius.circular(1000),
+        borderWidth: 1,
+        borderColor: Colors.white.withOpacity(0.04),
+        duration: const Duration(minutes: 100),
+        leftBarIndicatorColor: Colors.transparent,
+        positionOffset: 20,
+        onTap: (_) {},
+      ).show(context).then((value) {
+        setState(() {
+          isDismissed = !isDismissed;
+        });
+      });
+    }
   }
 
   void checkAvailable() async {
-    print("test");
-    var res = await MyApp.postViewModel.getAvailable();
-    print(res);
-    ModalRoute<dynamic>? route = ModalRoute.of(context);
-    if (route != null) {
-      if (route.settings.name != '/flushbarRoute') {
-        print("yes");
-        showCapsuleDot(res);
-      }
+    if (isDismissed) {
+      showCapsuleDot();
+      setState(() {
+        isDismissed = !isDismissed;
+      });
     }
   }
 
