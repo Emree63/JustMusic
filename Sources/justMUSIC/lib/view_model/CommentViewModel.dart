@@ -13,8 +13,8 @@ class CommentViewModel {
   // Methods
   addComment(String text, String idPost) async {
     try {
-      await _commentService.createComment(text,idPost);
-    } catch(e) {
+      await _commentService.createComment(text, idPost);
+    } catch (e) {
       print(e);
       rethrow;
     }
@@ -23,12 +23,15 @@ class CommentViewModel {
   Future<List<Comment>> getCommentsByPostId(String id) async {
     try {
       var responseData = await _commentService.getCommentsByPostId(id);
+      print(responseData.length);
       var commentsFutures = responseData.map((value) async {
         return await CommentMapper.toModel(value);
       }).toList();
       _comments = await Future.wait(commentsFutures);
+      print("ccccccc");
+      _comments.map((e) => print(e.text));
       return _comments;
-    } catch(e) {
+    } catch (e) {
       print(e);
       _comments = [];
       return [];

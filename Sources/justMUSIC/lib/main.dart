@@ -17,6 +17,7 @@ import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/values/constants.dart';
+import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/PostViewModel.dart';
 import 'package:justmusic/view_model/UserViewModel.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatefulWidget {
   static MusicViewModel musicViewModel = MusicViewModel();
   static PostViewModel postViewModel = PostViewModel();
   static AudioPlayer audioPlayer = AudioPlayer();
+  static CommentViewModel commentViewModel = CommentViewModel();
 
   const MyApp({super.key});
 
