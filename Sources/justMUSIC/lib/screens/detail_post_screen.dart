@@ -480,8 +480,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             ClipOval(
                               child: SizedBox.fromSize(
                                 // Image radius
-                                child: const Image(
-                                  image: AssetImage("assets/images/exemple_profile.png"),
+                                child: Image.network(
+                                  MyApp.userViewModel.userCurrent.pp,
                                   width: 45,
                                 ),
                               ),
