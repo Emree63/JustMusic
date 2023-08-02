@@ -259,7 +259,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                               ),
                               widget.post.location.item2 != null
                                   ? Text(
-                                      "${widget.post.location?.item1}, ${widget.post.location?.item2}",
+                                      "${widget.post.location.item1}, ${widget.post.location.item2}",
                                       style: GoogleFonts.plusJakartaSans(
                                           color: Colors.white.withOpacity(0.4),
                                           fontWeight: FontWeight.w300,
@@ -284,7 +284,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                                   color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                             )
                           : Text(
-                              "${widget.post.date.day}/${widget.post.date.month}/${widget.post.date.year}-${widget.post.date.hour}:${widget.post.date.minute}",
+                              "hier, ${widget.post.date.hour}:${widget.post.date.minute}",
                               style: GoogleFonts.plusJakartaSans(
                                   color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                             ),
