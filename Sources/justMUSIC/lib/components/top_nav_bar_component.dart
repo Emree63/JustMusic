@@ -149,7 +149,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
               ),
             ),
             ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 170),
+              constraints: BoxConstraints(maxWidth: 200),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -171,9 +171,10 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                       )),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           if (!choice) {
                             setState(() {
@@ -185,17 +186,22 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                         child: LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints constraints) {
                             if (choice) {
-                              return AutoSizeText(
-                                "Mes amis",
-                                style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
+                                child: AutoSizeText(
+                                  "Mes amis",
+                                  style: GoogleFonts.plusJakartaSans(
+                                      fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                                ),
                               );
                             } else {
-                              return AutoSizeText(
-                                "Mes amis",
-                                style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
-                              );
+                              return Padding(
+                                  padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
+                                  child: AutoSizeText(
+                                    "Mes amis",
+                                    style: GoogleFonts.plusJakartaSans(
+                                        fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
+                                  ));
                             }
                           },
                         ),
@@ -213,17 +219,21 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                         child: LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints constraints) {
                             if (choice) {
-                              return AutoSizeText(
-                                "Discovery",
-                                style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
-                              );
+                              return Padding(
+                                  padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
+                                  child: AutoSizeText(
+                                    "Discovery",
+                                    style: GoogleFonts.plusJakartaSans(
+                                        fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
+                                  ));
                             } else {
-                              return AutoSizeText(
-                                "Discovery",
-                                style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
-                              );
+                              return Padding(
+                                  padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
+                                  child: AutoSizeText(
+                                    "Discovery",
+                                    style: GoogleFonts.plusJakartaSans(
+                                        fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                                  ));
                             }
                           },
                         ),
