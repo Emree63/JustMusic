@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/Material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +26,9 @@ class DetailPostScreen extends StatefulWidget {
 }
 
 class _DetailPostScreenState extends State<DetailPostScreen> {
+  TextEditingController _textController = TextEditingController();
+  late FocusNode myFocusNode;
+  late StreamSubscription<bool> keyboardSubscription;
   Future<void> resetFullScreen() async {
     await SystemChannels.platform.invokeMethod<void>(
       'SystemChrome.restoreSystemUIOverlays',
@@ -41,6 +47,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   @override
   void dispose() {
     MyApp.audioPlayer.release();
+    myFocusNode.dispose();
     super.dispose();
   }
 
@@ -48,114 +55,19 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   void initState() {
     print("post: ${widget.post.date.toString()}");
     print("ajrd: ${DateTime.now().toString()}");
+    myFocusNode = FocusNode();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    print('Keyboard visibility direct query: ${keyboardVisibilityController.isVisible}');
+
     super.initState();
+
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      if (!visible) {
+        myFocusNode.unfocus();
+      }
+    });
   }
 
-  /*void test() {
-    return Column(
-      children: [
-        Align(
-          child: Container(
-              width: 60,
-              height: 5,
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: BorderRadius.circular(20))),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
-            child: Padding(
-              padding: EdgeInsets.only(left: defaultPadding, right: defaultPadding),
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                child: Wrap(
-                  // to apply margin in the main axis of the wrap
-                  runSpacing: 10,
-                  children: [
-                    Container(height: 5),
-                    Align(
-                      child: RichText(
-                          text: TextSpan(
-                              text: "3",
-                              style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600),
-                              children: [
-                            TextSpan(
-                              text: " commentaires",
-                              style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w300),
-                            )
-                          ])),
-                    ),
-                    SizedBox(height: 20),
-                    CommentComponent(),
-                    CommentComponent(),
-                    CommentComponent(),
-                    Container(height: 10),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Container(
-              height: 70,
-              width: double.infinity,
-              decoration:
-                  BoxDecoration(border: Border(top: BorderSide(color: grayColor, width: 2)), color: textFieldMessage),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      ClipOval(
-                        child: SizedBox.fromSize(
-                          // Image radius
-                          child: const Image(
-                            image: AssetImage("assets/images/exemple_profile.png"),
-                            width: 45,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          keyboardAppearance: Brightness.dark,
-                          cursorColor: primaryColor,
-                          keyboardType: TextInputType.emailAddress,
-                          style: GoogleFonts.plusJakartaSans(color: Colors.white),
-                          decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.send,
-                                color: grayText,
-                                size: 20,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: grayText),
-                                  borderRadius: BorderRadius.all(Radius.circular(100))),
-                              contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
-                              fillColor: bgModal,
-                              filled: true,
-                              focusColor: Color.fromRGBO(255, 255, 255, 0.30),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: grayText),
-                                  borderRadius: BorderRadius.all(Radius.circular(100))),
-                              hintText: 'Ajoutez une réponse...',
-                              hintStyle: GoogleFonts.plusJakartaSans(color: grayText)),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )),
-        ),
-      ],
-    );
-  }*/
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -364,7 +276,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
                                               SvgPicture.asset("assets/images/heart.svg", semanticsLabel: 'Like Logo'),
-                                              SvgPicture.asset("assets/images/chat.svg", semanticsLabel: 'Chat Logo'),
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    myFocusNode.requestFocus();
+                                                  },
+                                                  child: SvgPicture.asset("assets/images/chat.svg",
+                                                      semanticsLabel: 'Chat Logo')),
                                               SvgPicture.asset("assets/images/add.svg",
                                                   semanticsLabel: 'Add playlist Logo'),
                                               SvgPicture.asset("assets/images/save.svg", semanticsLabel: 'Save Logo'),
@@ -490,6 +407,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             Expanded(
                               child: TextField(
                                 keyboardAppearance: Brightness.dark,
+                                controller: _textController,
+                                focusNode: myFocusNode,
                                 cursorColor: primaryColor,
                                 keyboardType: TextInputType.emailAddress,
                                 style: GoogleFonts.plusJakartaSans(color: Colors.white),

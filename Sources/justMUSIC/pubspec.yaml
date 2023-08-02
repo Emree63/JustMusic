@@ -71,6 +71,7 @@ dependencies:
   custom_refresh_indicator: ^2.2.1
   animations: ^2.0.7
   flutter_svg: ^2.0.7
+  flutter_keyboard_visibility: ^5.4.1
 
 dev_dependencies:
   flutter_test:
