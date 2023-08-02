@@ -16,6 +16,7 @@ import '../components/top_nav_bar_component.dart';
 import '../model/Post.dart';
 import '../values/constants.dart';
 import 'detail_post_screen.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -32,7 +33,6 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
 
   late List<Post> discoveryFeed;
   late List<Post> displayFeed;
-  final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
   bool isDismissed = true;
 
   @override
@@ -56,6 +56,15 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   }
 
   Future<void> showCapsuleDot() async {
+    // Get the timezone for France
+    final franceTimeZone = tz.getLocation('Europe/Paris');
+
+    // Get the current date and time in France timezone
+    var now = tz.TZDateTime.now(franceTimeZone);
+
+    // Calculate the midnight time for the next day in France timezone
+    var midnight = tz.TZDateTime(franceTimeZone, now.year, now.month, now.day + 1);
+
     bool res = await MyApp.postViewModel.getAvailable();
     if (isDismissed) {
       if (res) {
@@ -116,7 +125,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
           messageText: Align(
             alignment: Alignment.centerLeft,
             child: CountdownTimer(
-              endTime: midnight.millisecondsSinceEpoch - 2 * 60 * 60 * 1000,
+              endTime: midnight.millisecondsSinceEpoch,
               textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
             ),
           ),

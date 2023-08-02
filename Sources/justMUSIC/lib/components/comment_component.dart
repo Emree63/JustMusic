@@ -17,11 +17,12 @@ class CommentComponent extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(color: bgComment, borderRadius: BorderRadius.circular(20)),
-      padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(color: bgComment.withOpacity(0.6), borderRadius: BorderRadius.circular(15)),
+      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      margin: EdgeInsets.only(bottom: 13),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           ClipOval(
             child: SizedBox.fromSize(
@@ -50,7 +51,7 @@ class CommentComponent extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 6, left: 10),
                       child: Text(
-                        "il y a ${difference.inHours}h",
+                        "il y a ${difference.inHours > 0 ? difference.inHours : difference.inMinutes}${difference.inHours > 0 ? "h" : "m"}",
                         style: GoogleFonts.plusJakartaSans(
                             color: Colors.white.withOpacity(0.6), fontWeight: FontWeight.w400, fontSize: 10),
                       ),
@@ -58,13 +59,13 @@ class CommentComponent extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     comment.text,
-                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15),
                   ),
                 ),
               ],

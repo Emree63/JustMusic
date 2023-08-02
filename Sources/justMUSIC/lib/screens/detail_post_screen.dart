@@ -462,6 +462,14 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             keyboardAppearance: Brightness.dark,
                             controller: _textController,
                             focusNode: myFocusNode,
+                            onSubmitted: (value) async {
+                              if (value.isNotEmpty) {
+                                await MyApp.commentViewModel.addComment(value, widget.post.id);
+                              }
+                              setState(() {
+                                _textController.clear();
+                              });
+                            },
                             cursorColor: primaryColor,
                             keyboardType: TextInputType.emailAddress,
                             style: GoogleFonts.plusJakartaSans(color: Colors.white),
