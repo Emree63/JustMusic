@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter_animated_play_button/flutter_animated_play_button.dart';
 import 'package:ionicons/ionicons.dart';
@@ -12,11 +11,7 @@ class PlayButtonComponent extends StatefulWidget {
   final int index;
   final bool playing;
   const PlayButtonComponent(
-      {Key? key,
-      required this.music,
-      required this.callback,
-      required this.playing,
-      required this.index})
+      {Key? key, required this.music, required this.callback, required this.playing, required this.index})
       : super(key: key);
 
   @override
@@ -24,8 +19,6 @@ class PlayButtonComponent extends StatefulWidget {
 }
 
 class _PlayButtonComponentState extends State<PlayButtonComponent> {
-  final player = AudioPlayer();
-
   @override
   void initState() {
     MyApp.audioPlayer.onPlayerComplete.listen((event) {
