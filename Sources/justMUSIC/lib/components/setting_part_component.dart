@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/values/icons.dart';
@@ -8,29 +9,32 @@ class SettingPartComponent extends StatelessWidget {
   final JustMusicIcon icon;
   final String label;
   final bool important;
-  const SettingPartComponent(
-      {Key? key,
-      required this.icon,
-      required this.label,
-      this.important = false})
+  const SettingPartComponent({Key? key, required this.icon, required this.label, this.important = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Future<void> logout() async {
+      print("cc");
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushNamed(context, '/welcome');
+    }
+
     return Material(
       color: important ? warningBttnColor : settingColor,
       borderOnForeground: false,
       child: InkWell(
         onTap: () {
-          print('InkWell was tapped!');
+          if (icon == JustMusicIcon.cross) {
+            logout();
+          }
         },
         splashColor: Colors.transparent,
         highlightColor: Colors.white.withOpacity(0.08),
         child: Container(
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-                defaultPadding, 19, defaultPadding, 19),
+            padding: const EdgeInsets.fromLTRB(defaultPadding, 19, defaultPadding, 19),
             child: Row(
               children: [
                 Image(
@@ -45,8 +49,7 @@ class SettingPartComponent extends StatelessWidget {
                   child: Text(
                     label,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.plusJakartaSans(
-                        color: Colors.white, fontWeight: FontWeight.w700),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Spacer(),
