@@ -230,9 +230,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                   )
                                                 : widget.post.music.previewUrl != null
                                                     ? ButtonPlayComponent(music: widget.post.music)
-                                                    : Container(
-                                                        width: 45,
-                                                      ),
+                                                    : Container(),
                                           ),
                                           Flexible(
                                             child: Column(
