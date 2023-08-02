@@ -1,14 +1,18 @@
+import 'User.dart';
+
 class Comment {
-  final int _id;
+  final String _id;
+  User _user;
   String _text;
   DateTime _date;
-  List<Comment> comments = [];
 
   // Constructor
-  Comment(this._id, this._text, this._date);
+  Comment(this._id, this._user, this._text, this._date);
 
   // Getters and setters
-  int get id => _id;
+  String get id => _id;
+
+  User get user => _user;
 
   String get text => _text;
 

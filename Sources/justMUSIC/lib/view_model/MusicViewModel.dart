@@ -224,10 +224,12 @@ class MusicViewModel {
       List<Music> musics = [];
       Artist artist = await getArtistWithName(name, market: market);
       musics.addAll(await getTopMusicsWithArtistId(artist.id));
-      musics.addAll(await getMusicsWithName(name,limit: limit,offset: offset,market: market));
+      musics.addAll(await getMusicsWithName(name,
+          limit: limit, offset: offset, market: market));
       return musics;
     } catch (e) {
-      return await getMusicsWithName(name,limit: limit,offset: offset,market: market);
+      return await getMusicsWithName(name,
+          limit: limit, offset: offset, market: market);
     }
   }
 }

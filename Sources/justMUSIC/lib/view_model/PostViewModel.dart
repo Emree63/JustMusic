@@ -58,9 +58,9 @@ class PostViewModel {
     try {
       var responseData = await _postService.getPopularPosts();
       List<String> ids = [];
-      var postsFutures = responseData.map((value) {
+      var postsFutures = responseData.map((value) async {
         ids.add(value.data()["song_id"]);
-        return PostMapper.toModel(value);
+        return await PostMapper.toModel(value);
       }).toList();
       var posts = await Future.wait(postsFutures);
       List<Music> musics = await MyApp.musicViewModel.getMusicsWithIds(ids);
