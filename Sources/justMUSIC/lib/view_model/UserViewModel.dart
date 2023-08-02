@@ -8,7 +8,7 @@ import '../main.dart';
 
 class UserViewModel {
   late User _userCurrent;
-  final AuthService _authService = AuthService();
+  final AuthService authService = AuthService();
   final UserService _userService = UserService();
 
   User get userCurrent => _userCurrent;
@@ -27,7 +27,7 @@ class UserViewModel {
 
   login(String pseudo, String password) async {
     try {
-      await _authService.login(pseudo, password);
+      await authService.login(pseudo, password);
       final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
@@ -57,7 +57,7 @@ class UserViewModel {
     }
 
     try {
-      await _authService.register(pseudo.toLowerCase(), email, password);
+      await authService.register(pseudo.toLowerCase(), email, password);
       final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
@@ -88,7 +88,7 @@ class UserViewModel {
   }
 
   logout() {
-    _authService.signOut();
+    authService.signOut();
   }
 
   bool isFriend(String id) {

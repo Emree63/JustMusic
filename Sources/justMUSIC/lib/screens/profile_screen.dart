@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Column(
-                    children: const [
+                    children: [
                       SettingPartComponent(
                         icon: JustMusicIcon.profile,
                         label: 'Compte',
