@@ -381,53 +381,54 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                         ),
                       )),
                   SizedBox(height: 15),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                          flex: 8,
-                          child: TextScroll(
-                            widget.post.music.artists.first.name!,
-                            style: GoogleFonts.plusJakartaSans(
-                                height: 1, color: Colors.white, fontWeight: FontWeight.w600, fontSize: 26.h),
-                            mode: TextScrollMode.endless,
-                            pauseBetween: Duration(milliseconds: 500),
-                            velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
-                          )),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 10.h, right: 5.w, left: 5.w),
-                        child: ClipOval(
-                          child: Container(
-                            width: 5.h,
-                            height: 5.h,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                          flex: 8,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 2),
-                            child: TextScroll(
-                              widget.post.music.title!,
+                  SizedBox(
+                    height: 60,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                                flex: 8,
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 2),
+                                  child: TextScroll(
+                                    widget.post.music.title!,
+                                    style: GoogleFonts.plusJakartaSans(
+                                        height: 1, color: Colors.white, fontWeight: FontWeight.w600, fontSize: 26.h),
+                                    mode: TextScrollMode.endless,
+                                    velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
+                                    pauseBetween: Duration(milliseconds: 500),
+                                  ),
+                                )),
+                            Container(width: 10),
+                            AutoSizeText(
+                              widget.post.music.date.toString(),
                               style: GoogleFonts.plusJakartaSans(
-                                  height: 1, color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.h),
-                              mode: TextScrollMode.endless,
-                              velocity: Velocity(pixelsPerSecond: Offset(50, 20)),
-                              pauseBetween: Duration(milliseconds: 500),
+                                  color: Colors.white, fontWeight: FontWeight.w600, fontSize: 26.h),
+                              textAlign: TextAlign.end,
+                              maxFontSize: 20,
                             ),
-                          )),
-                      Container(width: 10),
-                      AutoSizeText(
-                        widget.post.music.date.toString(),
-                        style: GoogleFonts.plusJakartaSans(
-                            color: Colors.white.withOpacity(0.5), fontWeight: FontWeight.w300, fontSize: 16.h),
-                        textAlign: TextAlign.end,
-                        maxFontSize: 20,
-                      ),
-                    ],
-                  ),
+                          ],
+                        ),
+                        Expanded(
+                            flex: 8,
+                            child: TextScroll(
+                              widget.post.music.artists.first.name!,
+                              style: GoogleFonts.plusJakartaSans(
+                                  height: 1,
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16.h),
+                              mode: TextScrollMode.endless,
+                              pauseBetween: Duration(milliseconds: 500),
+                              velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                            )),
+                      ],
+                    ),
+                  )
                 ],
               ));
         },
