@@ -22,10 +22,6 @@ class MusicViewModel {
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      List<Artist> artists =
-          List<Artist>.from(responseData['artists'].map((artist) {
-        return Artist(artist['id'], artist['name'], '');
-      }));
 
       return _getMusicFromResponse(responseData);
     } else {
@@ -219,6 +215,19 @@ class MusicViewModel {
     } else {
       throw Exception(
           'Error while retrieving music : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  Future<List<Music>> getMusicsWithNameOrArtistName(String name,
+      {int limit = 20, int offset = 0, String market = "FR"}) async {
+    try {
+      List<Music> musics = [];
+      Artist artist = await getArtistWithName(name, market: market);
+      musics.addAll(await getTopMusicsWithArtistId(artist.id));
+      musics.addAll(await getMusicsWithName(name,limit: limit,offset: offset,market: market));
+      return musics;
+    } catch (e) {
+      return await getMusicsWithName(name,limit: limit,offset: offset,market: market);
     }
   }
 }
