@@ -288,7 +288,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                             ),
                                             SvgPicture.asset("assets/images/add.svg",
                                                 semanticsLabel: 'Add playlist Logo'),
-                                            SvgPicture.asset("assets/images/save.svg", semanticsLabel: 'Save Logo'),
+                                            GestureDetector(
+                                                onTap: () {
+                                                  MyApp.musicViewModel.
+                                                },
+                                                child: SvgPicture.asset("assets/images/save.svg",
+                                                    semanticsLabel: 'Save Logo')),
                                             SvgPicture.asset("assets/images/report.svg", semanticsLabel: 'Report Logo'),
                                           ],
                                         ),
