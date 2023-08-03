@@ -9,7 +9,9 @@ class SettingPartComponent extends StatelessWidget {
   final JustMusicIcon icon;
   final String label;
   final bool important;
-  const SettingPartComponent({Key? key, required this.icon, required this.label, this.important = false})
+  final VoidCallback? action;
+  const SettingPartComponent(
+      {Key? key, required this.icon, required this.label, this.important = false, required this.action})
       : super(key: key);
 
   @override
@@ -24,11 +26,7 @@ class SettingPartComponent extends StatelessWidget {
       color: important ? warningBttnColor : settingColor,
       borderOnForeground: false,
       child: InkWell(
-        onTap: () {
-          if (icon == JustMusicIcon.cross) {
-            logout();
-          }
-        },
+        onTap: action,
         splashColor: Colors.transparent,
         highlightColor: Colors.white.withOpacity(0.08),
         child: Container(

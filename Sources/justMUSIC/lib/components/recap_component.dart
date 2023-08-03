@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/Material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../main.dart';
+import '../model/User.dart' as justMusic;
 import '../values/constants.dart';
 import 'little_post_recap_component.dart';
-import 'package:intl/intl.dart';
 
 class RecapComponent extends StatelessWidget {
-  const RecapComponent({super.key});
+  final justMusic.User user;
+  const RecapComponent({super.key, required this.user});
+
+  Future<List<bool>>? _fetchdata() async {
+    return await MyApp.postViewModel.recapSevenDays(user.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,25 +91,33 @@ class RecapComponent extends StatelessWidget {
               ],
             ),
           )),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                LittleCapsule(
-                  isEmpty: false,
-                  date: DateTime.now(),
-                ),
-                LittleCapsule(isEmpty: true, date: currentDate.subtract(const Duration(days: 5))),
-                LittleCapsule(isEmpty: false, date: currentDate.subtract(const Duration(days: 4))),
-                LittleCapsule(isEmpty: false, date: currentDate.subtract(const Duration(days: 3))),
-                LittleCapsule(isEmpty: false, date: currentDate.subtract(const Duration(days: 2))),
-                LittleCapsule(isEmpty: false, date: currentDate.subtract(const Duration(days: 1))),
-                LittleCapsule(isEmpty: false, date: currentDate.subtract(const Duration(days: 0))),
-              ],
-            ),
-          )
+          FutureBuilder<List<bool>>(
+              future: _fetchdata(), // a previously-obtained Future<String> or null
+              builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        LittleCapsule(
+                          isEmpty: snapshot.data![0],
+                          date: currentDate.subtract(const Duration(days: 6)),
+                        ),
+                        LittleCapsule(isEmpty: snapshot.data![1], date: currentDate.subtract(const Duration(days: 5))),
+                        LittleCapsule(isEmpty: snapshot.data![2], date: currentDate.subtract(const Duration(days: 4))),
+                        LittleCapsule(isEmpty: snapshot.data![3], date: currentDate.subtract(const Duration(days: 3))),
+                        LittleCapsule(isEmpty: snapshot.data![4], date: currentDate.subtract(const Duration(days: 2))),
+                        LittleCapsule(isEmpty: snapshot.data![5], date: currentDate.subtract(const Duration(days: 1))),
+                        LittleCapsule(isEmpty: snapshot.data![6], date: currentDate.subtract(const Duration(days: 0))),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
         ],
       ),
     );

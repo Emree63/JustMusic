@@ -73,78 +73,80 @@ class _UserScreenState extends State<UserScreen> {
                   padding: EdgeInsets.only(top: 68.h, bottom: 40),
                   child: ProfileComponent(user: widget.user),
                 ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: isClicked
-                      ? SizedBox(
-                          // Définir une largeur minimale pour le bouton "Ajouter"
-                          width: 120, // Réglez cette valeur en fonction de vos besoins
-                          child: Material(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              color: selectedButton,
-                              child: InkWell(
-                                  splashColor: Colors.white.withOpacity(0.3),
-                                  onTap: () async {
-                                    await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Vous ne suivez plus ${widget.user.pseudo}",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
-                                        ),
-                                        backgroundColor: Colors.red,
-                                        closeIconColor: Colors.white,
-                                      ),
-                                    );
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(28, 7, 28, 7),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                    child: Center(
-                                      child: Text("Ajouté",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
-                                    ),
-                                  ))),
-                        )
-                      : SizedBox(
-                          // Définir une largeur minimale pour le bouton "Ajouter"
-                          width: 120, // Réglez cette valeur en fonction de vos besoins
-                          child: Material(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              color: primaryColor,
-                              child: InkWell(
-                                  splashColor: Colors.white.withOpacity(0.3),
-                                  onTap: () async {
-                                    await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: primaryColor,
-                                        content: Text(
-                                          "Vous suivez à present ${widget.user.pseudo}",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
-                                        ),
-                                      ),
-                                    );
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(25, 7, 25, 7),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                    child: Center(
-                                      child: Text("Ajouter",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
-                                    ),
-                                  )))),
-                ),
+                MyApp.userViewModel.userCurrent.id != widget.user.id
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: isClicked
+                            ? SizedBox(
+                                // Définir une largeur minimale pour le bouton "Ajouter"
+                                width: 120, // Réglez cette valeur en fonction de vos besoins
+                                child: Material(
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                    color: selectedButton,
+                                    child: InkWell(
+                                        splashColor: Colors.white.withOpacity(0.3),
+                                        onTap: () async {
+                                          await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                "Vous ne suivez plus ${widget.user.pseudo}",
+                                                style: GoogleFonts.plusJakartaSans(
+                                                    color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
+                                              ),
+                                              backgroundColor: Colors.red,
+                                              closeIconColor: Colors.white,
+                                            ),
+                                          );
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.fromLTRB(28, 7, 28, 7),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(7))),
+                                          child: Center(
+                                            child: Text("Ajouté",
+                                                style: GoogleFonts.plusJakartaSans(
+                                                    color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
+                                          ),
+                                        ))),
+                              )
+                            : SizedBox(
+                                // Définir une largeur minimale pour le bouton "Ajouter"
+                                width: 120, // Réglez cette valeur en fonction de vos besoins
+                                child: Material(
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                    color: primaryColor,
+                                    child: InkWell(
+                                        splashColor: Colors.white.withOpacity(0.3),
+                                        onTap: () async {
+                                          await MyApp.userViewModel.addOrDeleteFriend(widget.user.id);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: primaryColor,
+                                              content: Text(
+                                                "Vous suivez à present ${widget.user.pseudo}",
+                                                style: GoogleFonts.plusJakartaSans(
+                                                    color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
+                                              ),
+                                            ),
+                                          );
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.fromLTRB(25, 7, 25, 7),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(7))),
+                                          child: Center(
+                                            child: Text("Ajouter",
+                                                style: GoogleFonts.plusJakartaSans(
+                                                    color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
+                                          ),
+                                        )))),
+                      )
+                    : Container(),
                 SizedBox(
                   height: 40,
                 ),
-                RecapComponent()
+                RecapComponent(user: widget.user)
               ],
             ),
           ),
