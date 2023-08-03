@@ -27,8 +27,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
 
   bool isDismissed = true;
 
-  final DateTime midnight = DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+  final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
 
   void actionSurBouton(bool choice) async {
     widget.callback(choice);
@@ -47,8 +46,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
     var now = tz.TZDateTime.now(franceTimeZone);
 
     // Calculate the midnight time for the next day in France timezone
-    var midnight =
-        tz.TZDateTime(franceTimeZone, now.year, now.month, now.day + 1);
+    var midnight = tz.TZDateTime(franceTimeZone, now.year, now.month, now.day + 1);
 
     bool res = await MyApp.postViewModel.getAvailable();
     if (res) {
@@ -67,8 +65,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
           alignment: Alignment.centerLeft,
           child: Text(
             "Capsule disponible",
-            style:
-                GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
+            style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
           ),
         ),
         flushbarStyle: FlushbarStyle.FLOATING,
@@ -105,8 +102,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
           alignment: Alignment.centerLeft,
           child: CountdownTimer(
             endTime: midnight.millisecondsSinceEpoch,
-            textStyle:
-                GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
+            textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
           ),
         ),
         flushbarStyle: FlushbarStyle.FLOATING,
@@ -153,7 +149,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
               flex: 1,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () async {
+                onTap: () {
                   Navigator.of(context).push(routeAddFriend());
                 },
                 child: const Icon(
@@ -199,30 +195,23 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                           }
                         },
                         child: LayoutBuilder(
-                          builder: (BuildContext context,
-                              BoxConstraints constraints) {
+                          builder: (BuildContext context, BoxConstraints constraints) {
                             if (choice) {
                               return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8, top: 0, right: 8, bottom: 6),
+                                padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
                                 child: AutoSizeText(
                                   "Mes amis",
                                   style: GoogleFonts.plusJakartaSans(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Colors.white),
+                                      fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
                                 ),
                               );
                             } else {
                               return Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, top: 0, right: 8, bottom: 6),
+                                  padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
                                   child: AutoSizeText(
                                     "Mes amis",
                                     style: GoogleFonts.plusJakartaSans(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16,
-                                        color: unactiveFeed),
+                                        fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
                                   ));
                             }
                           },
@@ -239,29 +228,22 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                           }
                         },
                         child: LayoutBuilder(
-                          builder: (BuildContext context,
-                              BoxConstraints constraints) {
+                          builder: (BuildContext context, BoxConstraints constraints) {
                             if (choice) {
                               return Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, top: 0, right: 8, bottom: 6),
+                                  padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
                                   child: AutoSizeText(
                                     "Discovery",
                                     style: GoogleFonts.plusJakartaSans(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16,
-                                        color: unactiveFeed),
+                                        fontWeight: FontWeight.w300, fontSize: 16, color: unactiveFeed),
                                   ));
                             } else {
                               return Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, top: 0, right: 8, bottom: 6),
+                                  padding: const EdgeInsets.only(left: 8, top: 0, right: 8, bottom: 6),
                                   child: AutoSizeText(
                                     "Discovery",
                                     style: GoogleFonts.plusJakartaSans(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        color: Colors.white),
+                                        fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
                                   ));
                             }
                           },

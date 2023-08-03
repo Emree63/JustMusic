@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:justmusic/components/profil_picture_component.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -50,15 +51,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        ClipOval(
-                          child: SizedBox.fromSize(
-                            // Image radius
-                            child: Image(
-                              image: NetworkImage(widget.post.user.pp),
-                              width: 40,
-                            ),
-                          ),
-                        ),
+                        ProfilPictureComponent(user: widget.post.user),
                         Expanded(
                           flex: 8,
                           child: Padding(
@@ -237,15 +230,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      ClipOval(
-                        child: SizedBox.fromSize(
-                          // Image radius
-                          child: Image(
-                            image: NetworkImage(widget.post.user.pp),
-                            width: 40,
-                          ),
-                        ),
-                      ),
+                      ProfilPictureComponent(user: widget.post.user),
                       Expanded(
                         flex: 8,
                         child: Padding(
