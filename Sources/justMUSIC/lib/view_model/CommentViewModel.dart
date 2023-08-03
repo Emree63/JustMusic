@@ -13,8 +13,8 @@ class CommentViewModel {
   // Methods
   addComment(String text, String idPost) async {
     try {
-      await _commentService.createComment(text,idPost);
-    } catch(e) {
+      await _commentService.createComment(text, idPost);
+    } catch (e) {
       print(e);
       rethrow;
     }
@@ -28,7 +28,7 @@ class CommentViewModel {
       }).toList();
       _comments = await Future.wait(commentsFutures);
       return _comments;
-    } catch(e) {
+    } catch (e) {
       print(e);
       _comments = [];
       return [];

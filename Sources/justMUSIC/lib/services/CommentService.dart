@@ -20,6 +20,7 @@ class CommentService {
     var response = await FirebaseFirestore.instance
         .collection("comments")
         .where("post_id", isEqualTo: id)
+        .orderBy("date", descending: true)
         .get();
 
     return response.docs;

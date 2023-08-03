@@ -1,16 +1,13 @@
 import 'dart:async';
-
-import 'package:another_flushbar/flushbar.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:justmusic/main.dart';
-import 'package:lottie/lottie.dart';
-
+import 'package:justmusic/main.dart';
+import 'package:tuple/tuple.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
 import '../model/Post.dart';
@@ -24,7 +21,8 @@ class FeedScreen extends StatefulWidget {
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateMixin {
+class _FeedScreenState extends State<FeedScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
   late List<Post> friendFeed;
@@ -32,18 +30,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
 
   late List<Post> discoveryFeed;
   late List<Post> displayFeed;
-  final DateTime midnight = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
   bool isDismissed = true;
+  bool choiceFeed = false;
 
   @override
   void initState() {
     super.initState();
-
-    MyApp.postViewModel.getPostsFriends();
     friendFeed = MyApp.postViewModel.postsFriends;
-    MyApp.postViewModel.getBestPosts();
     discoveryFeed = MyApp.postViewModel.bestPosts;
-    displayFeed = [];
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -55,98 +49,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     animationController.forward();
   }
 
-  Future<void> showCapsuleDot() async {
-    bool res = await MyApp.postViewModel.getAvailable();
-    if (isDismissed) {
-      if (res) {
-        setState(() {
-          isDismissed = !isDismissed;
-        });
-        Flushbar(
-          maxWidth: 210,
-          animationDuration: Duration(seconds: 1),
-          forwardAnimationCurve: Curves.easeOutCirc,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          icon: Icon(
-            Ionicons.sparkles,
-            color: Colors.white,
-            size: 18,
-          ),
-          padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-          messageText: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Capsule disponible",
-              style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-            ),
-          ),
-          flushbarStyle: FlushbarStyle.FLOATING,
-          flushbarPosition: FlushbarPosition.BOTTOM,
-          textDirection: Directionality.of(context),
-          borderRadius: BorderRadius.circular(1000),
-          borderWidth: 1,
-          isDismissible: false,
-          borderColor: Colors.white.withOpacity(0.04),
-          duration: const Duration(minutes: 100),
-          leftBarIndicatorColor: Colors.transparent,
-          positionOffset: 20,
-          onTap: (_) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/post');
-          },
-        ).show(context).then((value) {
-          isDismissed = !isDismissed;
-        });
-      } else {
-        setState(() {
-          isDismissed = !isDismissed;
-        });
-        Flushbar(
-          maxWidth: 155,
-          animationDuration: Duration(seconds: 1),
-          isDismissible: false,
-          forwardAnimationCurve: Curves.easeOutCirc,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          icon: Lottie.asset(
-            'assets/animations/LottieHourGlass.json',
-            width: 26,
-            fit: BoxFit.fill,
-          ),
-          padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-          messageText: Align(
-            alignment: Alignment.centerLeft,
-            child: CountdownTimer(
-              endTime: midnight.millisecondsSinceEpoch - 2 * 60 * 60 * 1000,
-              textStyle: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 15),
-            ),
-          ),
-          flushbarStyle: FlushbarStyle.FLOATING,
-          flushbarPosition: FlushbarPosition.BOTTOM,
-          textDirection: Directionality.of(context),
-          borderRadius: BorderRadius.circular(1000),
-          borderWidth: 1,
-          borderColor: Colors.white.withOpacity(0.04),
-          duration: const Duration(minutes: 100),
-          leftBarIndicatorColor: Colors.transparent,
-          positionOffset: 20,
-          onTap: (_) {},
-        ).show(context).then((value) {
-          {
-            setState(() {
-              isDismissed = !isDismissed;
-            });
-          }
-        });
-      }
-    }
-  }
-
   Future _refresh() async {
-    print("refresh");
-    discoveryFeed = await MyApp.postViewModel.getBestPosts();
-    setState(() {
-      displayFeed = discoveryFeed.reversed.toList();
-    });
+    if (choiceFeed) {
+      await MyApp.postViewModel.getBestPosts();
+      setState(() {});
+    } else {
+      await MyApp.postViewModel.getPostsFriends();
+      setState(() {});
+    }
   }
 
   void changeFeed(bool choice) {
@@ -156,14 +66,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
         animationController.reset();
         displayFeed = MyApp.postViewModel.postsFriends.reversed.toList();
         animationController.forward();
-        print(displayFeed.length);
+        choiceFeed = false;
       });
     } else {
       setState(() {
         animationController.reset();
         displayFeed = MyApp.postViewModel.bestPosts.reversed.toList();
-        print(displayFeed.length);
         animationController.forward();
+        choiceFeed = true;
       });
     }
   }
@@ -178,18 +88,32 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
       isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((BuildContext context) {
         return ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             child: DetailPostScreen(post: displayFeed[index]));
       }),
     );
   }
 
+  _fetchData() async {
+    friendFeed = await MyApp.postViewModel.getPostsFriends();
+    discoveryFeed = await MyApp.postViewModel.getBestPosts();
+    return Tuple2(friendFeed, displayFeed);
+  }
+
   @override
   Widget build(BuildContext context) {
-    showCapsuleDot();
+    if (choiceFeed) {
+      displayFeed = MyApp.postViewModel.postsFriends.reversed.toList();
+    } else {
+      displayFeed = MyApp.postViewModel.bestPosts.reversed.toList();
+    }
+    _fetchData();
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: bgColor,
@@ -203,16 +127,21 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                     Container(
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/images/empty_bg.png"), fit: BoxFit.cover, opacity: 0.3),
+                            image: AssetImage("assets/images/empty_bg.png"),
+                            fit: BoxFit.cover,
+                            opacity: 0.3),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(top: 140.h, left: defaultPadding),
+                        padding:
+                            EdgeInsets.only(top: 140.h, left: defaultPadding),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Suis tes amis pour voir leurs capsules",
                                 style: GoogleFonts.plusJakartaSans(
-                                    color: Colors.white, fontSize: 23, fontWeight: FontWeight.w800))
+                                    color: Colors.white,
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w800))
                           ],
                         ),
                       ),
@@ -225,8 +154,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   begin: Alignment.topRight,
-                                  stops: [0.3, 1],
-                                  colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+                                  stops: [
+                                0.3,
+                                1
+                              ],
+                                  colors: [
+                                bgColor.withOpacity(0.9),
+                                bgColor.withOpacity(0)
+                              ])),
                         ),
                       ),
                     ),
@@ -242,35 +177,67 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
               )
             : Container(
                 width: double.infinity,
+                height: double.infinity,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: CircularRevealAnimation(
-                        animation: animation,
-                        centerOffset: Offset(30.w, -100),
-                        child: Container(
-                            constraints: BoxConstraints(maxWidth: 600),
-                            padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
-                            child: RefreshIndicator(
-                              displacement: 20,
-                              triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                              onRefresh: _refresh,
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                                clipBehavior: Clip.none,
-                                shrinkWrap: true,
-                                itemCount: displayFeed.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 40),
-                                    child:
-                                        PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
-                                  );
-                                },
-                              ),
-                            )),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: CircularRevealAnimation(
+                          animation: animation,
+                          centerOffset: Offset(30.w, -100),
+                          child: Expanded(
+                            child: Container(
+                                height: double.infinity,
+                                constraints: BoxConstraints(maxWidth: 600),
+                                padding: EdgeInsets.fromLTRB(
+                                    defaultPadding, 100.h, defaultPadding, 0),
+                                child: Expanded(
+                                  child: FutureBuilder(
+                                    future: _fetchData(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<dynamic> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return RefreshIndicator(
+                                          displacement: 20,
+                                          triggerMode:
+                                              RefreshIndicatorTriggerMode
+                                                  .onEdge,
+                                          onRefresh: _refresh,
+                                          child: Expanded(
+                                            child: ListView.builder(
+                                              physics:
+                                                  const AlwaysScrollableScrollPhysics(),
+                                              clipBehavior: Clip.none,
+                                              shrinkWrap: true,
+                                              itemCount: displayFeed.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 40),
+                                                  child: PostComponent(
+                                                      callback: openDetailPost,
+                                                      post: displayFeed[index],
+                                                      index: index),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: CupertinoActivityIndicator(),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                )),
+                          ),
+                        ),
                       ),
                     ),
                     Align(
@@ -281,8 +248,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   begin: Alignment.topRight,
-                                  stops: [0.3, 1],
-                                  colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+                                  stops: [
+                                0.3,
+                                1
+                              ],
+                                  colors: [
+                                bgColor.withOpacity(0.9),
+                                bgColor.withOpacity(0)
+                              ])),
                         ),
                       ),
                     ),
