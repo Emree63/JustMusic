@@ -1,18 +1,30 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class NotificationService {
-  final _firebaseMessaging = FirebaseMessaging.instance;
-
-  Future<void> handleBackgroundMessage(RemoteMessage message) async {
-    print('Title: ${message.notification?.title}');
-    print('Body: ${message.notification?.body}');
-    print('Payload: ${message.data}');
-  }
-
-  Future<void> initNotifications() async {
-    await _firebaseMessaging.requestPermission();
-    final token = await _firebaseMessaging.getToken();
-    print("Grrrpaw:"+token!);
-    //FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+  sendPushMessage(String token, String title, String body) async {
+    try {
+      await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'key='
+          },
+          body: jsonEncode(<String, dynamic>{
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'status': 'done',
+              'body': body,
+              'title': title
+            },
+            "notification": <String, dynamic>{
+              "title": title,
+              "body": body,
+            },
+            "to": token,
+          }));
+    } catch (e) {
+      print("error push notification");
+    }
   }
 }

@@ -3,11 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../main.dart';
 
 class UserService {
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getUsersByIdUnique(String uniqueId) async {
-    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore.instance
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getUsersByIdUnique(
+      String uniqueId) async {
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
+        .instance
         .collection("users")
         .where("unique_id", isGreaterThanOrEqualTo: uniqueId)
-        .where("unique_id", isLessThanOrEqualTo: uniqueId + "zzzzzzzzzzzzzzzzzzzzzzzzzzzz")
+        .where("unique_id",
+            isLessThanOrEqualTo: uniqueId + "zzzzzzzzzzzzzzzzzzzzzzzzzzzz")
         .limit(20)
         .get();
     var users = response.docs.where((doc) {
@@ -18,8 +21,20 @@ class UserService {
     return users;
   }
 
+  updateTokenNotify(String idUser, String token) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(idUser)
+        .update({'token_notify': token}).then((_) {
+      print("Mise à jour réussie !");
+    }).catchError((error) {
+      print("Erreur lors de la mise à jour : $error");
+    });
+  }
+
   addOrDeleteFriend(String id) async {
-    var userRef = MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
+    var userRef =
+        MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
     var actionUserRef = MyApp.db.collection("users").doc(id);
 
     if (MyApp.userViewModel.isFriend(id)) {
@@ -28,7 +43,7 @@ class UserService {
           'followed': FieldValue.arrayRemove([id])
         });
         transaction.update(actionUserRef, {
-          'followers': FieldValue.arrayRemove([id])
+          'followers': FieldValue.arrayRemove([userRef.id])
         });
       });
       MyApp.userViewModel.userCurrent.followed.remove(id);
@@ -38,7 +53,7 @@ class UserService {
           'followed': FieldValue.arrayUnion([id])
         });
         transaction.update(actionUserRef, {
-          'followers': FieldValue.arrayUnion([id])
+          'followers': FieldValue.arrayUnion([userRef.id])
         });
       });
       MyApp.userViewModel.userCurrent.followed.add(id);

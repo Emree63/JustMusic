@@ -56,7 +56,7 @@ class PostService {
         .get();
 
     var filteredPosts = response.docs.where((doc) {
-      String user = doc["user_id"]; // Assuming the field name is "date"
+      String user = doc["user_id"];
       return user != MyApp.userViewModel.userCurrent.id;
     }).toList();
     return filteredPosts;

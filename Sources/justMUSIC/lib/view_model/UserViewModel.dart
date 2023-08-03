@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:justmusic/services/AuthService.dart';
 import 'package:justmusic/services/UserService.dart';
 
@@ -27,8 +29,20 @@ class UserViewModel {
 
   login(String pseudo, String password) async {
     try {
+      var token;
       await authService.login(pseudo, password);
-      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
+      final user = await MyApp.db
+          .collection("users")
+          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
+          .get();
+      if (!kIsWeb) {
+        token = await FirebaseMessaging.instance.getToken();
+        if (MyApp.userViewModel.userCurrent.token != token) {
+          _userService.updateTokenNotify(
+              MyApp.userViewModel.userCurrent.id, token);
+          MyApp.userViewModel.userCurrent.token = token;
+        }
+      }
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -43,7 +57,10 @@ class UserViewModel {
 
   updateUserCurrent() async {
     try {
-      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
+      final user = await MyApp.db
+          .collection("users")
+          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
+          .get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -58,7 +75,10 @@ class UserViewModel {
 
     try {
       await authService.register(pseudo.toLowerCase(), email, password);
-      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
+      final user = await MyApp.db
+          .collection("users")
+          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
+          .get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -68,7 +88,8 @@ class UserViewModel {
 
   Future<List<User>> getUsersByUniqueId(String uniqueId) async {
     try {
-      var response = await _userService.getUsersByIdUnique(uniqueId.toLowerCase());
+      var response =
+          await _userService.getUsersByIdUnique(uniqueId.toLowerCase());
       var users = response.map((value) {
         return UserMapper.toModel(value);
       }).toList();
