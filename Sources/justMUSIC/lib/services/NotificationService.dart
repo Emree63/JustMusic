@@ -7,7 +7,8 @@ class NotificationService {
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: <String, String>{
             'Content-Type': 'application/json',
-            'Authorization': 'key='
+            'Authorization':
+                'key=AAAA56TmIPg:APA91bFeKMr_i6CbUuuUdFI1XkdaNE2A7OVHzxrPIsOSlDfhR6qzZwof7JNGxthWUKj1dRHQMheWNYaLbf3AtXUp9o4DX_gB2073yR4urqUEh9CjvnxVws_9g1cWMgmFS3EpaQEA3icC'
           },
           body: jsonEncode(<String, dynamic>{
             'priority': 'high',
