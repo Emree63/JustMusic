@@ -88,4 +88,28 @@ class AuthService {
   void signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+
+  Future<void> delete() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      await MyApp.db
+          .collection("users")
+          .doc(currentUser?.uid)
+          .delete()
+          .then((value) => print("Firestore deleted user"))
+          .catchError(
+              (error) => print("Error deleting user from Firestore: $error"));
+
+      await currentUser?.delete();
+      await FirebaseAuth.instance.signOut();
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        throw ('Please log in again to delete your account');
+      }
+      rethrow;
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

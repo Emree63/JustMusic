@@ -80,6 +80,15 @@ class PostViewModel {
     throw new Error();
   }
 
+  Future<List<bool>> recapSevenDays(String id) async {
+    try {
+      return await _postService.recapSevenDays(id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
   Future<bool> getAvailable() async {
     try {
       return await _postService

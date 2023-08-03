@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+
 class NotificationService {
   sendPushMessage(String token, String title, String body) async {
     try {
@@ -25,7 +27,13 @@ class NotificationService {
             "to": token,
           }));
     } catch (e) {
-      print("error push notification");
+      print("error push notification: ${e.toString()}");
     }
+  }
+
+  sendNotifyComment(String token, String text) async {
+    var pseudo = MyApp.userViewModel.userCurrent.pseudo;
+    await sendPushMessage(
+        token, "Nouveau message", "$pseudo à réagi à votre post,\"$text\".");
   }
 }

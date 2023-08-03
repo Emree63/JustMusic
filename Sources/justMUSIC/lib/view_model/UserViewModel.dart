@@ -112,6 +112,10 @@ class UserViewModel {
     authService.signOut();
   }
 
+  delete() {
+    authService.delete();
+  }
+
   bool isFriend(String id) {
     return _userCurrent.followed.contains(id);
   }
