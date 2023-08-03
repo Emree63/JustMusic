@@ -9,7 +9,7 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../model/Post.dart';
 
 class PostComponent extends StatefulWidget {
-  final Function(int)? callback;
+  final Function(Post)? callback;
   final Post post;
   final int index;
 
@@ -293,7 +293,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                   SizedBox(height: 10),
                   ZoomTapAnimation(
                       onTap: () {
-                        widget.callback!(widget.index);
+                        widget.callback!(widget.post);
                       },
                       enableLongTapRepeatEvent: false,
                       longTapRepeatDuration: const Duration(milliseconds: 100),
@@ -382,7 +382,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                       )),
                   SizedBox(height: 15),
                   SizedBox(
-                    height: 60,
+                    height: 40,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

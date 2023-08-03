@@ -15,17 +15,15 @@ import '../values/constants.dart';
 
 class TopNavBarComponent extends StatefulWidget {
   final Function(bool) callback;
-
-  const TopNavBarComponent({Key? key, required this.callback})
-      : super(key: key);
+  final bool choice;
+  const TopNavBarComponent({Key? key, required this.callback, required this.choice}) : super(key: key);
 
   @override
   State<TopNavBarComponent> createState() => _TopNavBarComponentState();
 }
 
-class _TopNavBarComponentState extends State<TopNavBarComponent>
-    with TickerProviderStateMixin {
-  bool choice = true;
+class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProviderStateMixin {
+  late bool choice;
 
   bool isDismissed = true;
 
@@ -140,6 +138,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent>
 
   @override
   Widget build(BuildContext context) {
+    choice = widget.choice;
     return Padding(
       padding: const EdgeInsets.only(top: defaultPadding),
       child: Container(
