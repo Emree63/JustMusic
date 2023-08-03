@@ -17,6 +17,7 @@ import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
+import 'package:justmusic/screens/user_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
@@ -67,8 +68,7 @@ class _MyAppState extends State<MyApp> {
         print('User is currently signed out!');
         return null;
       } else {
-        MyApp.userViewModel.userCurrent =
-            (await (MyApp.userViewModel.getUser(user.uid)))!;
+        MyApp.userViewModel.userCurrent = (await (MyApp.userViewModel.getUser(user.uid)))!;
         userCurrent = Stream.value(MyApp.userViewModel.userCurrent);
         print('User is signed in!');
       }
@@ -106,38 +106,7 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return LoadingScreen();
-                } else if (snapshot.hasData) {
-                  return FutureBuilder<userJustMusic.User?>(
-                    future: MyApp.userViewModel.getUser(snapshot.data!.uid),
-                    builder: (context, userSnapshot) {
-                      if (userSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return LoadingScreen();
-                      } else if (userSnapshot.hasData) {
-                        MyApp.userViewModel.userCurrent = userSnapshot.data!;
-                        return AnimatedSwitcher(
-                          duration: Duration(milliseconds: 1000),
-                          transitionBuilder: (child, animation) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                          child: FeedScreen(),
-                        );
-                      } else {
-                        return WellcomeScreen();
-                      }
-                    },
-                  );
-                } else {
-                  return WellcomeScreen();
-                }
-              },
-            ));
+            home: WellcomeScreen());
       },
       designSize: Size(390, 844),
     );
