@@ -56,6 +56,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
 
   @override
   void dispose() {
+    controller.dispose();
     animationController.dispose();
     super.dispose();
   }
@@ -120,7 +121,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     bool empty =
         (choiceFeed == true && displayFeed.item1.isEmpty) || (choiceFeed == false && displayFeed.item2.isEmpty);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: bgColor,
       extendBodyBehindAppBar: true,
       body: Container(

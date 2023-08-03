@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/values/icons.dart';
 import '../components/profile_component.dart';
 import '../components/setting_part_component.dart';
+import '../config/routes.dart';
 import '../main.dart';
 import '../values/constants.dart';
 
@@ -18,6 +20,16 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    Future<void> logout() async {
+      print("cc");
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushNamed(context, '/welcome');
+    }
+
+    void _openDetail() {
+      Navigator.of(context).push(routeUser(MyApp.userViewModel.userCurrent));
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 58),
@@ -84,23 +96,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SettingPartComponent(
                         icon: JustMusicIcon.profile,
                         label: 'Compte',
+                        action: _openDetail,
                       ),
-                      SettingPartComponent(
+                      const SettingPartComponent(
                         icon: JustMusicIcon.history,
                         label: 'Historiques des capsules',
+                        action: null,
                       ),
-                      SettingPartComponent(
+                      const SettingPartComponent(
                         icon: JustMusicIcon.spotify,
                         label: 'Lier un compte Spotify',
+                        action: null,
                       ),
-                      SettingPartComponent(
+                      const SettingPartComponent(
                         icon: JustMusicIcon.trash,
                         label: 'Supprimer mon compte',
+                        action: null,
                       ),
                       SettingPartComponent(
                         icon: JustMusicIcon.cross,
                         label: 'Déconnexion',
                         important: true,
+                        action: logout,
                       ),
                     ],
                   ),
@@ -114,15 +131,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Column(
-                    children: const [
+                  child: const Column(
+                    children: [
                       SettingPartComponent(
                         icon: JustMusicIcon.theme,
                         label: 'Thême de l\'application',
+                        action: null,
                       ),
                       SettingPartComponent(
                         icon: JustMusicIcon.notification,
                         label: 'Notifications',
+                        action: null,
                       ),
                     ],
                   ),

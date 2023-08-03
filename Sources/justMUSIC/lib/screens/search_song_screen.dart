@@ -21,6 +21,7 @@ class SearchSongScreen extends StatefulWidget {
 class _SearchSongScreenState extends State<SearchSongScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
+
   int? playingIndex;
 
   Future<void> resetFullScreen() async {
@@ -32,7 +33,16 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
   @override
   void initState() {
     super.initState();
+    fetchTrendingMusic();
     _scrollController.addListener(_scrollListener);
+  }
+
+  Future<void> fetchTrendingMusic() async {
+    await MyApp.musicViewModel.getMusicsWithPlaylistId('37i9dQZF1DX1X23oiQRTB5').then((value) {
+      setState(() {
+        filteredData = value;
+      });
+    });
   }
 
   Future<void> _scrollListener() async {
@@ -120,8 +130,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                       onEditingComplete: resetFullScreen,
                       onSubmitted: (value) async {
                         if (_textEditingController.text.isEmpty) {
-                        } else if (value == " ") {
-                          print("popular");
+                          fetchTrendingMusic();
                         } else {
                           filteredData = await MyApp.musicViewModel.getMusicsWithNameOrArtistName(value);
                           setState(() {

@@ -44,7 +44,7 @@ class _ButtonPlayComponentState extends State<ButtonPlayComponent> {
       child: Icon(
         isPlaying ? Icons.pause_circle : Icons.play_circle,
         color: Colors.white,
-        size: 53,
+        size: 45,
       ),
     ));
   }
