@@ -29,6 +29,7 @@ class AuthService {
         "nbCapsules": 0,
         "followers": [],
         "token_notify": token,
+        "musics_likes": [],
         "picture":
             "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/justMusicDefaultImage.png?alt=media&token=020d0fcb-b7df-4d4d-b380-e99597293fcc"
       };
