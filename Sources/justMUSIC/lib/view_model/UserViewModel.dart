@@ -17,7 +17,9 @@ class UserViewModel {
 
   set userCurrent(User value) {
     _userCurrent = value;
-  } // Constructor
+  }
+
+  // Constructor
 
   UserViewModel();
 
@@ -31,20 +33,14 @@ class UserViewModel {
     try {
       var token;
       await authService.login(pseudo, password);
-      final user = await MyApp.db
-          .collection("users")
-          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-          .get();
+      await updateUserCurrent();
       if (!kIsWeb) {
         token = await FirebaseMessaging.instance.getToken();
-        if (MyApp.userViewModel.userCurrent.token != token) {
-          _userService.updateTokenNotify(
-              MyApp.userViewModel.userCurrent.id, token);
-          MyApp.userViewModel.userCurrent.token = token;
+        if (_userCurrent.token != token) {
+          _userService.updateTokenNotify(_userCurrent.id, token);
+          _userCurrent.token = token;
         }
       }
-      User data = UserMapper.toModel(user);
-      _userCurrent = data;
     } catch (e) {
       rethrow;
     }
@@ -75,12 +71,7 @@ class UserViewModel {
 
     try {
       await authService.register(pseudo.toLowerCase(), email, password);
-      final user = await MyApp.db
-          .collection("users")
-          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-          .get();
-      User data = UserMapper.toModel(user);
-      _userCurrent = data;
+      await updateUserCurrent();
     } catch (e) {
       rethrow;
     }

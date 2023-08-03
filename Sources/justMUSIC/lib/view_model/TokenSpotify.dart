@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../values/keys.dart';
+
 class TokenSpotify {
-  final String clientId = 'd9b82921bbdf43efa15d0c34c28c6f93';
-  final String _clientSecret = 'ba01687f59ea4ab7ad00c769e89e44d8';
   late String _accessToken;
   late DateTime _tokenEnd;
 
@@ -19,7 +19,7 @@ class TokenSpotify {
   }
 
   _refreshToken() async {
-    final basicAuth = base64Encode(utf8.encode('$clientId:$_clientSecret'));
+    final basicAuth = base64Encode(utf8.encode('$clientId:$clientSecret'));
     final response = await http.post(
       Uri.parse('https://accounts.spotify.com/api/token'),
       headers: {

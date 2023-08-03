@@ -7,10 +7,14 @@ class CommentViewModel {
   List<Comment> _comments = [];
   final CommentService _commentService = CommentService();
 
+  List<Comment> get comments => _comments;
+
   // Constructor
   CommentViewModel();
 
   // Methods
+
+
   addComment(String text, String idPost) async {
     try {
       await _commentService.createComment(text, idPost);
