@@ -33,7 +33,6 @@ class NotificationService {
 
   sendNotifyComment(String token, String text) async {
     var pseudo = MyApp.userViewModel.userCurrent.pseudo;
-    await sendPushMessage(
-        token, "Nouveau message", "$pseudo à réagi à votre post,\"$text\".");
+    await sendPushMessage(token, "Nouveau message de $pseudo", "$text\".");
   }
 }
