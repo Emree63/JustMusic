@@ -50,6 +50,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
 
   @override
   void initState() {
+    super.initState();
     myFocusNode = FocusNode();
   }
 

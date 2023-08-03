@@ -37,8 +37,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     super.initState();
     friendFeed = MyApp.postViewModel.postsFriends;
     discoveryFeed = MyApp.postViewModel.bestPosts;
-    displayFeed =
-        Tuple2(MyApp.postViewModel.postsFriends.reversed.toList(), MyApp.postViewModel.bestPosts.reversed.toList());
+
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -116,6 +115,8 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    displayFeed =
+        Tuple2(MyApp.postViewModel.postsFriends.reversed.toList(), MyApp.postViewModel.bestPosts.reversed.toList());
     bool empty =
         (choiceFeed == true && displayFeed.item1.isEmpty) || (choiceFeed == false && displayFeed.item2.isEmpty);
     return Scaffold(
