@@ -49,7 +49,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     animationController.forward();
     _fetchData().then((tuple) {
       friendFeed = tuple.item2;
-      displayFeed = tuple.item1;
+      discoveryFeed = tuple.item1;
       setState(() {});
     });
   }
