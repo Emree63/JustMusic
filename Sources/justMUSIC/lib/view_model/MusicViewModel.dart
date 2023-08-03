@@ -4,10 +4,12 @@ import 'package:justmusic/view_model/TokenSpotify.dart';
 import 'package:http/http.dart' as http;
 import '../model/Artist.dart';
 import '../model/Music.dart';
+import '../services/MusicService.dart';
 
 class MusicViewModel {
   final String API_URL = "https://api.spotify.com/v1";
   late TokenSpotify _token;
+  MusicService _musicService = MusicService();
 
   MusicViewModel() {
     _token = new TokenSpotify();
@@ -230,6 +232,25 @@ class MusicViewModel {
     } catch (e) {
       return await getMusicsWithName(name,
           limit: limit, offset: offset, market: market);
+    }
+  }
+
+  Future<List<Music>> getFavoriteMusicsByUserId(String id) async {
+    try {
+      var idMusics = await _musicService.getFavoriteMusicsByUserId(id);
+      return await getMusicsWithIds(idMusics);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<bool> addOrDeleteFavoriteMusic(String id) async {
+    try {
+      return await _musicService.addOrDeleteFavoriteMusic(id);
+    } catch (e) {
+      print(e);
+      rethrow;
     }
   }
 }

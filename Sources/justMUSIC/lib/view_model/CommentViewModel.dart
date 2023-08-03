@@ -10,13 +10,14 @@ class CommentViewModel {
   final CommentService _commentService = CommentService();
   final NotificationService _notificationService = NotificationService();
 
+  List<Comment> get comments => _comments;
+
   // Constructor
   CommentViewModel();
 
   // Methods
   addComment(String text, String idPost, User receiver) async {
     try {
-      print(receiver.token);
       await _commentService.createComment(text, idPost);
       _notificationService.sendNotifyComment(receiver.token, text);
     } catch (e) {
