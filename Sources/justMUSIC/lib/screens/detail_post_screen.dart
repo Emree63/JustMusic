@@ -9,6 +9,7 @@ import 'package:text_scroll/text_scroll.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../components/button_play_component.dart';
 import '../components/comment_component.dart';
+import '../components/profil_picture_component.dart';
 import '../main.dart';
 import '../model/Post.dart';
 import '../model/Comment.dart';
@@ -115,10 +116,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                               child: ClipOval(
                                                 child: SizedBox.fromSize(
                                                   // Image radius
-                                                  child: Image(
-                                                    image: NetworkImage(widget.post.user.pp),
-                                                    width: 45,
-                                                  ),
+                                                  child: ProfilPictureComponent(user: widget.post.user),
                                                 ),
                                               ),
                                             )
@@ -146,13 +144,9 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                         fontWeight: FontWeight.w800,
                                                         fontSize: 22,
                                                       ),
-                                                      mode: TextScrollMode
-                                                          .endless,
-                                                      pauseBetween: Duration(
-                                                          milliseconds: 500),
-                                                      velocity: Velocity(
-                                                          pixelsPerSecond:
-                                                              Offset(20, 0)),
+                                                      mode: TextScrollMode.endless,
+                                                      pauseBetween: Duration(milliseconds: 500),
+                                                      velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
                                                     ),
                                                   ),
                                                 ),
@@ -445,7 +439,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                           focusNode: myFocusNode,
                           onSubmitted: (value) async {
                             if (value.isNotEmpty) {
-                              await MyApp.commentViewModel.addComment(value, widget.post.id);
+                              await MyApp.commentViewModel.addComment(value, widget.post.id, widget.post.user);
                             }
                             setState(() {
                               _textController.clear();
@@ -455,11 +449,13 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                           keyboardType: TextInputType.emailAddress,
                           style: GoogleFonts.plusJakartaSans(color: Colors.white),
                           decoration: InputDecoration(
-                            suffixIcon: Icon(
-                              Icons.send,
-                              color: grayText,
-                              size: 20,
-                            ),
+                            suffixIcon: IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.send,
+                                  color: grayText,
+                                  size: 20,
+                                )),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(width: 1, color: grayText),
                               borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -491,8 +487,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
 
 class MyBehavior extends ScrollBehavior {
   @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }

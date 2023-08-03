@@ -1,6 +1,7 @@
 import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/components/profil_picture_component.dart';
 import '../main.dart';
 import '../model/User.dart';
 import '../values/constants.dart';
@@ -23,13 +24,7 @@ class _ProfileListComponentState extends State<ProfileListComponent> {
       padding: const EdgeInsets.only(bottom: 5),
       child: Row(
         children: [
-          ClipOval(
-              child: FadeInImage.assetNetwork(
-                  height: 50,
-                  width: 50,
-                  fit: BoxFit.cover,
-                  placeholder: "assets/images/loadingPlaceholder.gif",
-                  image: widget.user.pp)),
+          ProfilPictureComponent(user: widget.user),
           const SizedBox(
             width: 10,
           ),
