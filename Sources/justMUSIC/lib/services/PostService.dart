@@ -99,4 +99,33 @@ class PostService {
 
     return !isTodayAvailable;
   }
+
+  Future<List<bool>> recapSevenDays(String id) async {
+    List<bool> recapList = [];
+
+    DateTime sevenDaysAgo = DateTime.now().subtract(Duration(days: 7));
+
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
+        .instance
+        .collection("posts")
+        .where("user_id", isEqualTo: id)
+        .get();
+
+    List<Map<String, dynamic>?> postList = response.docs
+        .map((DocumentSnapshot<Map<String, dynamic>> doc) => doc.data())
+        .toList();
+
+    for (int i = 0; i < 7; i++) {
+      DateTime date = sevenDaysAgo.add(Duration(days: i));
+      bool postExists = postList.any((post) =>
+          post?["date"] != null &&
+          post?["date"].toDate().year == date.year &&
+          post?["date"].toDate().month == date.month &&
+          post?["date"].toDate().day == date.day);
+
+      recapList.add(postExists);
+    }
+
+    return recapList;
+  }
 }
