@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/main.dart';
+import 'package:justmusic/main.dart';
+import 'package:tuple/tuple.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
 import '../model/Post.dart';
@@ -27,16 +30,13 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   late List<Post> discoveryFeed;
   late List<Post> displayFeed;
   bool isDismissed = true;
+  bool choiceFeed = false;
 
   @override
   void initState() {
     super.initState();
-
-    MyApp.postViewModel.getPostsFriends();
     friendFeed = MyApp.postViewModel.postsFriends;
-    MyApp.postViewModel.getBestPosts();
     discoveryFeed = MyApp.postViewModel.bestPosts;
-    displayFeed = [];
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -49,11 +49,13 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   }
 
   Future _refresh() async {
-    print("refresh");
-    discoveryFeed = await MyApp.postViewModel.getBestPosts();
-    setState(() {
-      displayFeed = discoveryFeed.reversed.toList();
-    });
+    if (choiceFeed) {
+      await MyApp.postViewModel.getBestPosts();
+      setState(() {});
+    } else {
+      await MyApp.postViewModel.getPostsFriends();
+      setState(() {});
+    }
   }
 
   void changeFeed(bool choice) {
@@ -63,14 +65,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
         animationController.reset();
         displayFeed = MyApp.postViewModel.postsFriends.reversed.toList();
         animationController.forward();
-        print(displayFeed.length);
+        choiceFeed = false;
       });
     } else {
       setState(() {
         animationController.reset();
         displayFeed = MyApp.postViewModel.bestPosts.reversed.toList();
-        print(displayFeed.length);
         animationController.forward();
+        choiceFeed = true;
       });
     }
   }
@@ -94,8 +96,21 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
     );
   }
 
+  _fetchData() async {
+    friendFeed = await MyApp.postViewModel.getPostsFriends();
+    discoveryFeed = await MyApp.postViewModel.getBestPosts();
+    return Tuple2(friendFeed, displayFeed);
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (choiceFeed) {
+      displayFeed = MyApp.postViewModel.postsFriends.reversed.toList();
+    } else {
+      displayFeed = MyApp.postViewModel.bestPosts.reversed.toList();
+    }
+    _fetchData();
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: bgColor,
@@ -148,35 +163,56 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
               )
             : Container(
                 width: double.infinity,
+                height: double.infinity,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: CircularRevealAnimation(
-                        animation: animation,
-                        centerOffset: Offset(30.w, -100),
-                        child: Container(
-                            constraints: BoxConstraints(maxWidth: 600),
-                            padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
-                            child: RefreshIndicator(
-                              displacement: 20,
-                              triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                              onRefresh: _refresh,
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                                clipBehavior: Clip.none,
-                                shrinkWrap: true,
-                                itemCount: displayFeed.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 40),
-                                    child:
-                                        PostComponent(callback: openDetailPost, post: displayFeed[index], index: index),
-                                  );
-                                },
-                              ),
-                            )),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: CircularRevealAnimation(
+                          animation: animation,
+                          centerOffset: Offset(30.w, -100),
+                          child: Expanded(
+                            child: Container(
+                                height: double.infinity,
+                                constraints: BoxConstraints(maxWidth: 600),
+                                padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
+                                child: Expanded(
+                                  child: FutureBuilder(
+                                    future: _fetchData(),
+                                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return RefreshIndicator(
+                                          displacement: 20,
+                                          triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                                          onRefresh: _refresh,
+                                          child: Expanded(
+                                            child: ListView.builder(
+                                              physics: const AlwaysScrollableScrollPhysics(),
+                                              clipBehavior: Clip.none,
+                                              shrinkWrap: true,
+                                              itemCount: displayFeed.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                return Padding(
+                                                  padding: const EdgeInsets.only(bottom: 40),
+                                                  child: PostComponent(
+                                                      callback: openDetailPost, post: displayFeed[index], index: index),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: CupertinoActivityIndicator(),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                )),
+                          ),
+                        ),
                       ),
                     ),
                     Align(
