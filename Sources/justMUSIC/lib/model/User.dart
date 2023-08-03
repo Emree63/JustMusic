@@ -4,13 +4,14 @@ class User {
   String _uniquePseudo;
   String _mail;
   String _pp;
+  String _token;
   List<String> _followers;
   int _capsules;
   List<String> _followed;
 
   // Constructor
-  User(this._id, this._pseudo, this._uniquePseudo, this._mail,
-      this._pp, this._followers, this._capsules, this._followed);
+  User(this._id, this._pseudo, this._uniquePseudo, this._mail, this._pp,
+      this._token, this._followers, this._capsules, this._followed);
 
   //Getters and setters
   String get id => _id;
@@ -37,6 +38,12 @@ class User {
 
   set pp(String value) {
     _pp = value;
+  }
+
+  String get token => _token;
+
+  set token(String value) {
+    _token = value;
   }
 
   int get capsules => _capsules;

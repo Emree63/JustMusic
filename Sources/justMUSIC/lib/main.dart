@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseMessaging.instance.requestPermission(sound: true);
   runApp(const MyApp());
 }
 
@@ -65,7 +67,8 @@ class _MyAppState extends State<MyApp> {
         print('User is currently signed out!');
         return null;
       } else {
-        MyApp.userViewModel.userCurrent = (await (MyApp.userViewModel.getUser(user.uid)))!;
+        MyApp.userViewModel.userCurrent =
+            (await (MyApp.userViewModel.getUser(user.uid)))!;
         userCurrent = Stream.value(MyApp.userViewModel.userCurrent);
         print('User is signed in!');
       }
@@ -112,14 +115,16 @@ class _MyAppState extends State<MyApp> {
                   return FutureBuilder<userJustMusic.User?>(
                     future: MyApp.userViewModel.getUser(snapshot.data!.uid),
                     builder: (context, userSnapshot) {
-                      if (userSnapshot.connectionState == ConnectionState.waiting) {
+                      if (userSnapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return LoadingScreen();
                       } else if (userSnapshot.hasData) {
                         MyApp.userViewModel.userCurrent = userSnapshot.data!;
                         return AnimatedSwitcher(
                           duration: Duration(milliseconds: 1000),
                           transitionBuilder: (child, animation) {
-                            return FadeTransition(opacity: animation, child: child);
+                            return FadeTransition(
+                                opacity: animation, child: child);
                           },
                           child: FeedScreen(),
                         );

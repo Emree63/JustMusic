@@ -21,7 +21,8 @@ class FeedScreen extends StatefulWidget {
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateMixin {
+class _FeedScreenState extends State<FeedScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
   late List<Post> friendFeed;
@@ -87,10 +88,12 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
       isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: ((BuildContext context) {
         return ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             child: DetailPostScreen(post: displayFeed[index]));
       }),
     );
@@ -124,16 +127,21 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                     Container(
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/images/empty_bg.png"), fit: BoxFit.cover, opacity: 0.3),
+                            image: AssetImage("assets/images/empty_bg.png"),
+                            fit: BoxFit.cover,
+                            opacity: 0.3),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(top: 140.h, left: defaultPadding),
+                        padding:
+                            EdgeInsets.only(top: 140.h, left: defaultPadding),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Suis tes amis pour voir leurs capsules",
                                 style: GoogleFonts.plusJakartaSans(
-                                    color: Colors.white, fontSize: 23, fontWeight: FontWeight.w800))
+                                    color: Colors.white,
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w800))
                           ],
                         ),
                       ),
@@ -146,8 +154,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   begin: Alignment.topRight,
-                                  stops: [0.3, 1],
-                                  colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+                                  stops: [
+                                0.3,
+                                1
+                              ],
+                                  colors: [
+                                bgColor.withOpacity(0.9),
+                                bgColor.withOpacity(0)
+                              ])),
                         ),
                       ),
                     ),
@@ -177,27 +191,38 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                             child: Container(
                                 height: double.infinity,
                                 constraints: BoxConstraints(maxWidth: 600),
-                                padding: EdgeInsets.fromLTRB(defaultPadding, 100.h, defaultPadding, 0),
+                                padding: EdgeInsets.fromLTRB(
+                                    defaultPadding, 100.h, defaultPadding, 0),
                                 child: Expanded(
                                   child: FutureBuilder(
                                     future: _fetchData(),
-                                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<dynamic> snapshot) {
                                       if (snapshot.hasData) {
                                         return RefreshIndicator(
                                           displacement: 20,
-                                          triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                                          triggerMode:
+                                              RefreshIndicatorTriggerMode
+                                                  .onEdge,
                                           onRefresh: _refresh,
                                           child: Expanded(
                                             child: ListView.builder(
-                                              physics: const AlwaysScrollableScrollPhysics(),
+                                              physics:
+                                                  const AlwaysScrollableScrollPhysics(),
                                               clipBehavior: Clip.none,
                                               shrinkWrap: true,
                                               itemCount: displayFeed.length,
-                                              itemBuilder: (BuildContext context, int index) {
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return Padding(
-                                                  padding: const EdgeInsets.only(bottom: 40),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 40),
                                                   child: PostComponent(
-                                                      callback: openDetailPost, post: displayFeed[index], index: index),
+                                                      callback: openDetailPost,
+                                                      post: displayFeed[index],
+                                                      index: index),
                                                 );
                                               },
                                             ),
@@ -223,8 +248,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   begin: Alignment.topRight,
-                                  stops: [0.3, 1],
-                                  colors: [bgColor.withOpacity(0.9), bgColor.withOpacity(0)])),
+                                  stops: [
+                                0.3,
+                                1
+                              ],
+                                  colors: [
+                                bgColor.withOpacity(0.9),
+                                bgColor.withOpacity(0)
+                              ])),
                         ),
                       ),
                     ),

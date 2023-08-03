@@ -23,13 +23,10 @@ class CommentViewModel {
   Future<List<Comment>> getCommentsByPostId(String id) async {
     try {
       var responseData = await _commentService.getCommentsByPostId(id);
-      print(responseData.length);
       var commentsFutures = responseData.map((value) async {
         return await CommentMapper.toModel(value);
       }).toList();
       _comments = await Future.wait(commentsFutures);
-      print("ccccccc");
-      _comments.map((e) => print(e.text));
       return _comments;
     } catch (e) {
       print(e);

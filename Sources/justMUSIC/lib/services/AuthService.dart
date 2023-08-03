@@ -1,14 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import '../main.dart';
 
 class AuthService {
   register(String pseudo, String email, String password) async {
     try {
+      var token;
       final data = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      if (kIsWeb) {
+        token = "empty";
+      } else {
+        token = await FirebaseMessaging.instance.getToken();
+      }
 
       String uniqueId = await generateUniqueId(pseudo);
 
@@ -19,6 +28,7 @@ class AuthService {
         "followed": [],
         "nbCapsules": 0,
         "followers": [],
+        "token_notify": token,
         "picture":
             "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/justMusicDefaultImage.png?alt=media&token=020d0fcb-b7df-4d4d-b380-e99597293fcc"
       };

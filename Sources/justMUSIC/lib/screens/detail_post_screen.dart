@@ -21,6 +21,7 @@ import '../values/constants.dart';
 
 class DetailPostScreen extends StatefulWidget {
   final Post post;
+
   const DetailPostScreen({super.key, required this.post});
 
   @override
@@ -31,6 +32,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   TextEditingController _textController = TextEditingController();
   late FocusNode myFocusNode;
   late StreamSubscription<bool> keyboardSubscription;
+
   Future<void> resetFullScreen() async {
     await SystemChannels.platform.invokeMethod<void>(
       'SystemChrome.restoreSystemUIOverlays',
@@ -59,11 +61,13 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
     print("ajrd: ${DateTime.now().toString()}");
     myFocusNode = FocusNode();
     var keyboardVisibilityController = KeyboardVisibilityController();
-    print('Keyboard visibility direct query: ${keyboardVisibilityController.isVisible}');
+    print(
+        'Keyboard visibility direct query: ${keyboardVisibilityController.isVisible}');
 
     super.initState();
 
-    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+    keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((bool visible) {
       if (!visible) {
         myFocusNode.unfocus();
       }
@@ -103,8 +107,11 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                               height: 400,
                               width: double.infinity,
                               child: FadeInImage.assetNetwork(
-                                placeholder: "assets/images/loadingPlaceholder.gif",
-                                image: choice ? widget.post.selfie! : widget.post.music.cover!,
+                                placeholder:
+                                    "assets/images/loadingPlaceholder.gif",
+                                image: choice
+                                    ? widget.post.selfie!
+                                    : widget.post.music.cover!,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                               ),
@@ -125,89 +132,134 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 10),
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 10),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
                                         child: choice
                                             ? Padding(
-                                                padding: const EdgeInsets.all(4),
+                                                padding:
+                                                    const EdgeInsets.all(4),
                                                 child: ClipOval(
                                                   child: SizedBox.fromSize(
                                                     // Image radius
                                                     child: Image(
-                                                      image: NetworkImage(widget.post.user.pp),
+                                                      image: NetworkImage(
+                                                          widget.post.user.pp),
                                                       width: 45,
                                                     ),
                                                   ),
                                                 ),
                                               )
-                                            : widget.post.music.previewUrl != null
-                                                ? ButtonPlayComponent(music: widget.post.music)
+                                            : widget.post.music.previewUrl !=
+                                                    null
+                                                ? ButtonPlayComponent(
+                                                    music: widget.post.music)
                                                 : Container(),
                                       ),
                                       Flexible(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Flexible(
                                               child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
                                                 children: [
                                                   Expanded(
                                                     child: ScrollConfiguration(
-                                                      behavior: ScrollBehavior().copyWith(scrollbars: false),
+                                                      behavior: ScrollBehavior()
+                                                          .copyWith(
+                                                              scrollbars:
+                                                                  false),
                                                       child: TextScroll(
-                                                        choice ? widget.post.user.pseudo : widget.post.music.title!,
-                                                        style: GoogleFonts.plusJakartaSans(
+                                                        choice
+                                                            ? widget.post.user
+                                                                .pseudo
+                                                            : widget.post.music
+                                                                .title!,
+                                                        style: GoogleFonts
+                                                            .plusJakartaSans(
                                                           height: 1,
                                                           color: Colors.white,
-                                                          fontWeight: FontWeight.w800,
+                                                          fontWeight:
+                                                              FontWeight.w800,
                                                           fontSize: 22,
                                                         ),
-                                                        mode: TextScrollMode.endless,
-                                                        pauseBetween: Duration(milliseconds: 500),
-                                                        velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                                        mode: TextScrollMode
+                                                            .endless,
+                                                        pauseBetween: Duration(
+                                                            milliseconds: 500),
+                                                        velocity: Velocity(
+                                                            pixelsPerSecond:
+                                                                Offset(20, 0)),
                                                       ),
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 20.0),
                                                     child: choice
-                                                        ? DateTime(today.year, today.month, today.day).isAtSameMomentAs(
+                                                        ? DateTime(
+                                                                    today.year,
+                                                                    today.month,
+                                                                    today.day)
+                                                                .isAtSameMomentAs(
                                                             DateTime(
-                                                              widget.post.date.year,
-                                                              widget.post.date.month,
-                                                              widget.post.date.day,
+                                                              widget.post.date
+                                                                  .year,
+                                                              widget.post.date
+                                                                  .month,
+                                                              widget.post.date
+                                                                  .day,
                                                             ),
                                                           )
                                                             ? Text(
                                                                 "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
-                                                                style: GoogleFonts.plusJakartaSans(
+                                                                style: GoogleFonts
+                                                                    .plusJakartaSans(
                                                                   height: 1,
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.w900,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900,
                                                                   fontSize: 18,
                                                                 ),
                                                               )
                                                             : Text(
                                                                 "hier, ${widget.post.date.hour}:${widget.post.date.minute}",
-                                                                style: GoogleFonts.plusJakartaSans(
+                                                                style: GoogleFonts
+                                                                    .plusJakartaSans(
                                                                   height: 1,
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.w900,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900,
                                                                   fontSize: 18,
                                                                 ),
                                                               )
                                                         : Text(
-                                                            widget.post.music.date.toString(),
-                                                            style: GoogleFonts.plusJakartaSans(
+                                                            widget
+                                                                .post.music.date
+                                                                .toString(),
+                                                            style: GoogleFonts
+                                                                .plusJakartaSans(
                                                               height: 1,
-                                                              color: Colors.white,
-                                                              fontWeight: FontWeight.w900,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900,
                                                               fontSize: 18,
                                                             ),
                                                           ),
@@ -216,36 +268,52 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                               ),
                                             ),
                                             choice
-                                                ? widget.post.location.item2 != null
+                                                ? widget.post.location.item2 !=
+                                                        null
                                                     ? Text(
                                                         "${widget.post.location.item1}, ${widget.post.location.item2}",
-                                                        style: GoogleFonts.plusJakartaSans(
-                                                          color: Colors.white.withOpacity(0.5),
-                                                          fontWeight: FontWeight.w400,
+                                                        style: GoogleFonts
+                                                            .plusJakartaSans(
+                                                          color: Colors.white
+                                                              .withOpacity(0.5),
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                           fontSize: 15,
                                                         ),
                                                       )
                                                     : Text(
                                                         "",
-                                                        style: GoogleFonts.plusJakartaSans(
-                                                          color: Colors.white.withOpacity(0.4),
-                                                          fontWeight: FontWeight.w300,
+                                                        style: GoogleFonts
+                                                            .plusJakartaSans(
+                                                          color: Colors.white
+                                                              .withOpacity(0.4),
+                                                          fontWeight:
+                                                              FontWeight.w300,
                                                           fontSize: 13,
                                                         ),
                                                       )
                                                 : ScrollConfiguration(
-                                                    behavior: ScrollBehavior().copyWith(scrollbars: false),
+                                                    behavior: ScrollBehavior()
+                                                        .copyWith(
+                                                            scrollbars: false),
                                                     child: TextScroll(
-                                                      widget.post.music.artists.first.name!,
-                                                      style: GoogleFonts.plusJakartaSans(
+                                                      widget.post.music.artists
+                                                          .first.name!,
+                                                      style: GoogleFonts
+                                                          .plusJakartaSans(
                                                         height: 1,
                                                         color: Colors.white,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         fontSize: 17,
                                                       ),
-                                                      mode: TextScrollMode.endless,
-                                                      pauseBetween: Duration(milliseconds: 500),
-                                                      velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                                      mode: TextScrollMode
+                                                          .endless,
+                                                      pauseBetween: Duration(
+                                                          milliseconds: 500),
+                                                      velocity: Velocity(
+                                                          pixelsPerSecond:
+                                                              Offset(20, 0)),
                                                     ),
                                                   ),
                                           ],
@@ -259,7 +327,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   ? Align(
                                       alignment: Alignment.bottomLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(50, 35, 50, 35),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            50, 35, 50, 35),
                                         child: Text(
                                           widget.post.description!,
                                           textAlign: TextAlign.left,
@@ -289,50 +358,77 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 child: Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 20),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 20),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          SvgPicture.asset("assets/images/heart.svg", semanticsLabel: 'Like Logo'),
+                                          SvgPicture.asset(
+                                              "assets/images/heart.svg",
+                                              semanticsLabel: 'Like Logo'),
                                           GestureDetector(
                                             onTap: () {
                                               myFocusNode.requestFocus();
                                             },
-                                            child:
-                                                SvgPicture.asset("assets/images/chat.svg", semanticsLabel: 'Chat Logo'),
+                                            child: SvgPicture.asset(
+                                                "assets/images/chat.svg",
+                                                semanticsLabel: 'Chat Logo'),
                                           ),
-                                          SvgPicture.asset("assets/images/add.svg",
-                                              semanticsLabel: 'Add playlist Logo'),
-                                          SvgPicture.asset("assets/images/save.svg", semanticsLabel: 'Save Logo'),
-                                          SvgPicture.asset("assets/images/report.svg", semanticsLabel: 'Report Logo'),
+                                          SvgPicture.asset(
+                                              "assets/images/add.svg",
+                                              semanticsLabel:
+                                                  'Add playlist Logo'),
+                                          SvgPicture.asset(
+                                              "assets/images/save.svg",
+                                              semanticsLabel: 'Save Logo'),
+                                          SvgPicture.asset(
+                                              "assets/images/report.svg",
+                                              semanticsLabel: 'Report Logo'),
                                         ],
                                       ),
                                     ),
                                     FutureBuilder<List<Comment>>(
-                                      future: MyApp.commentViewModel.getCommentsByPostId(widget.post.id),
-                                      builder: (BuildContext context, AsyncSnapshot<List<Comment>> snapshot) {
+                                      future: MyApp.commentViewModel
+                                          .getCommentsByPostId(widget.post.id),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<List<Comment>>
+                                              snapshot) {
                                         if (snapshot.hasData) {
                                           print("test:");
                                           return Column(
                                             children: [
                                               snapshot.data!.length > 0
                                                   ? Padding(
-                                                      padding: const EdgeInsets.all(15.0),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              15.0),
                                                       child: RichText(
                                                         text: TextSpan(
-                                                          text: snapshot.data!.length.toString(),
-                                                          style: GoogleFonts.plusJakartaSans(
+                                                          text: snapshot
+                                                              .data!.length
+                                                              .toString(),
+                                                          style: GoogleFonts
+                                                              .plusJakartaSans(
                                                             color: Colors.white,
-                                                            fontWeight: FontWeight.w800,
+                                                            fontWeight:
+                                                                FontWeight.w800,
                                                           ),
                                                           children: [
                                                             TextSpan(
-                                                              text: snapshot.data!.length > 1
+                                                              text: snapshot
+                                                                          .data!
+                                                                          .length >
+                                                                      1
                                                                   ? " commentaires"
                                                                   : " commentaire",
-                                                              style: GoogleFonts.plusJakartaSans(
-                                                                color: Colors.white,
-                                                                fontWeight: FontWeight.w400,
+                                                              style: GoogleFonts
+                                                                  .plusJakartaSans(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
                                                               ),
                                                             ),
                                                           ],
@@ -342,13 +438,23 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                   : Container(),
                                               snapshot.data!.length > 0
                                                   ? Padding(
-                                                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          20, 0, 20, 20),
                                                       child: ListView.builder(
                                                         shrinkWrap: true,
-                                                        physics: NeverScrollableScrollPhysics(),
-                                                        itemCount: snapshot.data?.length,
-                                                        itemBuilder: (BuildContext context, int index) {
-                                                          return CommentComponent(comment: snapshot.data![index]);
+                                                        physics:
+                                                            NeverScrollableScrollPhysics(),
+                                                        itemCount: snapshot
+                                                            .data?.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          return CommentComponent(
+                                                              comment: snapshot
+                                                                      .data![
+                                                                  index]);
                                                         },
                                                       ),
                                                     )
@@ -358,7 +464,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                         } else {
                                           return Container(
                                             child: Center(
-                                              child: CupertinoActivityIndicator(),
+                                              child:
+                                                  CupertinoActivityIndicator(),
                                             ),
                                           );
                                         }
@@ -379,11 +486,14 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                       }
                                     },
                                     enableLongTapRepeatEvent: false,
-                                    longTapRepeatDuration: const Duration(milliseconds: 100),
+                                    longTapRepeatDuration:
+                                        const Duration(milliseconds: 100),
                                     begin: 1.0,
                                     end: 0.96,
-                                    beginDuration: const Duration(milliseconds: 70),
-                                    endDuration: const Duration(milliseconds: 100),
+                                    beginDuration:
+                                        const Duration(milliseconds: 70),
+                                    endDuration:
+                                        const Duration(milliseconds: 100),
                                     beginCurve: Curves.decelerate,
                                     endCurve: Curves.easeInOutSine,
                                     child: Container(
@@ -392,13 +502,16 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                       height: 120,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(width: 4, color: Colors.white),
+                                        border: Border.all(
+                                            width: 4, color: Colors.white),
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(15),
                                         // implementer l'image
                                         child: Image(
-                                          image: NetworkImage(choice ? widget.post.music.cover! : widget.post.selfie!),
+                                          image: NetworkImage(choice
+                                              ? widget.post.music.cover!
+                                              : widget.post.selfie!),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -434,7 +547,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
                 height: 70,
                 width: double.infinity,
@@ -464,7 +578,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             focusNode: myFocusNode,
                             onSubmitted: (value) async {
                               if (value.isNotEmpty) {
-                                await MyApp.commentViewModel.addComment(value, widget.post.id);
+                                await MyApp.commentViewModel
+                                    .addComment(value, widget.post.id);
                               }
                               setState(() {
                                 _textController.clear();
@@ -472,7 +587,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             },
                             cursorColor: primaryColor,
                             keyboardType: TextInputType.emailAddress,
-                            style: GoogleFonts.plusJakartaSans(color: Colors.white),
+                            style: GoogleFonts.plusJakartaSans(
+                                color: Colors.white),
                             decoration: InputDecoration(
                               suffixIcon: Icon(
                                 Icons.send,
@@ -480,19 +596,25 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 size: 20,
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 1, color: grayText),
-                                borderRadius: BorderRadius.all(Radius.circular(100)),
+                                borderSide:
+                                    BorderSide(width: 1, color: grayText),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
                               ),
-                              contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
+                              contentPadding: EdgeInsets.only(
+                                  top: 0, bottom: 0, left: 20, right: 20),
                               fillColor: bgModal,
                               filled: true,
                               focusColor: Color.fromRGBO(255, 255, 255, 0.30),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 1, color: grayText),
-                                borderRadius: BorderRadius.all(Radius.circular(100)),
+                                borderSide:
+                                    BorderSide(width: 1, color: grayText),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
                               ),
                               hintText: 'Ajoutez une réponse...',
-                              hintStyle: GoogleFonts.plusJakartaSans(color: grayText),
+                              hintStyle:
+                                  GoogleFonts.plusJakartaSans(color: grayText),
                             ),
                           ),
                         ),
@@ -511,7 +633,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
 
 class MyBehavior extends ScrollBehavior {
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }
