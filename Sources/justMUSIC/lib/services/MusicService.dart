@@ -29,7 +29,7 @@ class MusicService {
     }
   }
 
-  addFavoriteMusic(String id) async {
+  Future<bool> addOrDeleteFavoriteMusic(String id) async {
     var userRef = await FirebaseFirestore.instance
         .collection("users")
         .doc(MyApp.userViewModel.userCurrent.id);
@@ -39,8 +39,11 @@ class MusicService {
     if (!musicFavorite.contains(id)) {
       musicFavorite.add(id);
       await userRef.update({"musics_likes": musicFavorite});
+      return false;
     } else {
-      print("Add error: The music is not in the user's favorite music list");
+      musicFavorite.remove(id);
+      await userRef.update({"musics_likes": musicFavorite});
+      return true;
     }
   }
 }

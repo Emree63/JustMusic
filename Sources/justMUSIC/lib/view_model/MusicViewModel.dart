@@ -245,18 +245,9 @@ class MusicViewModel {
     }
   }
 
-  addFavoriteMusic(String id) async {
+  Future<bool> addOrDeleteFavoriteMusic(String id) async {
     try {
-      await _musicService.addFavoriteMusic(id);
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
-  }
-
-  deleteFavoriteMusic(String id) async {
-    try {
-      await _musicService.deleteFavoriteMusic(id);
+      return await _musicService.addOrDeleteFavoriteMusic(id);
     } catch (e) {
       print(e);
       rethrow;
