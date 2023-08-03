@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -143,8 +141,14 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                         // implement image
                         child: widget.music == null
                             ? Container(
-                                color: grayColor,
                                 width: double.infinity,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.headphones,
+                                    color: grayColor.withOpacity(0.4),
+                                    size: 150,
+                                  ),
+                                ),
                               )
                             : Image(
                                 image: NetworkImage(widget.music?.cover ?? ""),
