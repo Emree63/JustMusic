@@ -106,36 +106,7 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return LoadingScreen();
-                } else if (snapshot.hasData) {
-                  return FutureBuilder<userJustMusic.User?>(
-                    future: MyApp.userViewModel.getUser(snapshot.data!.uid),
-                    builder: (context, userSnapshot) {
-                      if (userSnapshot.connectionState == ConnectionState.waiting) {
-                        return LoadingScreen();
-                      } else if (userSnapshot.hasData) {
-                        MyApp.userViewModel.userCurrent = userSnapshot.data!;
-                        return AnimatedSwitcher(
-                          duration: Duration(milliseconds: 1000),
-                          transitionBuilder: (child, animation) {
-                            return FadeTransition(opacity: animation, child: child);
-                          },
-                          child: FeedScreen(),
-                        );
-                      } else {
-                        return WellcomeScreen();
-                      }
-                    },
-                  );
-                } else {
-                  return WellcomeScreen();
-                }
-              },
-            ));
+            home: WellcomeScreen());
       },
       designSize: Size(390, 844),
     );
