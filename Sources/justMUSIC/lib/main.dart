@@ -11,13 +11,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
-import 'package:justmusic/screens/loading_screen.dart';
 import 'package:justmusic/screens/login_screen.dart';
 import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
-import 'package:justmusic/screens/user_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
@@ -45,6 +43,7 @@ class MyApp extends StatefulWidget {
   static PostViewModel postViewModel = PostViewModel();
   static AudioPlayer audioPlayer = AudioPlayer();
   static CommentViewModel commentViewModel = CommentViewModel();
+  static const keyManager = 'customCacheKey';
 
   const MyApp({super.key});
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,9 +19,7 @@ class CommentComponent extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgComment.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(15)),
+      decoration: BoxDecoration(color: bgComment.withOpacity(0.6), borderRadius: BorderRadius.circular(15)),
       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       margin: EdgeInsets.only(bottom: 13),
       child: Row(
@@ -28,11 +27,17 @@ class CommentComponent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           ClipOval(
-            child: SizedBox.fromSize(
+            child: SizedBox(
+              height: 40,
+              width: 40,
               // Image radius
-              child: Image(
-                image: NetworkImage(comment.user.pp),
-                width: 40,
+              child: CachedNetworkImage(
+                imageUrl: comment.user.pp,
+                fadeInDuration: const Duration(milliseconds: 200),
+                placeholder: (context, url) => Image(
+                  image: AssetImage("assets/images/loadingPlaceholder.gif"),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),
@@ -49,17 +54,14 @@ class CommentComponent extends StatelessWidget {
                     ),
                     Text(
                       comment.user.pseudo,
-                      style: GoogleFonts.plusJakartaSans(
-                          color: Colors.white, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 6, left: 10),
                       child: Text(
                         "il y a ${difference.inHours > 0 ? difference.inHours : difference.inMinutes}${difference.inHours > 0 ? "h" : "m"}",
                         style: GoogleFonts.plusJakartaSans(
-                            color: Colors.white.withOpacity(0.6),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 10),
+                            color: Colors.white.withOpacity(0.6), fontWeight: FontWeight.w400, fontSize: 10),
                       ),
                     ),
                   ],
@@ -71,10 +73,7 @@ class CommentComponent extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     comment.text,
-                    style: GoogleFonts.plusJakartaSans(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15),
                   ),
                 ),
               ],

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,13 +19,19 @@ class ProfileComponent extends StatelessWidget {
       children: [
         ClipOval(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 200, maxHeight: 200),
-            child: Image(
-              image: NetworkImage(user.pp),
-              height: 100.w,
-              width: 100.w,
-            ),
-          ),
+              constraints: BoxConstraints(maxWidth: 200, maxHeight: 200),
+              child: SizedBox(
+                width: 100.w,
+                height: 100.w,
+                child: CachedNetworkImage(
+                  imageUrl: user.pp,
+                  fadeInDuration: const Duration(milliseconds: 300),
+                  placeholder: (context, url) => Image(
+                    image: AssetImage("assets/images/loadingPlaceholder.gif"),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              )),
         ),
         SizedBox(
           height: 10,

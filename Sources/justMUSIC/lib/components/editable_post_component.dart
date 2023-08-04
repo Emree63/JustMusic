@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -150,10 +151,10 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                                   ),
                                 ),
                               )
-                            : Image(
-                                image: NetworkImage(widget.music?.cover ?? ""),
-                                fit: BoxFit.cover,
-                                width: double.infinity,
+                            : CachedNetworkImage(
+                                imageUrl: widget.music!.cover!,
+                                fadeInDuration: const Duration(milliseconds: 100),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
                       ),
                     ),

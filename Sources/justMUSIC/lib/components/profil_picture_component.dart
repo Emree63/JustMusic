@@ -1,6 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
-import 'package:justmusic/screens/user_screen.dart';
-
 import '../config/routes.dart';
 import '../model/User.dart';
 
@@ -20,11 +19,17 @@ class ProfilPictureComponent extends StatelessWidget {
         _openDetail(context);
       },
       child: ClipOval(
-        child: SizedBox.fromSize(
+        child: SizedBox(
+          height: 40,
+          width: 40,
           // Image radius
-          child: Image(
-            image: NetworkImage(user.pp),
-            width: 40,
+          child: CachedNetworkImage(
+            imageUrl: user.pp,
+            fadeInDuration: const Duration(milliseconds: 300),
+            placeholder: (context, url) => Image(
+              image: AssetImage("assets/images/loadingPlaceholder.gif"),
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
       ),

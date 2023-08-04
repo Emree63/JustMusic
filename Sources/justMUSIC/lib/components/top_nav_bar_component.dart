@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -262,13 +263,18 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
                   Navigator.of(context).push(routeProfile());
                 },
                 child: ClipOval(
-                  child: SizedBox.fromSize(
-                      // Image radius
-                      child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/loadingPlaceholder.gif',
-                    image: MyApp.userViewModel.userCurrent.pp,
+                  child: SizedBox(
                     width: 30,
-                  )),
+                    // Image radius
+                    child: CachedNetworkImage(
+                      imageUrl: MyApp.userViewModel.userCurrent.pp,
+                      fadeInDuration: const Duration(milliseconds: 300),
+                      placeholder: (context, url) => Image(
+                        image: AssetImage("assets/images/loadingPlaceholder.gif"),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ),
               ),
             )

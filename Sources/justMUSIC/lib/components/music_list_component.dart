@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/components/play_button_component.dart';
@@ -28,12 +29,19 @@ class MusicListComponent extends StatelessWidget {
               return ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 child: music.cover != null
-                    ? FadeInImage.assetNetwork(
+                    ? SizedBox(
                         height: 60,
                         width: 60,
-                        fit: BoxFit.cover,
-                        placeholder: "assets/images/loadingPlaceholder.gif",
-                        image: music.cover!)
+                        // Image radius
+                        child: CachedNetworkImage(
+                          imageUrl: music.cover!,
+                          fadeInDuration: const Duration(milliseconds: 200),
+                          placeholder: (context, url) => Image(
+                            image: AssetImage("assets/images/loadingPlaceholder.gif"),
+                          ),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        ),
+                      )
                     : Container(
                         height: 60,
                         width: 60,
@@ -41,8 +49,8 @@ class MusicListComponent extends StatelessWidget {
                       ),
               );
             } else {
-              return Image(
-                image: AssetImage("assets/images/exemple_cover.png"),
+              return const Image(
+                image: AssetImage("assets/images/loadingPlaceholder.gif"),
                 height: 60,
                 width: 60,
               );
