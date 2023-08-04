@@ -11,13 +11,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
-import 'package:justmusic/screens/loading_screen.dart';
 import 'package:justmusic/screens/login_screen.dart';
 import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
-import 'package:justmusic/screens/user_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
@@ -29,6 +27,7 @@ import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   tz.initializeTimeZones();
+  Paint.enableDithering = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -124,7 +124,6 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
-                      autofocus: true,
                       controller: _textEditingController,
                       keyboardAppearance: Brightness.dark,
                       onEditingComplete: resetFullScreen,
@@ -132,6 +131,9 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                         if (_textEditingController.text.isEmpty) {
                           fetchTrendingMusic();
                         } else {
+                          setState(() {
+                            filteredData = [];
+                          });
                           filteredData = await MyApp.musicViewModel.getMusicsWithNameOrArtistName(value);
                           setState(() {
                             filteredData = filteredData;
@@ -163,42 +165,84 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                   ),
                 ),
                 Flexible(
-                    child: ScrollConfiguration(
-                  behavior: ScrollBehavior().copyWith(scrollbars: true),
-                  child: ListView.builder(
-                      physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                      controller: _scrollController,
-                      itemCount: filteredData.length,
-                      itemBuilder: (context, index) {
-                        if (playingIndex == index) {
-                          return InkWell(
-                              onTap: () {
-                                widget.callback(filteredData[index]);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: MusicListComponent(
-                                  music: filteredData[index],
-                                  playing: true,
-                                  callback: playMusic,
-                                  index: index,
-                                ),
-                              ));
-                        }
-                        return InkWell(
-                            onTap: () {
-                              widget.callback(filteredData[index]);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: MusicListComponent(
-                                music: filteredData[index],
-                                playing: false,
-                                callback: playMusic,
-                                index: index,
-                              ),
-                            ));
-                      }),
+                    child: PageView(
+                  physics: BouncingScrollPhysics(),
+                  children: [
+                    ScrollConfiguration(
+                      behavior: ScrollBehavior().copyWith(scrollbars: true),
+                      child: ListView.builder(
+                          physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                          controller: _scrollController,
+                          itemCount: filteredData.length,
+                          itemBuilder: (context, index) {
+                            if (playingIndex == index) {
+                              return InkWell(
+                                  onTap: () {
+                                    widget.callback(filteredData[index]);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: MusicListComponent(
+                                      music: filteredData[index],
+                                      playing: true,
+                                      callback: playMusic,
+                                      index: index,
+                                    ),
+                                  ));
+                            }
+                            return InkWell(
+                                onTap: () {
+                                  widget.callback(filteredData[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: MusicListComponent(
+                                    music: filteredData[index],
+                                    playing: false,
+                                    callback: playMusic,
+                                    index: index,
+                                  ),
+                                ));
+                          }),
+                    ),
+                    ScrollConfiguration(
+                      behavior: ScrollBehavior().copyWith(scrollbars: true),
+                      child: ListView.builder(
+                          physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                          controller: _scrollController,
+                          itemCount: filteredData.length,
+                          itemBuilder: (context, index) {
+                            if (playingIndex == index) {
+                              return InkWell(
+                                  onTap: () {
+                                    widget.callback(filteredData[index]);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: MusicListComponent(
+                                      music: filteredData[index],
+                                      playing: true,
+                                      callback: playMusic,
+                                      index: index,
+                                    ),
+                                  ));
+                            }
+                            return InkWell(
+                                onTap: () {
+                                  widget.callback(filteredData[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: MusicListComponent(
+                                    music: filteredData[index],
+                                    playing: false,
+                                    callback: playMusic,
+                                    index: index,
+                                  ),
+                                ));
+                          }),
+                    )
+                  ],
                 ))
               ],
             ),

@@ -14,11 +14,11 @@ class Music {
   List<Artist> _artists;
 
   // Constructor
-  Music(this._id, this._title, this._cover, this._previewUrl, this._date,
-      this._duration, this._explicit, this._artists);
+  Music(
+      this._id, this._title, this._cover, this._previewUrl, this._date, this._duration, this._explicit, this._artists);
 
   //Getters and setters
-  String? get id => _id;
+  String get id => _id;
 
   String? get title => _title;
 
