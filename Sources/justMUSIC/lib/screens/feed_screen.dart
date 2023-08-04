@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:justmusic/main.dart';
 import 'package:tuple/tuple.dart';
+import '../ad_helper.dart';
+import '../components/ad_component.dart';
 import '../components/post_component.dart';
 import '../components/top_nav_bar_component.dart';
 import '../model/Post.dart';
@@ -25,19 +28,23 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   late Animation<double> animation;
   late List<Post> friendFeed;
   Timer? timer;
+  late BannerAd _bannerAd;
 
   late List<Post> discoveryFeed;
   late Tuple2<List<Post>, List<Post>> displayFeed;
   bool isDismissed = true;
   bool choiceFeed = true;
   PageController controller = PageController();
-
+  final String AdUnitId = "ca-app-pub-9896583895323467~5308111198";
+  bool isBannerAdReady = false;
   @override
   void initState() {
     super.initState();
+
     friendFeed = MyApp.postViewModel.postsFriends;
     discoveryFeed = MyApp.postViewModel.bestPosts;
 
+    createWidgetAd();
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -52,6 +59,32 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
       discoveryFeed = tuple.item1;
       setState(() {});
     });
+  }
+
+  createWidgetAd() {
+    try {
+      _bannerAd = BannerAd(
+          size: AdSize.banner,
+          adUnitId: AdHelper.bannerAdUnitId,
+          listener: BannerAdListener(
+            onAdLoaded: (Ad ad) {
+              setState(() {
+                isBannerAdReady = true;
+              });
+            },
+            onAdFailedToLoad: (Ad ad, LoadAdError error) {
+              ad.dispose();
+              print("error loading ad!");
+            },
+            onAdOpened: (Ad ad) => print("Ad open!"),
+            onAdClosed: (Ad ad) => print("Ad closed!"),
+            onAdImpression: (Ad ad) => print("Ad impressed!"),
+          ),
+          request: const AdRequest());
+      _bannerAd.load();
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -120,6 +153,15 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
         Tuple2(MyApp.postViewModel.postsFriends.reversed.toList(), MyApp.postViewModel.bestPosts.reversed.toList());
     bool empty =
         (choiceFeed == true && displayFeed.item1.isEmpty) || (choiceFeed == false && displayFeed.item2.isEmpty);
+
+    final AdWidget adWidget = AdWidget(ad: _bannerAd);
+    final Container adContainer = Container(
+      alignment: Alignment.center,
+      width: _bannerAd.size.width.toDouble(),
+      height: _bannerAd.size.height.toDouble(),
+      child: adWidget,
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: bgColor,
@@ -204,7 +246,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                         displacement: 20,
                         triggerMode: RefreshIndicatorTriggerMode.onEdge,
                         onRefresh: _refresh,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                           clipBehavior: Clip.none,
                           shrinkWrap: false,
@@ -215,6 +257,16 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                               child:
                                   PostComponent(callback: openDetailPost, post: displayFeed.item2[index], index: index),
                             );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            print("separator");
+                            return isBannerAdReady
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 40),
+                                    child: AdComponent(
+                                      ad: adContainer,
+                                    ))
+                                : Container();
                           },
                         ),
                       ),

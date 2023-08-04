@@ -3,11 +3,11 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
@@ -28,10 +28,16 @@ import 'package:timezone/data/latest.dart' as tz;
 Future<void> main() async {
   tz.initializeTimeZones();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await FirebaseMessaging.instance.requestPermission(sound: true);
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print('Error initializing Firebase: $e');
+  }
+  MobileAds.instance.initialize();
+  //await FirebaseMessaging.instance.requestPermission(sound: true);
   runApp(const MyApp());
 }
 
@@ -58,7 +64,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    checkSignIn();
+    //checkSignIn();
   }
 
   Future<userJustMusic.User?> checkSignIn() async {
