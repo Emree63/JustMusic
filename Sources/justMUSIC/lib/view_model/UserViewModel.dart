@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -109,5 +111,23 @@ class UserViewModel {
 
   bool isFriend(String id) {
     return _userCurrent.followed.contains(id);
+  }
+
+  updateImage(File pp) async {
+    try {
+      await _userService.updateImage(pp);
+    } catch(e) {
+      print(e.toString());
+      rethrow;
+    }
+  }
+
+  updatePseudo(String pseudo) async {
+    try {
+      await _userService.updatePseudo(pseudo);
+    } catch(e) {
+      print(e.toString());
+      rethrow;
+    }
   }
 }

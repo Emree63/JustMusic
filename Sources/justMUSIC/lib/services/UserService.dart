@@ -1,4 +1,7 @@
- import 'package:cloud_firestore/cloud_firestore.dart';
+ import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../main.dart';
 
@@ -59,4 +62,25 @@ class UserService {
       MyApp.userViewModel.userCurrent.followed.add(id);
     }
   }
+
+  updateImage(File image) async {
+    var id = MyApp.userViewModel.userCurrent.id;
+    var userRef = await MyApp.db.collection("posts").doc(MyApp.userViewModel.userCurrent.id);
+    var imageRef = FirebaseStorage.instance.ref('$id.jpg');
+    await imageRef.putFile(image);
+    var imageUrl = await imageRef.getDownloadURL();
+    userRef.update({"picture": imageUrl});
+  }
+
+  updatePseudo(String pseudo) async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(MyApp.userViewModel.userCurrent.pp)
+        .update({'pseudo': pseudo}).then((_) {
+      print("Mise à jour réussie !");
+    }).catchError((error) {
+      print("Erreur lors de la mise à jour : $error");
+    });
+  }
+
 }
