@@ -5,7 +5,8 @@ enum JustMusicIcon {
   cross,
   history,
   theme,
-  notification
+  notification,
+  password,
 }
 
 extension MyIconExtension on JustMusicIcon {
@@ -25,7 +26,8 @@ extension MyIconExtension on JustMusicIcon {
         return 'assets/images/theme_icon.png';
       case JustMusicIcon.notification:
         return 'assets/images/notification_icon.png';
-
+      case JustMusicIcon.password:
+        return 'assets/images/password_icon.png';
       default:
         throw 'assets/images/unknown.png';
     }

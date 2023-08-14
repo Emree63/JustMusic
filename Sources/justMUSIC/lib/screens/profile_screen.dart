@@ -30,6 +30,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.of(context).push(routeUser(MyApp.userViewModel.userCurrent));
     }
 
+    void _openPassword() {
+      Navigator.of(context).push(routePassword());
+    }
+
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 58),
@@ -112,6 +116,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: JustMusicIcon.spotify,
                             label: 'Lier un compte Spotify',
                             action: null,
+                          ),
+                          SettingPartComponent(
+                            icon: JustMusicIcon.password,
+                            label: 'Modifier mon mot de passe',
+                            action: _openPassword,
                           ),
                           const SettingPartComponent(
                             icon: JustMusicIcon.trash,

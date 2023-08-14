@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -10,11 +12,11 @@ import 'package:image_picker/image_picker.dart';
 import '../components/profile_component.dart';
 import '../components/recap_component.dart';
 import '../main.dart';
-import '../model/User.dart';
+import '../model/User.dart' as UserJstMusic;
 import '../values/constants.dart';
 
 class UserScreen extends StatefulWidget {
-  final User user;
+  final UserJstMusic.User user;
   const UserScreen({super.key, required this.user});
 
   @override
