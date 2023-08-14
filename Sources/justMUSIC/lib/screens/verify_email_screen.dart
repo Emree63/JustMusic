@@ -48,7 +48,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
 
-    if (isEmailVerified) timer?.cancel();
+    if (isEmailVerified) {
+      timer?.cancel();
+      Navigator.pushNamed(context, '/explanation');
+    }
   }
 
   cancel() {
