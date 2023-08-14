@@ -31,7 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         await MyApp.userViewModel.register(_userPseudoTextField.text, _passwordTextField.text, _userMailTextField.text);
-        Navigator.pushNamed(context, '/explanation');
+        Navigator.pushNamed(context, '/verifyEmail');
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

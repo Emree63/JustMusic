@@ -103,7 +103,6 @@ class AuthService {
 
       await currentUser?.delete();
       await FirebaseAuth.instance.signOut();
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
         throw ('Please log in again to delete your account');

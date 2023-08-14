@@ -16,6 +16,7 @@ import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/post_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
+import 'package:justmusic/screens/verify_email_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
@@ -100,6 +101,7 @@ class _MyAppState extends State<MyApp> {
               '/explanation': (context) => const ExplanationsScreen(),
               '/addFriend': (context) => const AddFriendScreen(),
               '/launchingRocket': (context) => const LaunchingRocketScreen(),
+              '/verifyEmail': (context) => const VerifyEmailScreen(),
             },
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
