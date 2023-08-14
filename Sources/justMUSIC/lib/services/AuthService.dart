@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../main.dart';
 
 class AuthService {
@@ -50,6 +51,19 @@ class AuthService {
       }
       rethrow;
     }
+  }
+
+  signInWithGoogle() async {
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<String> generateUniqueId(String pseudo) async {
@@ -103,7 +117,6 @@ class AuthService {
 
       await currentUser?.delete();
       await FirebaseAuth.instance.signOut();
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
         throw ('Please log in again to delete your account');

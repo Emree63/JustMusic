@@ -12,7 +12,7 @@ import '../main.dart';
 
 class UserViewModel {
   late User _userCurrent;
-  final AuthService authService = AuthService();
+  final AuthService _authService = AuthService();
   final UserService _userService = UserService();
 
   User get userCurrent => _userCurrent;
@@ -34,7 +34,7 @@ class UserViewModel {
   login(String pseudo, String password) async {
     try {
       var token;
-      await authService.login(pseudo, password);
+      await _authService.login(pseudo, password);
       await updateUserCurrent();
       if (!kIsWeb) {
         token = await FirebaseMessaging.instance.getToken();
@@ -72,11 +72,15 @@ class UserViewModel {
     }
 
     try {
-      await authService.register(pseudo.toLowerCase(), email, password);
+      await _authService.register(pseudo.toLowerCase(), email, password);
       await updateUserCurrent();
     } catch (e) {
       rethrow;
     }
+  }
+
+  signInWithGoogle() async {
+    await _authService.signInWithGoogle();
   }
 
   Future<List<User>> getUsersByUniqueId(String uniqueId) async {
@@ -102,11 +106,11 @@ class UserViewModel {
   }
 
   logout() {
-    authService.signOut();
+    _authService.signOut();
   }
 
   delete() {
-    authService.delete();
+    _authService.delete();
   }
 
   bool isFriend(String id) {
@@ -116,7 +120,7 @@ class UserViewModel {
   updateImage(File pp) async {
     try {
       await _userService.updateImage(pp);
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
       rethrow;
     }
@@ -125,7 +129,7 @@ class UserViewModel {
   updatePseudo(String pseudo) async {
     try {
       await _userService.updatePseudo(pseudo);
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
       rethrow;
     }
