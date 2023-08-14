@@ -31,7 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         await MyApp.userViewModel.register(_userPseudoTextField.text, _passwordTextField.text, _userMailTextField.text);
-        Navigator.pushNamed(context, '/explanation');
+        Navigator.pushNamed(context, '/verifyEmail');
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -369,7 +369,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     child: LinearProgressIndicator(
                       minHeight: 5,
-                      value: 0.5,
+                      value: 0.1,
                       backgroundColor: grayColor,
                       color: primaryColor,
                     ),

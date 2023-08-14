@@ -35,13 +35,17 @@ class UserViewModel {
     try {
       var token;
       await authService.login(pseudo, password);
-      await updateUserCurrent();
-      if (!kIsWeb) {
-        token = await FirebaseMessaging.instance.getToken();
-        if (_userCurrent.token != token) {
-          _userService.updateTokenNotify(_userCurrent.id, token);
-          _userCurrent.token = token;
+      if (firebase_auth.FirebaseAuth.instance.currentUser!.emailVerified) {
+        await updateUserCurrent();
+        if (!kIsWeb) {
+          token = await FirebaseMessaging.instance.getToken();
+          if (_userCurrent.token != token) {
+            _userService.updateTokenNotify(_userCurrent.id, token);
+            _userCurrent.token = token;
+          }
         }
+      } else {
+        throw ("Le mail n'a pas encore été vérifié");
       }
     } catch (e) {
       rethrow;
