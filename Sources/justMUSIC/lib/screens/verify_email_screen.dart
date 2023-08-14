@@ -76,10 +76,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         SnackBar(
           content: Text(
             e.toString() ?? "",
-            style: GoogleFonts.plusJakartaSans(
-                color: Colors.white,
-                fontWeight: FontWeight.w400,
-                fontSize: 20.h),
+            style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
           ),
           backgroundColor: Colors.red,
         ),
@@ -103,9 +100,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         child: Align(
                           child: SizedBox(
                             width: 56.h,
-                            child: Image(
-                                image:
-                                    AssetImage("assets/images/plane_icon.png")),
+                            child: Image(image: AssetImage("assets/images/plane_icon.png")),
                           ),
                         )),
                     Padding(
@@ -113,9 +108,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                       child: AutoSizeText(
                         "Verification de ton Email",
                         style: GoogleFonts.plusJakartaSans(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 24.w),
+                            color: Colors.white, fontWeight: FontWeight.w600, fontSize: 24.w),
                         maxLines: 1,
                         maxFontSize: 30,
                         overflow: TextOverflow.fade,
@@ -136,9 +129,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                               child: AutoSizeText(
                                 "Nous vous avons envoyé un lien de confirmation a l'adresse ${MyApp.userViewModel.userCurrent.mail}.\nVeuillez verifier votre messagerie et cliquer sur le lien pour vérifier votre Email.",
                                 style: GoogleFonts.plusJakartaSans(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 16.w),
+                                    color: Colors.white, fontWeight: FontWeight.w100, fontSize: 16.w),
                                 maxFontSize: 20,
                                 textAlign: TextAlign.center,
                               ),
@@ -168,9 +159,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             text: TextSpan(
                               text: 'Renvoyer l’Email de confirmation',
                               style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: primaryColor),
+                                  fontSize: 15, fontWeight: FontWeight.w400, color: primaryColor),
                             ),
                           ),
                         ),
@@ -189,9 +178,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             text: TextSpan(
                               text: 'Revenir a l’étape précédente',
                               style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: primaryColor),
+                                  fontSize: 15, fontWeight: FontWeight.w400, color: primaryColor),
                             ),
                           ),
                         ),
@@ -206,13 +193,12 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 800),
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      top: 45.h, left: defaultPadding, right: defaultPadding),
+                  padding: EdgeInsets.only(top: 45.h, left: defaultPadding, right: defaultPadding),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: LinearProgressIndicator(
                       minHeight: 5,
-                      value: 0.75,
+                      value: 0.5,
                       backgroundColor: grayColor,
                       color: primaryColor,
                     ),
