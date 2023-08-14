@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -130,13 +129,10 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                             children: [
                               SizedBox(
                                 width: double.infinity,
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.post.music.cover!,
-                                  fadeInDuration: const Duration(milliseconds: 200),
-                                  placeholder: (context, url) => Image(
-                                    image: AssetImage("assets/images/loadingPlaceholder.gif"),
-                                  ),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                child: FadeInImage.assetNetwork(
+                                  image: widget.post.music.cover!,
+                                  fadeInDuration: const Duration(milliseconds: 100),
+                                  placeholder: "assets/images/loadingPlaceholder.gif",
                                 ),
                               ),
                               Image(
@@ -177,14 +173,11 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(13),
                                             // implement image
-                                            child: CachedNetworkImage(
-                                              imageUrl: widget.post.selfie!,
+                                            child: FadeInImage.assetNetwork(
+                                              image: widget.post.selfie!,
                                               fit: BoxFit.cover,
-                                              fadeInDuration: const Duration(milliseconds: 200),
-                                              placeholder: (context, url) => Image(
-                                                image: AssetImage("assets/images/loadingPlaceholder.gif"),
-                                              ),
-                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                              fadeInDuration: const Duration(milliseconds: 100),
+                                              placeholder: "assets/images/loadingPlaceholder.gif",
                                             ),
                                           ),
                                         ),

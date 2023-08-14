@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/components/play_button_component.dart';
@@ -33,13 +32,11 @@ class MusicListComponent extends StatelessWidget {
                         height: 60,
                         width: 60,
                         // Image radius
-                        child: CachedNetworkImage(
-                          imageUrl: music.cover!,
-                          fadeInDuration: const Duration(milliseconds: 200),
-                          placeholder: (context, url) => Image(
-                            image: AssetImage("assets/images/loadingPlaceholder.gif"),
-                          ),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        child: FadeInImage.assetNetwork(
+                          image: music.cover!,
+                          fit: BoxFit.cover,
+                          fadeInDuration: const Duration(milliseconds: 100),
+                          placeholder: "assets/images/loadingPlaceholder.gif",
                         ),
                       )
                     : Container(

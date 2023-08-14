@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,13 +30,10 @@ class CommentComponent extends StatelessWidget {
               height: 40,
               width: 40,
               // Image radius
-              child: CachedNetworkImage(
-                imageUrl: comment.user.pp,
-                fadeInDuration: const Duration(milliseconds: 200),
-                placeholder: (context, url) => Image(
-                  image: AssetImage("assets/images/loadingPlaceholder.gif"),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+              child: FadeInImage.assetNetwork(
+                image: comment.user.pp,
+                fadeInDuration: const Duration(milliseconds: 100),
+                placeholder: "assets/images/loadingPlaceholder.gif",
               ),
             ),
           ),

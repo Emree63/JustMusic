@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
 import '../config/routes.dart';
 import '../model/User.dart';
@@ -23,13 +22,11 @@ class ProfilPictureComponent extends StatelessWidget {
           height: 40,
           width: 40,
           // Image radius
-          child: CachedNetworkImage(
-            imageUrl: user.pp,
-            fadeInDuration: const Duration(milliseconds: 300),
-            placeholder: (context, url) => Image(
-              image: AssetImage("assets/images/loadingPlaceholder.gif"),
-            ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+          child: FadeInImage.assetNetwork(
+            image: user.pp,
+            fit: BoxFit.cover,
+            fadeInDuration: const Duration(milliseconds: 100),
+            placeholder: "assets/images/loadingPlaceholder.gif",
           ),
         ),
       ),

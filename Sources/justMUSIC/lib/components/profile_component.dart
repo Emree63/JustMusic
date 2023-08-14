@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,13 +22,11 @@ class ProfileComponent extends StatelessWidget {
               child: SizedBox(
                 width: 100.w,
                 height: 100.w,
-                child: CachedNetworkImage(
-                  imageUrl: user.pp,
-                  fadeInDuration: const Duration(milliseconds: 300),
-                  placeholder: (context, url) => Image(
-                    image: AssetImage("assets/images/loadingPlaceholder.gif"),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                child: FadeInImage.assetNetwork(
+                  image: user.pp,
+                  fit: BoxFit.cover,
+                  fadeInDuration: const Duration(milliseconds: 100),
+                  placeholder: "assets/images/loadingPlaceholder.gif",
                 ),
               )),
         ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -90,14 +89,11 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                               child: Container(
                                 height: 400,
                                 width: double.infinity,
-                                child: CachedNetworkImage(
-                                  imageUrl: choice ? widget.post.selfie! : widget.post.music.cover!,
-                                  fadeInDuration: const Duration(milliseconds: 300),
+                                child: FadeInImage.assetNetwork(
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => Image(
-                                    image: AssetImage("assets/images/loadingPlaceholder.gif"),
-                                  ),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                  image: choice ? widget.post.selfie! : widget.post.music.cover!,
+                                  fadeInDuration: const Duration(milliseconds: 100),
+                                  placeholder: "assets/images/loadingPlaceholder.gif",
                                 ),
                               ),
                             ),
