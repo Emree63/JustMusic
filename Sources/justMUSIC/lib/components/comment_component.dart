@@ -32,6 +32,7 @@ class CommentComponent extends StatelessWidget {
               // Image radius
               child: FadeInImage.assetNetwork(
                 image: comment.user.pp,
+                fit: BoxFit.cover,
                 fadeInDuration: const Duration(milliseconds: 100),
                 placeholder: "assets/images/loadingPlaceholder.gif",
               ),

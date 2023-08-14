@@ -83,72 +83,74 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-            resetFullScreen();
-          }
-        },
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 58),
-            child: Container(
-              height: double.infinity,
-              color: bgAppBar,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          height: 30,
-                          width: 30,
-                          child: Image(
-                            image: AssetImage("assets/images/return_icon.png"),
-                            height: 8,
-                          ),
-                        )),
-                    Align(
-                      child: Text(
-                        "Mettre le mot de passe à jour",
-                        style:
-                            GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+          resetFullScreen();
+        }
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size(double.infinity, 58),
+          child: Container(
+            height: double.infinity,
+            color: bgAppBar,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                children: [
+                  GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        height: 30,
+                        width: 30,
+                        child: Image(
+                          image: AssetImage("assets/images/return_icon.png"),
+                          height: 8,
+                        ),
+                      )),
+                  Align(
+                    child: Text(
+                      "Mettre le mot de passe à jour",
+                      style:
+                          GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
-          body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: bgColor,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: settingPadding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 40),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Form(
-                          key: _formKey,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Column(
+        ),
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: bgColor,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: settingPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 30, bottom: 40),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Form(
+                        key: _formKey,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 600),
+                              child: Column(
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -274,34 +276,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     ],
                                   ),
                                 ],
-                              )
-                            ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: handleChange,
+                    child: Align(
+                      child: Container(
+                        height: 35,
+                        width: 160,
+                        decoration:
+                            BoxDecoration(color: primaryColor, borderRadius: BorderRadius.all(Radius.circular(10))),
+                        child: Center(
+                          child: Text(
+                            "Mettre à jour",
+                            style: GoogleFonts.plusJakartaSans(color: Colors.white),
                           ),
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: handleChange,
-                      child: Align(
-                        child: Container(
-                          height: 35,
-                          width: 160,
-                          decoration:
-                              BoxDecoration(color: primaryColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-                          child: Center(
-                            child: Text(
-                              "Mettre à jour",
-                              style: GoogleFonts.plusJakartaSans(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
