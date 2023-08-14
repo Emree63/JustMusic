@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/main.dart';
+import 'package:justmusic/values/constants.dart';
+
+import '../components/login_button.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
@@ -28,8 +32,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       sendVerificationEmail();
 
       timer = Timer.periodic(
-        Duration(seconds: 3),
-            (_) => checkEmailVerified(),
+        Duration(seconds: 5),
+        (_) => checkEmailVerified(),
       );
     }
   }
@@ -55,7 +59,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   }
 
   cancel() {
-    Navigator.pushNamed(context, '/welcome');
+    Navigator.pushNamed(context, '/register');
     MyApp.userViewModel.delete();
   }
 
@@ -86,38 +90,137 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Verify Email'),
-        ),
-        body: Padding(
-            padding: EdgeInsets.all(16),
-            child:
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text('A verification email has been sent to your email.',
-                  style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
-              SizedBox(height: 24),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50),
+        backgroundColor: bgColor,
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(top: 200.h),
+                        child: Align(
+                          child: SizedBox(
+                            width: 56.h,
+                            child: Image(
+                                image:
+                                    AssetImage("assets/images/plane_icon.png")),
+                          ),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(top: 43.h),
+                      child: AutoSizeText(
+                        "Verification de ton Email",
+                        style: GoogleFonts.plusJakartaSans(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 24.w),
+                        maxLines: 1,
+                        maxFontSize: 30,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 50.h),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            SizedBox(
+                              width: 346.h,
+                              child: AutoSizeText(
+                                "Nous vous avons envoyé un lien de confirmation a l'adresse ${MyApp.userViewModel.userCurrent.mail}.\nVeuillez verifier votre messagerie et cliquer sur le lien pour vérifier votre Email.",
+                                style: GoogleFonts.plusJakartaSans(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 16.w),
+                                maxFontSize: 20,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                      child: SizedBox(
+                          width: 600,
+                          child: LoginButton(
+                            callback: checkEmailVerified,
+                          )),
+                    ),
+                    Align(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          canResendEmail ? sendVerificationEmail() : null;
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 55),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: 'Renvoyer l’Email de confirmation',
+                              style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: primaryColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          cancel();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 43),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: 'Revenir a l’étape précédente',
+                              style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: primaryColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                icon: Icon(Icons.email, size: 32),
-                label: Text(
-                  'ResentEmail',
-                  style: TextStyle(fontSize: 24),
-                ),
-                onPressed: canResendEmail ? sendVerificationEmail : null,
               ),
-              SizedBox(height: 8),
-              TextButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 800),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      top: 45.h, left: defaultPadding, right: defaultPadding),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: LinearProgressIndicator(
+                      minHeight: 5,
+                      value: 0.75,
+                      backgroundColor: grayColor,
+                      color: primaryColor,
+                    ),
+                  ),
                 ),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 24),
-                ),
-                onPressed: cancel,
-              )
-            ])));
+              ),
+            )
+          ],
+        ));
   }
 }
