@@ -1,4 +1,4 @@
- import 'dart:io';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,14 +6,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../main.dart';
 
 class UserService {
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getUsersByIdUnique(
-      String uniqueId) async {
-    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
-        .instance
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getUsersByIdUnique(String uniqueId) async {
+    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore.instance
         .collection("users")
         .where("unique_id", isGreaterThanOrEqualTo: uniqueId)
-        .where("unique_id",
-            isLessThanOrEqualTo: uniqueId + "zzzzzzzzzzzzzzzzzzzzzzzzzzzz")
+        .where("unique_id", isLessThanOrEqualTo: uniqueId + "zzzzzzzzzzzzzzzzzzzzzzzzzzzz")
         .limit(20)
         .get();
     var users = response.docs.where((doc) {
@@ -25,10 +22,7 @@ class UserService {
   }
 
   updateTokenNotify(String idUser, String token) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(idUser)
-        .update({'token_notify': token}).then((_) {
+    FirebaseFirestore.instance.collection('users').doc(idUser).update({'token_notify': token}).then((_) {
       print("Mise à jour réussie !");
     }).catchError((error) {
       print("Erreur lors de la mise à jour : $error");
@@ -36,8 +30,7 @@ class UserService {
   }
 
   addOrDeleteFriend(String id) async {
-    var userRef =
-        MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
+    var userRef = MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
     var actionUserRef = MyApp.db.collection("users").doc(id);
 
     if (MyApp.userViewModel.isFriend(id)) {
@@ -65,7 +58,7 @@ class UserService {
 
   updateImage(File image) async {
     var id = MyApp.userViewModel.userCurrent.id;
-    var userRef = await MyApp.db.collection("posts").doc(MyApp.userViewModel.userCurrent.id);
+    var userRef = await MyApp.db.collection("users").doc(MyApp.userViewModel.userCurrent.id);
     var imageRef = FirebaseStorage.instance.ref('$id.jpg');
     await imageRef.putFile(image);
     var imageUrl = await imageRef.getDownloadURL();
@@ -82,5 +75,4 @@ class UserService {
       print("Erreur lors de la mise à jour : $error");
     });
   }
-
 }

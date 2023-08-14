@@ -435,9 +435,13 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                           ClipOval(
                             child: SizedBox.fromSize(
                               // Rayon de l'image
-                              child: Image.network(
-                                MyApp.userViewModel.userCurrent.pp,
+                              child: FadeInImage.assetNetwork(
+                                image: MyApp.userViewModel.userCurrent.pp,
                                 width: 45,
+                                height: 45,
+                                fit: BoxFit.cover,
+                                fadeInDuration: const Duration(milliseconds: 100),
+                                placeholder: "assets/images/loadingPlaceholder.gif",
                               ),
                             ),
                           ),

@@ -59,10 +59,7 @@ class UserViewModel {
 
   updateUserCurrent() async {
     try {
-      final user = await MyApp.db
-          .collection("users")
-          .doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid)
-          .get();
+      final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
     } catch (e) {
@@ -85,8 +82,7 @@ class UserViewModel {
 
   Future<List<User>> getUsersByUniqueId(String uniqueId) async {
     try {
-      var response =
-          await _userService.getUsersByIdUnique(uniqueId.toLowerCase());
+      var response = await _userService.getUsersByIdUnique(uniqueId.toLowerCase());
       var users = response.map((value) {
         return UserMapper.toModel(value);
       }).toList();
@@ -120,7 +116,8 @@ class UserViewModel {
   updateImage(File pp) async {
     try {
       await _userService.updateImage(pp);
-    } catch(e) {
+      await updateUserCurrent();
+    } catch (e) {
       print(e.toString());
       rethrow;
     }
@@ -129,7 +126,7 @@ class UserViewModel {
   updatePseudo(String pseudo) async {
     try {
       await _userService.updatePseudo(pseudo);
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
       rethrow;
     }

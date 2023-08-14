@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/Material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../components/profile_component.dart';
 import '../components/recap_component.dart';
@@ -18,6 +23,78 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   late bool isClicked;
+  File? image;
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      await MyApp.userViewModel.updateImage(imageTemp);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Votre photo de profile a bien été mise à jour",
+            style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15.h),
+          ),
+          backgroundColor: primaryColor,
+          closeIconColor: Colors.white,
+        ),
+      );
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  void manageImage() {
+    if (image != null) {
+      setState(() {
+        image = null;
+      });
+    } else {
+      _showActionSheet(context);
+    }
+  }
+
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.5),
+      builder: (BuildContext context) => Container(
+        color: Colors.black,
+        child: CupertinoActionSheet(
+          title: Text(
+            'Ajouter une photo',
+            style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+          ),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              onPressed: () {
+                pickImage(ImageSource.gallery);
+                Navigator.pop(context);
+              },
+              child: const Text('Galerie'),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                pickImage(ImageSource.camera);
+                Navigator.pop(context);
+              },
+              child: const Text('Prendre un selfie'),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Annuler'),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     isClicked = MyApp.userViewModel.isFriend(widget.user.id);
@@ -71,7 +148,34 @@ class _UserScreenState extends State<UserScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 68.h, bottom: 40),
-                  child: ProfileComponent(user: widget.user),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ProfileComponent(user: widget.user),
+                      MyApp.userViewModel.userCurrent.id == widget.user.id
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 70, bottom: 10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showActionSheet(context);
+                                },
+                                child: ClipOval(
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    color: grayColor,
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
                 ),
                 MyApp.userViewModel.userCurrent.id != widget.user.id
                     ? Align(
