@@ -26,6 +26,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.pushNamed(context, '/welcome');
     }
 
+    void _openHistoric() {
+      Navigator.of(context).push(routeHistoric());
+    }
+
     void _openDetail() {
       Navigator.of(context).push(routeUser(MyApp.userViewModel.userCurrent));
     }
@@ -107,10 +111,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             label: 'Compte',
                             action: _openDetail,
                           ),
-                          const SettingPartComponent(
+                          SettingPartComponent(
                             icon: JustMusicIcon.history,
                             label: 'Historiques des capsules',
-                            action: null,
+                            action: _openHistoric,
                           ),
                           const SettingPartComponent(
                             icon: JustMusicIcon.spotify,
