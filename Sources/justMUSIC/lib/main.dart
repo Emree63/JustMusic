@@ -18,6 +18,7 @@ import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/verify_email_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
+import 'package:justmusic/values/constants.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/PostViewModel.dart';
@@ -53,33 +54,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late StreamSubscription<User?> user;
-  Stream<userJustMusic.User?> userCurrent = Stream.empty();
+  Strem<> usercurrent;
 
   @override
   void initState() {
     super.initState();
-    checkSignIn();
-  }
-
-  Future<userJustMusic.User?> checkSignIn() async {
-    user = FirebaseAuth.instance.authStateChanges().listen((user) async {
-      if (user == null) {
-        print('User is currently signed out!');
-        return null;
-      } else {
-        MyApp.userViewModel.userCurrent = (await (MyApp.userViewModel.getUser(user.uid)))!;
-        userCurrent = Stream.value(MyApp.userViewModel.userCurrent);
-        print('User is signed in!');
-      }
-    });
-    return null;
   }
 
   @override
   void dispose() {
-    user.cancel();
     super.dispose();
+  }
+
+  Future<userJustMusic.User?> checkAuth() async {
+    try {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user == null) {
+          print("User is currently signed out!");
+          throw Exception('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+          usercurrent = await MyApp.userViewModel.getUser(FirebaseAuth.instance.currentUser!.uid);
+          MyApp.userViewModel.userCurrent = usercurrent!;
+          print(usercurrent?.pseudo);
+        }
+      });
+    } catch (e) {
+      return null;
+    }
+    return usercurrent;
   }
 
   // This widget is the root of your application.
@@ -87,29 +90,47 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
-    return ScreenUtilInit(
-      useInheritedMediaQuery: true,
-      builder: (context, child) {
-        return MaterialApp(
-            routes: {
-              '/welcome': (context) => const WellcomeScreen(),
-              '/feed': (context) => const FeedScreen(),
-              '/login': (context) => const LoginScreen(),
-              '/register': (context) => const RegistrationScreen(),
-              '/post': (context) => const PostScreen(),
-              '/profile': (context) => const ProfileScreen(),
-              '/explanation': (context) => const ExplanationsScreen(),
-              '/addFriend': (context) => const AddFriendScreen(),
-              '/launchingRocket': (context) => const LaunchingRocketScreen(),
-              '/verifyEmail': (context) => const VerifyEmailScreen(),
+
+    return StreamBuilder(
+      stream: usercurrent,
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          print("has dataaaa");
+          return ScreenUtilInit(
+            useInheritedMediaQuery: true,
+            builder: (context, child) {
+              return MaterialApp(
+                  routes: {
+                    '/welcome': (context) => const WellcomeScreen(),
+                    '/feed': (context) => const FeedScreen(),
+                    '/login': (context) => const LoginScreen(),
+                    '/register': (context) => const RegistrationScreen(),
+                    '/post': (context) => const PostScreen(),
+                    '/profile': (context) => const ProfileScreen(),
+                    '/explanation': (context) => const ExplanationsScreen(),
+                    '/addFriend': (context) => const AddFriendScreen(),
+                    '/launchingRocket': (context) => const LaunchingRocketScreen(),
+                    '/verifyEmail': (context) => const VerifyEmailScreen(),
+                  },
+                  debugShowCheckedModeBanner: false,
+                  theme: ThemeData(
+                    primarySwatch: Colors.blue,
+                  ),
+                  home: usercurrent == null ? WellcomeScreen() : FeedScreen());
             },
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
+            designSize: Size(390, 844),
+          );
+        } else {
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: bgColor,
+            child: Center(
+              child: CupertinoActivityIndicator(),
             ),
-            home: WellcomeScreen());
+          );
+        }
       },
-      designSize: Size(390, 844),
     );
   }
 }
