@@ -26,8 +26,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.pushNamed(context, '/welcome');
     }
 
+    void _openHistoric() {
+      Navigator.of(context).push(routeHistoric());
+    }
+
     void _openDetail() {
       Navigator.of(context).push(routeUser(MyApp.userViewModel.userCurrent));
+    }
+
+    void _openPassword() {
+      Navigator.of(context).push(routePassword());
     }
 
     return Scaffold(
@@ -103,15 +111,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             label: 'Compte',
                             action: _openDetail,
                           ),
-                          const SettingPartComponent(
+                          SettingPartComponent(
                             icon: JustMusicIcon.history,
                             label: 'Historiques des capsules',
-                            action: null,
+                            action: _openHistoric,
                           ),
                           const SettingPartComponent(
                             icon: JustMusicIcon.spotify,
                             label: 'Lier un compte Spotify',
                             action: null,
+                          ),
+                          SettingPartComponent(
+                            icon: JustMusicIcon.password,
+                            label: 'Modifier mon mot de passe',
+                            action: _openPassword,
                           ),
                           const SettingPartComponent(
                             icon: JustMusicIcon.trash,

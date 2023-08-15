@@ -24,7 +24,7 @@ class ProfilPictureComponent extends StatelessWidget {
           // Image radius
           child: FadeInImage.assetNetwork(
             image: user.pp,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
             fadeInDuration: const Duration(milliseconds: 100),
             placeholder: "assets/images/loadingPlaceholder.gif",
           ),
