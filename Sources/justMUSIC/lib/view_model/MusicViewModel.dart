@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:justmusic/view_model/TokenSpotify.dart';
 import 'package:http/http.dart' as http;
+import 'package:tuple/tuple.dart';
 import '../model/Artist.dart';
 import '../model/Music.dart';
 import '../services/MusicService.dart';
@@ -248,6 +249,28 @@ class MusicViewModel {
   Future<bool> addOrDeleteFavoriteMusic(String id) async {
     try {
       return await _musicService.addOrDeleteFavoriteMusic(id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<List<Tuple2<String, Music>>> getHistoryCapsulesMonthWhitIdUser(
+      String idUser, int month, int year) async {
+    try {
+      List<Tuple2<String, Music>> capsules = [];
+      var capsulesData = await _musicService.getHistoryCapsulesMonthWhitIdUser(
+          idUser, month, year);
+
+      var musics = await getMusicsWithIds(
+          capsulesData.map((capsule) => capsule.item2).toList());
+
+      for (var capsule in capsulesData) {
+        var music = musics.firstWhere((music) => music.id == capsule.item2);
+        capsules.add(Tuple2(capsule.item1, music));
+      }
+
+      return capsules;
     } catch (e) {
       print(e);
       rethrow;
