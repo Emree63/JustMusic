@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginButton extends StatefulWidget {
   final Function callback;
+  final String text;
 
-  const LoginButton({Key? key, required this.callback}) : super(key: key);
+  const LoginButton({Key? key, required this.callback, required this.text}) : super(key: key);
 
   @override
   State<LoginButton> createState() => _LoginButtonState();
@@ -57,7 +58,7 @@ class _LoginButtonState extends State<LoginButton> {
           ),
           alignment: Alignment.center,
           child: Text(
-            "Se connecter",
+            widget.text,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),

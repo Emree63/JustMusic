@@ -75,7 +75,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            e.toString() ?? "",
+            e.toString(),
             style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
           ),
           backgroundColor: Colors.red,
@@ -144,6 +144,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                           width: 600,
                           child: LoginButton(
                             callback: checkEmailVerified,
+                            text: "Continuer",
                           )),
                     ),
                     Align(

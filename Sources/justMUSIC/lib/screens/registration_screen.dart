@@ -36,7 +36,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              e.toString() ?? "",
+              e.toString(),
               style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
             ),
             backgroundColor: Colors.red,
@@ -276,6 +276,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 width: 600,
                                 child: LoginButton(
                                   callback: handleRegister,
+                                  text: "Continuer",
                                 )),
                           ),
                           Align(

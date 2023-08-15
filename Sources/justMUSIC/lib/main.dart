@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
+import 'package:justmusic/screens/forget_password_screen.dart';
 import 'package:justmusic/screens/login_screen.dart';
 import 'package:justmusic/screens/launching_rocker_screen.dart';
 import 'package:justmusic/screens/post_screen.dart';
@@ -102,6 +103,7 @@ class _MyAppState extends State<MyApp> {
               '/addFriend': (context) => const AddFriendScreen(),
               '/launchingRocket': (context) => const LaunchingRocketScreen(),
               '/verifyEmail': (context) => const VerifyEmailScreen(),
+              '/forgetPassword': (context) => const ForgetPasswordScreen(),
             },
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
