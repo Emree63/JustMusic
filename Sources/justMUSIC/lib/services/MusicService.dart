@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tuple/tuple.dart';
 
 import '../main.dart';
 
@@ -45,5 +46,25 @@ class MusicService {
       await userRef.update({"musics_likes": musicFavorite});
       return true;
     }
+  }
+
+  Future<List<Tuple2<String, String>>> getHistoryCapsulesMonthWhitIdUser(
+      String idUser, int month, int year) async {
+    List<Tuple2<String, String>> capsules = [];
+
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('posts')
+        .where('user_id', isEqualTo: idUser)
+        .where('date', isGreaterThanOrEqualTo: DateTime(year, month))
+        .where('date', isLessThan: DateTime(year, month + 1))
+        .orderBy('date')
+        .get();
+
+    for (var document in querySnapshot.docs) {
+      capsules.add(Tuple2(document.data()['date'].toDate().day.toString(),
+          document.data()['idMusic']));
+    }
+
+    return capsules;
   }
 }
