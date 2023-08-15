@@ -26,73 +26,71 @@ class _HistoricComponentState extends State<HistoricComponent> {
   }
 
   getHistoric() {}
-  List<Tuple2<int, Music>> historic = [
-    Tuple2(1, MyApp.postViewModel.bestPosts.first.music),
-    Tuple2(3, MyApp.postViewModel.bestPosts.first.music),
-    Tuple2(11, MyApp.postViewModel.bestPosts.first.music)
-  ];
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ,
-        builder: (context, snapshot){
-      if(snapshot.hasData){
-        return Wrap(
-          spacing: 14,
-          runSpacing: 14,
-          children: List.generate(getNumberOfDaysInMonth(widget.year, widget.month), (index) {
-            Tuple2<int, Music>? checkCapsule;
-            for (var element in historic) {
-              if (element.item1 == index + 1) {
-                checkCapsule = element;
-              }
-            }
-            if ((widget.year > DateTime.now().year || widget.month > DateTime.now().month) ||
-                (widget.year == DateTime.now().year &&
-                    widget.month == DateTime.now().month &&
-                    index > DateTime.now().day)) {
-              return Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Color(0xFF1E1E1E).withOpacity(0.7),
-                      Color(0xFF1E1E1E).withOpacity(0),
-                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                    borderRadius: BorderRadius.circular(5)),
-                height: 60,
-                width: 60,
-              );
-            }
-            if (checkCapsule != null) {
-              return Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage((checkCapsule.item2.cover)!)),
-                    borderRadius: BorderRadius.circular(5)),
-                height: 60,
-                width: 60,
-              );
-            } else {
-              return Container(
-                color: bgColor,
-                height: 60,
-                width: 60,
-                child: Center(
-                  child: Text(
-                    (index + 1).toString(),
-                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w800),
-                  ),
-                ),
-              );
-            }
+        future: MyApp.musicViewModel
+            .getHistoryCapsulesMonthWhitIdUser(MyApp.userViewModel.userCurrent.id, widget.month, widget.year),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Wrap(
+              spacing: 14,
+              runSpacing: 14,
+              children: List.generate(getNumberOfDaysInMonth(widget.year, widget.month), (index) {
+                Tuple2<int, Music>? checkCapsule;
+                if (snapshot.data != null) {
+                  for (var element in snapshot.data!) {
+                    if (element.item1 == index + 1) {
+                      checkCapsule = element;
+                    }
+                  }
+                }
 
-            // Generate widgets
-          }),
-        );
-      }
-      else{
-        return CupertinoActivityIndicator();
-      }
+                if ((widget.year > DateTime.now().year || widget.month > DateTime.now().month) ||
+                    (widget.year == DateTime.now().year &&
+                        widget.month == DateTime.now().month &&
+                        index > DateTime.now().day)) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Color(0xFF1E1E1E).withOpacity(0.7),
+                          Color(0xFF1E1E1E).withOpacity(0),
+                        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                        borderRadius: BorderRadius.circular(5)),
+                    height: 60,
+                    width: 60,
+                  );
+                }
+                if (checkCapsule != null) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(image: NetworkImage((checkCapsule.item2.cover)!)),
+                        borderRadius: BorderRadius.circular(5)),
+                    height: 60,
+                    width: 60,
+                  );
+                } else {
+                  return Container(
+                    color: bgColor,
+                    height: 60,
+                    width: 60,
+                    child: Center(
+                      child: Text(
+                        (index + 1).toString(),
+                        style:
+                            GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  );
+                }
 
-    });
+                // Generate widgets
+              }),
+            );
+          } else {
+            return CupertinoActivityIndicator();
+          }
+        });
   }
 }

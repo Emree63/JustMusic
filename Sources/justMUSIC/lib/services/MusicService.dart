@@ -5,8 +5,7 @@ import '../main.dart';
 
 class MusicService {
   Future<dynamic> getFavoriteMusicsByUserId(String id) async {
-    var response =
-        await FirebaseFirestore.instance.collection("users").doc(id).get();
+    var response = await FirebaseFirestore.instance.collection("users").doc(id).get();
     if (response.exists) {
       var musicFavorite = response.get("musics_likes");
       return List.from(musicFavorite);
@@ -16,9 +15,7 @@ class MusicService {
   }
 
   deleteFavoriteMusic(String id) async {
-    var userRef = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(MyApp.userViewModel.userCurrent.id);
+    var userRef = await FirebaseFirestore.instance.collection("users").doc(MyApp.userViewModel.userCurrent.id);
     var response = await userRef.get();
 
     List<dynamic> musicFavorite = List.from(response.get("musics_likes"));
@@ -31,9 +28,7 @@ class MusicService {
   }
 
   Future<bool> addOrDeleteFavoriteMusic(String id) async {
-    var userRef = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(MyApp.userViewModel.userCurrent.id);
+    var userRef = await FirebaseFirestore.instance.collection("users").doc(MyApp.userViewModel.userCurrent.id);
     var response = await userRef.get();
 
     List<dynamic> musicFavorite = List.from(response.get("musics_likes"));
@@ -48,9 +43,8 @@ class MusicService {
     }
   }
 
-  Future<List<Tuple2<String, String>>> getHistoryCapsulesMonthWhitIdUser(
-      String idUser, int month, int year) async {
-    List<Tuple2<String, String>> capsules = [];
+  Future<List<Tuple2<int, String>>> getHistoryCapsulesMonthWhitIdUser(String idUser, int month, int year) async {
+    List<Tuple2<int, String>> capsules = [];
 
     var querySnapshot = await FirebaseFirestore.instance
         .collection('posts')
@@ -61,8 +55,7 @@ class MusicService {
         .get();
 
     for (var document in querySnapshot.docs) {
-      capsules.add(Tuple2(document.data()['date'].toDate().day.toString(),
-          document.data()['idMusic']));
+      capsules.add(Tuple2(document.data()['date'].toDate().day, document.data()['song_id']));
     }
 
     return capsules;
