@@ -120,10 +120,12 @@ class AuthService {
   }
 
   signOut() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
     await FirebaseAuth.instance.signOut();
-    if (await googleSignIn.isSignedIn()) {
-      await googleSignIn.signOut();
+    if (!kIsWeb) {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+      }
     }
   }
 
