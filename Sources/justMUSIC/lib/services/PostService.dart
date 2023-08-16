@@ -128,4 +128,34 @@ class PostService {
 
     return recapList;
   }
+
+  Future<List<String>> getLikesByPostId(String id) async {
+    var response = await FirebaseFirestore.instance.collection("posts").doc(id).get();
+    if (response.exists) {
+      var musicFavorite = response.get("likes");
+      return List.from(musicFavorite);
+    } else {
+      return [];
+    }
+  }
+
+  Future<bool> addOrDeleteFavoritePost(String id) async {
+    final idUser = MyApp.userViewModel.userCurrent.id;
+    var postRef = await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(id);
+    var response = await postRef.get();
+
+    List<String> likes = List.from(response.get("likes"));
+
+    if (!likes.contains(idUser)) {
+      likes.add(idUser);
+      await postRef.update({"likes": likes});
+      return false;
+    } else {
+      likes.remove(idUser);
+      await postRef.update({"likes": likes});
+      return true;
+    }
+  }
 }

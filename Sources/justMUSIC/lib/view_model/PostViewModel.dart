@@ -98,4 +98,22 @@ class PostViewModel {
       rethrow;
     }
   }
+
+  Future<List<String>> getLikesByPostId(String id) async {
+    try {
+      return await _postService.getLikesByPostId(id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<bool> addOrDeleteFavoritePost(String id) async {
+    try {
+      return await _postService.addOrDeleteFavoritePost(id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 }
