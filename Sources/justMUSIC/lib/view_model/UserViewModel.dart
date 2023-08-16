@@ -34,7 +34,7 @@ class UserViewModel {
   login(String pseudo, String password) async {
     try {
       var token;
-      await authService.login(pseudo, password);
+      await _authService.login(pseudo, password);
       if (firebase_auth.FirebaseAuth.instance.currentUser!.emailVerified) {
         await updateUserCurrent();
         if (!kIsWeb) {

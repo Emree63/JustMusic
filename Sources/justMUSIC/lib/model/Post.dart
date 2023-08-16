@@ -9,13 +9,13 @@ class Post {
   String? _description;
   late Music _music;
   Tuple2<String?,String?> _location;
-  int _nblikes;
+  List<String> _likes;
   String? _selfie;
   DateTime _date;
 
   // Constructor
   Post(this._id, this._user, this._description, this._location,
-      this._nblikes, this._selfie, this._date);
+      this._likes, this._selfie, this._date);
 
   //Getters and setters
   String get id => _id;
@@ -40,10 +40,10 @@ class Post {
     _location = value;
   }
 
-  int get nblikes => _nblikes;
+  List<String> get likes => _likes;
 
-  set nblikes(int value) {
-    _nblikes = value;
+  set likes(List<String> value) {
+    _likes = value;
   }
 
   String? get selfie => _selfie;

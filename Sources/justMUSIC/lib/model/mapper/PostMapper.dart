@@ -15,7 +15,7 @@ class PostMapper {
           user!,
           data?["description"],
           Tuple2(data?["place"][0], data?["place"][1]),
-          data?["likes"],
+          List<String>.from(data?["likes"] as List),
           data?["selfie"],
           data?["date"].toDate());
   }
