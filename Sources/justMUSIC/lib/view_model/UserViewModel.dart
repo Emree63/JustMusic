@@ -80,7 +80,13 @@ class UserViewModel {
   }
 
   signInWithGoogle() async {
-    await _authService.signInWithGoogle();
+    try {
+      await _authService.signInWithGoogle();
+      await updateUserCurrent();
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 
   Future<List<User>> getUsersByUniqueId(String uniqueId) async {
@@ -105,12 +111,12 @@ class UserViewModel {
     }
   }
 
-  logout() {
-    _authService.signOut();
+  logout() async {
+    await _authService.signOut();
   }
 
-  delete() {
-    _authService.delete();
+  delete() async {
+    await _authService.delete();
   }
 
   bool isFriend(String id) {

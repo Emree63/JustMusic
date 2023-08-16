@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/exceptions/user_exception.dart';
 import 'package:justmusic/values/constants.dart';
 
 import '../components/login_button.dart';
@@ -37,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              e.toString() ?? "",
+              e.toString(),
               style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
@@ -51,8 +52,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   signInWithGoogle() async {
-    await MyApp.userViewModel.signInWithGoogle();
-    //Navigator.pushNamed(context, '/explanation');
+    try {
+      await MyApp.userViewModel.signInWithGoogle();
+    } on UserException catch (e) {
+      if (e.code == 'user-created') {
+        Navigator.pushNamed(context, '/explanation');
+      } else if (e.code == 'user-already-exist') {
+        Navigator.pushNamed(context, '/feed');
+      }
+    }
   }
 
   @override

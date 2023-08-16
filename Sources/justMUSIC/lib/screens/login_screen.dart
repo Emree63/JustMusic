@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +9,7 @@ import 'package:justmusic/main.dart';
 import 'package:justmusic/values/constants.dart';
 
 import '../components/login_button.dart';
+import '../exceptions/user_exception.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -33,12 +33,24 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              e.toString() ?? "",
+              e.toString(),
               style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
             ),
             backgroundColor: Colors.red,
           ),
         );
+      }
+    }
+  }
+
+  signInWithGoogle() async {
+    try {
+      await MyApp.userViewModel.signInWithGoogle();
+    } on UserException catch (e) {
+      if (e.code == 'user-created') {
+        Navigator.pushNamed(context, '/explanation');
+      } else if (e.code == 'user-already-exist') {
+        Navigator.pushNamed(context, '/feed');
       }
     }
   }
@@ -269,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 SignInButton(
                                                   Buttons.Google,
                                                   text: "Login with Google",
-                                                  onPressed: () {},
+                                                  onPressed: signInWithGoogle,
                                                 ),
                                               ],
                                             ),
