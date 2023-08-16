@@ -77,7 +77,7 @@ class AuthService {
     if (!user.exists) {
       await addUserToFirestore(
           userCredential,
-          userCredential.user?.displayName ?? "user",
+          userCredential.user?.displayName?.toLowerCase().replaceAll(' ', '') ?? "user",
           userCredential.user?.email ?? "");
       throw UserException("user-created", "L'utilisateur vien d'être créé");
     }
