@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,8 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     Future<void> logout() async {
-      print("cc");
-      await FirebaseAuth.instance.signOut();
+      await MyApp.userViewModel.logout();
       Navigator.pushNamed(context, '/welcome');
     }
 

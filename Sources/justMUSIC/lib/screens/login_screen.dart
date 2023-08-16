@@ -9,6 +9,7 @@ import 'package:justmusic/main.dart';
 import 'package:justmusic/values/constants.dart';
 
 import '../components/login_button.dart';
+import '../exceptions/user_exception.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -42,6 +43,18 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.red,
           ),
         );
+      }
+    }
+  }
+
+  signInWithGoogle() async {
+    try {
+      await MyApp.userViewModel.signInWithGoogle();
+    } on UserException catch (e) {
+      if (e.code == 'user-created') {
+        Navigator.pushNamed(context, '/explanation');
+      } else if (e.code == 'user-already-exist') {
+        Navigator.pushNamed(context, '/feed');
       }
     }
   }
@@ -370,7 +383,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 SignInButton(
                                                   Buttons.Google,
                                                   text: "Login with Google",
-                                                  onPressed: () {},
+                                                  onPressed: signInWithGoogle,
                                                 ),
                                               ],
                                             ),

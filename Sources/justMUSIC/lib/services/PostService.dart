@@ -16,7 +16,7 @@ class PostService {
       "date": DateTime.now(),
       "place": [location?.item1, location?.item2],
       "song_id": idMusic,
-      "likes": 0
+      "likes": []
     };
 
     var postAdd = await MyApp.db.collection("posts").add(post);

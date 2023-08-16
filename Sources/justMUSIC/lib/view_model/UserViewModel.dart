@@ -12,7 +12,7 @@ import '../main.dart';
 
 class UserViewModel {
   late User _userCurrent;
-  final AuthService authService = AuthService();
+  final AuthService _authService = AuthService();
   final UserService _userService = UserService();
 
   User get userCurrent => _userCurrent;
@@ -34,7 +34,7 @@ class UserViewModel {
   login(String pseudo, String password) async {
     try {
       var token;
-      await authService.login(pseudo, password);
+      await _authService.login(pseudo, password);
       if (firebase_auth.FirebaseAuth.instance.currentUser!.emailVerified) {
         await updateUserCurrent();
         if (!kIsWeb) {
@@ -73,9 +73,19 @@ class UserViewModel {
     }
 
     try {
-      await authService.register(pseudo.toLowerCase(), email, password);
+      await _authService.register(pseudo.toLowerCase(), email, password);
       await updateUserCurrent();
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  signInWithGoogle() async {
+    try {
+      await _authService.signInWithGoogle();
+      await updateUserCurrent();
+    } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -101,12 +111,12 @@ class UserViewModel {
     }
   }
 
-  logout() {
-    authService.signOut();
+  logout() async {
+    await _authService.signOut();
   }
 
-  delete() {
-    authService.delete();
+  delete() async {
+    await _authService.delete();
   }
 
   bool isFriend(String id) {
