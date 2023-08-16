@@ -29,6 +29,7 @@ import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   tz.initializeTimeZones();
+  Paint.enableDithering = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

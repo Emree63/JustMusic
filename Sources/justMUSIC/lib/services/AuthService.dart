@@ -88,10 +88,8 @@ class AuthService {
   Future<String> generateUniqueId(String pseudo) async {
     String uniqueId = '$pseudo#0001';
     int suffix = 1;
-    final CollectionReference usersCollection =
-        FirebaseFirestore.instance.collection("users");
-    final QuerySnapshot querySnapshot =
-        await usersCollection.where('pseudo', isEqualTo: pseudo).get();
+    final CollectionReference usersCollection = FirebaseFirestore.instance.collection("users");
+    final QuerySnapshot querySnapshot = await usersCollection.where('pseudo', isEqualTo: pseudo).get();
 
     querySnapshot.docs.forEach((snapshot) {
       suffix++;
@@ -103,8 +101,7 @@ class AuthService {
 
   login(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw ('Mail incorrect');
@@ -137,8 +134,7 @@ class AuthService {
           .doc(currentUser?.uid)
           .delete()
           .then((value) => print("Firestore deleted user"))
-          .catchError(
-              (error) => print("Error deleting user from Firestore: $error"));
+          .catchError((error) => print("Error deleting user from Firestore: $error"));
 
       await currentUser?.delete();
       await FirebaseAuth.instance.signOut();

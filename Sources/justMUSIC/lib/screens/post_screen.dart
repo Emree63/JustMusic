@@ -11,7 +11,6 @@ import '../components/editable_post_component.dart';
 import '../components/post_button_component.dart';
 import '../main.dart';
 import '../model/Music.dart';
-import '../model/Post.dart';
 import '../values/constants.dart';
 
 class PostScreen extends StatefulWidget {
@@ -93,7 +92,7 @@ class _PostScreenState extends State<PostScreen> with SingleTickerProviderStateM
   }
 
   handleSubmit() async {
-    MyApp.postViewModel.addPost(description, (selectedMusic?.id)!, selectedImage, selectedCity);
+    MyApp.postViewModel.addPost(description, selectedMusic!.id, selectedImage, selectedCity);
     quit();
   }
 
