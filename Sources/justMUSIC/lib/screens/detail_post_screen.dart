@@ -49,6 +49,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
     return MyApp.userViewModel.userCurrent.musics_likes.contains(widget.post.music.id);
   }
 
+  bool isLiked() {
+    return widget.post.likes.contains(MyApp.userViewModel.userCurrent.id);
+  }
+
   @override
   void dispose() {
     MyApp.audioPlayer.release();
@@ -294,7 +298,71 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            SvgPicture.asset("assets/images/heart.svg", semanticsLabel: 'Like Logo'),
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    var bool = await MyApp.postViewModel
+                                                        .addOrDeleteFavoritePost(widget.post.id);
+                                                    if (!bool) {
+                                                      widget.post.likes.add(MyApp.userViewModel.userCurrent.id);
+                                                    } else {
+                                                      widget.post.likes.remove(MyApp.userViewModel.userCurrent.id);
+                                                    }
+                                                    !bool
+                                                        ? ScaffoldMessenger.of(context).showSnackBar(
+                                                            const SnackBar(
+                                                              content: Text("Vous avez liké cette capsule",
+                                                                  style: TextStyle(fontWeight: FontWeight.bold)),
+                                                              backgroundColor: primaryColor,
+                                                              closeIconColor: Colors.white,
+                                                            ),
+                                                          )
+                                                        : ScaffoldMessenger.of(context).showSnackBar(
+                                                            const SnackBar(
+                                                              content: SnackBar(
+                                                                content: Text("Vous avez supprimé votre like",
+                                                                    style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                backgroundColor: primaryColor,
+                                                                closeIconColor: Colors.white,
+                                                              ),
+                                                              backgroundColor: Colors.red,
+                                                              closeIconColor: Colors.white,
+                                                            ),
+                                                          );
+                                                    setState(() {});
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/heart.svg",
+                                                    semanticsLabel: 'Like Logo',
+                                                    color: isLiked() ? primaryColor : Colors.white,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.only(top: 8),
+                                                  height: 30,
+                                                  child: FutureBuilder<List<String>>(
+                                                    future: MyApp.postViewModel.getLikesByPostId(widget.post.id),
+                                                    builder:
+                                                        (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Text(snapshot.data!.length.toString(),
+                                                            style: GoogleFonts.plusJakartaSans(
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.w800,
+                                                            ));
+                                                      } else {
+                                                        return Container(
+                                                          child: Center(
+                                                            child: CupertinoActivityIndicator(),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                             Column(
                                               children: [
                                                 GestureDetector(
