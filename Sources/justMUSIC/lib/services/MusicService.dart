@@ -17,14 +17,17 @@ class MusicService {
     var userRef = await FirebaseFirestore.instance.collection("users").doc(MyApp.userViewModel.userCurrent.id);
     var response = await userRef.get();
 
-    List<dynamic> musicFavorite = List.from(response.get("saved_musics"));
+    List<String> musicFavorite = List.from(response.get("musics_likes"));
+
     if (!musicFavorite.contains(id)) {
       musicFavorite.add(id);
-      await userRef.update({"saved_musics": musicFavorite});
+      await userRef.update({"musics_likes": musicFavorite});
+      MyApp.userViewModel.userCurrent.musics_likes.add(id);
       return false;
     } else {
       musicFavorite.remove(id);
-      await userRef.update({"saved_musics": musicFavorite});
+      await userRef.update({"musics_likes": musicFavorite});
+      MyApp.userViewModel.userCurrent.musics_likes.remove(id);
       return true;
     }
   }

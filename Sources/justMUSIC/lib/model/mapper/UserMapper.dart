@@ -12,6 +12,7 @@ class UserMapper {
         data?["picture"],
         data?["token_notify"],
         List<String>.from(data?["followers"] as List),
+        List<String>.from(data?["musics_likes"] as List),
         data?["nbCapsules"] ?? 0,
         List<String>.from(data?["followed"] as List));
   }

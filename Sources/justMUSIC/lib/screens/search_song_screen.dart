@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/Material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/model/Music.dart';
@@ -21,6 +22,7 @@ class SearchSongScreen extends StatefulWidget {
 class _SearchSongScreenState extends State<SearchSongScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
+  PageController controller = PageController();
 
   int? playingIndex;
 
@@ -81,6 +83,10 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
     }
   }
 
+  Future<List<Music>> _fetchSavedSong() async {
+    return await MyApp.musicViewModel.getFavoriteMusicsByUserId(MyApp.userViewModel.userCurrent.id);
+  }
+
   @override
   void dispose() {
     MyApp.audioPlayer.pause();
@@ -139,6 +145,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                             filteredData = filteredData;
                           });
                         }
+                        controller.animateTo(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
                       },
                       cursorColor: Colors.white,
                       keyboardType: TextInputType.text,
@@ -166,6 +173,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                 ),
                 Flexible(
                     child: PageView(
+                  controller: controller,
                   physics: BouncingScrollPhysics(),
                   children: [
                     ScrollConfiguration(
@@ -207,40 +215,49 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     ),
                     ScrollConfiguration(
                       behavior: ScrollBehavior().copyWith(scrollbars: true),
-                      child: ListView.builder(
-                          physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                          controller: _scrollController,
-                          itemCount: filteredData.length,
-                          itemBuilder: (context, index) {
-                            if (playingIndex == index) {
-                              return InkWell(
-                                  onTap: () {
-                                    widget.callback(filteredData[index]);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: MusicListComponent(
-                                      music: filteredData[index],
-                                      playing: true,
-                                      callback: playMusic,
-                                      index: index,
-                                    ),
-                                  ));
-                            }
-                            return InkWell(
-                                onTap: () {
-                                  widget.callback(filteredData[index]);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: MusicListComponent(
-                                    music: filteredData[index],
-                                    playing: false,
-                                    callback: playMusic,
-                                    index: index,
-                                  ),
-                                ));
-                          }),
+                      child: FutureBuilder(
+                        future: _fetchSavedSong(),
+                        builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                                controller: _scrollController,
+                                itemCount: snapshot.data?.length,
+                                itemBuilder: (context, index) {
+                                  if (playingIndex == index) {
+                                    return InkWell(
+                                        onTap: () {
+                                          widget.callback(filteredData[index]);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: MusicListComponent(
+                                            music: (snapshot.data?[index])!,
+                                            playing: true,
+                                            callback: playMusic,
+                                            index: index,
+                                          ),
+                                        ));
+                                  }
+                                  return InkWell(
+                                      onTap: () {
+                                        widget.callback((snapshot.data?[index])!);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                        child: MusicListComponent(
+                                          music: (snapshot.data?[index])!,
+                                          playing: false,
+                                          callback: playMusic,
+                                          index: index,
+                                        ),
+                                      ));
+                                });
+                          } else {
+                            return CupertinoActivityIndicator();
+                          }
+                        },
+                      ),
                     )
                   ],
                 ))

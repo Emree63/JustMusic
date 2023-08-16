@@ -45,6 +45,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
     });
   }
 
+  bool isSaved() {
+    return MyApp.userViewModel.userCurrent.musics_likes.contains(widget.post.music.id);
+  }
+
   @override
   void dispose() {
     MyApp.audioPlayer.release();
@@ -285,17 +289,45 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 20),
+                                        padding: EdgeInsets.only(top: 30, bottom: 20),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SvgPicture.asset("assets/images/heart.svg", semanticsLabel: 'Like Logo'),
-                                            GestureDetector(
-                                              onTap: () {
-                                                myFocusNode.requestFocus();
-                                              },
-                                              child: SvgPicture.asset("assets/images/chat.svg",
-                                                  semanticsLabel: 'Chat Logo'),
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    myFocusNode.requestFocus();
+                                                  },
+                                                  child: SvgPicture.asset("assets/images/chat.svg",
+                                                      semanticsLabel: 'Chat Logo'),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.only(top: 8),
+                                                  height: 30,
+                                                  child: FutureBuilder<List<Comment>>(
+                                                    future: MyApp.commentViewModel.getCommentsByPostId(widget.post.id),
+                                                    builder:
+                                                        (BuildContext context, AsyncSnapshot<List<Comment>> snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Text(snapshot.data!.length.toString(),
+                                                            style: GoogleFonts.plusJakartaSans(
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.w800,
+                                                            ));
+                                                      } else {
+                                                        return Container(
+                                                          child: Center(
+                                                            child: CupertinoActivityIndicator(),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                             SvgPicture.asset("assets/images/add.svg",
                                                 semanticsLabel: 'Add playlist Logo'),
@@ -306,20 +338,23 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                   !bool
                                                       ? ScaffoldMessenger.of(context).showSnackBar(
                                                           SnackBar(
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  new BorderRadius.all(new Radius.circular(300.0)),
-                                                            ),
-                                                            behavior: SnackBarBehavior.floating,
-                                                            content: Text(
-                                                              "${widget.post.music.title} ajouté à votre collection",
-                                                              style: GoogleFonts.plusJakartaSans(
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.w400,
-                                                                  fontSize: 15),
+                                                            content: RichText(
                                                               textAlign: TextAlign.center,
                                                               maxLines: 1,
                                                               overflow: TextOverflow.ellipsis,
+                                                              text: TextSpan(
+                                                                style: GoogleFonts.plusJakartaSans(
+                                                                  color: Colors.white,
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 15,
+                                                                ),
+                                                                children: <TextSpan>[
+                                                                  TextSpan(
+                                                                      text: "${widget.post.music.title}",
+                                                                      style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                  TextSpan(text: " ajouté à votre collection"),
+                                                                ],
+                                                              ),
                                                             ),
                                                             backgroundColor: primaryColor,
                                                             closeIconColor: Colors.white,
@@ -327,28 +362,35 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                         )
                                                       : ScaffoldMessenger.of(context).showSnackBar(
                                                           SnackBar(
-                                                            behavior: SnackBarBehavior.floating,
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  new BorderRadius.all(new Radius.circular(300.0)),
-                                                            ),
-                                                            content: Text(
-                                                              "${widget.post.music.title} retiré de votre collection",
+                                                            content: RichText(
                                                               textAlign: TextAlign.center,
-                                                              style: GoogleFonts.plusJakartaSans(
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.w400,
-                                                                  fontSize: 15),
                                                               maxLines: 1,
                                                               overflow: TextOverflow.ellipsis,
+                                                              text: TextSpan(
+                                                                style: GoogleFonts.plusJakartaSans(
+                                                                  color: Colors.white,
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 15,
+                                                                ),
+                                                                children: <TextSpan>[
+                                                                  TextSpan(
+                                                                      text: "${widget.post.music.title}",
+                                                                      style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                  TextSpan(text: " retiré de votre collection"),
+                                                                ],
+                                                              ),
                                                             ),
                                                             backgroundColor: Colors.red,
                                                             closeIconColor: Colors.white,
                                                           ),
                                                         );
+                                                  setState(() {});
                                                 },
-                                                child: SvgPicture.asset("assets/images/save.svg",
-                                                    semanticsLabel: 'Save Logo')),
+                                                child: SvgPicture.asset(
+                                                  "assets/images/save.svg",
+                                                  semanticsLabel: 'Save Logo',
+                                                  color: isSaved() ? primaryColor : Colors.white,
+                                                )),
                                             SvgPicture.asset("assets/images/report.svg", semanticsLabel: 'Report Logo'),
                                           ],
                                         ),
@@ -359,31 +401,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                           if (snapshot.hasData) {
                                             return Column(
                                               children: [
-                                                snapshot.data!.length > 0
-                                                    ? Padding(
-                                                        padding: const EdgeInsets.all(15.0),
-                                                        child: RichText(
-                                                          text: TextSpan(
-                                                            text: snapshot.data!.length.toString(),
-                                                            style: GoogleFonts.plusJakartaSans(
-                                                              color: Colors.white,
-                                                              fontWeight: FontWeight.w800,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: snapshot.data!.length > 1
-                                                                    ? " commentaires"
-                                                                    : " commentaire",
-                                                                style: GoogleFonts.plusJakartaSans(
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.w400,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
                                                 snapshot.data!.length > 0
                                                     ? Padding(
                                                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
