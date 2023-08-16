@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/exceptions/user_exception.dart';
 import 'package:justmusic/values/constants.dart';
 
 import '../components/login_button.dart';
@@ -46,6 +47,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
+  signInWithGoogle() async {
+    try {
+      await MyApp.userViewModel.signInWithGoogle();
+    } on UserException catch (e) {
+      if (e.code == 'user-created') {
+        Navigator.pushNamed(context, '/explanation');
+      } else if (e.code == 'user-already-exist') {
+        Navigator.pushNamed(context, '/feed');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +76,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     padding: EdgeInsets.only(top: 100.h),
                     child: AutoSizeText(
                       "On a besoin de ça!",
-                      style:
-                          GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30.w),
+                      style: GoogleFonts.plusJakartaSans(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30.w),
                       maxLines: 1,
                       maxFontSize: 50,
                       overflow: TextOverflow.fade,
@@ -76,7 +91,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: defaultPadding),
                             child: Padding(
                               padding: EdgeInsets.only(bottom: 50.h),
                               child: Column(
@@ -90,7 +106,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     child: AutoSizeText(
                                       "Promis c’est rapide.",
                                       style: GoogleFonts.plusJakartaSans(
-                                          color: Colors.white, fontWeight: FontWeight.w400, fontSize: 17.w),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 17.w),
                                       maxFontSize: 20,
                                       textAlign: TextAlign.center,
                                     ),
@@ -100,7 +118,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Padding(
-                              padding: EdgeInsets.only(bottom: 16.h, left: defaultPadding, right: defaultPadding),
+                              padding: EdgeInsets.only(
+                                  bottom: 16.h,
+                                  left: defaultPadding,
+                                  right: defaultPadding),
                               child: TextFormField(
                                 controller: _userPseudoTextField,
                                 keyboardAppearance: Brightness.dark,
@@ -112,24 +133,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 },
                                 cursorColor: primaryColor,
                                 keyboardType: TextInputType.emailAddress,
-                                style: GoogleFonts.plusJakartaSans(color: primaryColor, fontSize: 15),
+                                style: GoogleFonts.plusJakartaSans(
+                                    color: primaryColor, fontSize: 15),
                                 decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1.sp, color: strokeTextField),
-                                        borderRadius: const BorderRadius.all(Radius.circular(10))),
-                                    prefix: const Padding(padding: EdgeInsets.only(left: 20.0)),
-                                    suffix: const Padding(padding: EdgeInsets.only(left: 20.0)),
+                                        borderSide: BorderSide(
+                                            width: 1.sp,
+                                            color: strokeTextField),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10))),
+                                    prefix: const Padding(
+                                        padding: EdgeInsets.only(left: 20.0)),
+                                    suffix: const Padding(
+                                        padding: EdgeInsets.only(left: 20.0)),
                                     fillColor: bgTextField,
                                     filled: true,
-                                    focusColor: const Color.fromRGBO(255, 255, 255, 0.30),
+                                    focusColor: const Color.fromRGBO(
+                                        255, 255, 255, 0.30),
                                     enabledBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1, color: strokeTextField),
-                                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                                        borderSide: BorderSide(
+                                            width: 1, color: strokeTextField),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
                                     hintText: 'Pseudo',
-                                    hintStyle: GoogleFonts.plusJakartaSans(color: strokeTextField)),
+                                    hintStyle: GoogleFonts.plusJakartaSans(
+                                        color: strokeTextField)),
                               )),
                           Padding(
-                              padding: EdgeInsets.only(bottom: 16.h, left: defaultPadding, right: defaultPadding),
+                              padding: EdgeInsets.only(
+                                  bottom: 16.h,
+                                  left: defaultPadding,
+                                  right: defaultPadding),
                               child: TextFormField(
                                 controller: _userMailTextField,
                                 keyboardAppearance: Brightness.dark,
@@ -141,24 +175,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 },
                                 cursorColor: primaryColor,
                                 keyboardType: TextInputType.emailAddress,
-                                style: GoogleFonts.plusJakartaSans(color: primaryColor),
+                                style: GoogleFonts.plusJakartaSans(
+                                    color: primaryColor),
                                 decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1, color: strokeTextField),
-                                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                                    prefix: const Padding(padding: EdgeInsets.only(left: 20.0)),
-                                    suffix: const Padding(padding: EdgeInsets.only(left: 20.0)),
+                                        borderSide: BorderSide(
+                                            width: 1, color: strokeTextField),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    prefix: const Padding(
+                                        padding: EdgeInsets.only(left: 20.0)),
+                                    suffix: const Padding(
+                                        padding: EdgeInsets.only(left: 20.0)),
                                     fillColor: bgTextField,
                                     filled: true,
-                                    focusColor: Color.fromRGBO(255, 255, 255, 0.30),
+                                    focusColor:
+                                        Color.fromRGBO(255, 255, 255, 0.30),
                                     enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1, color: strokeTextField),
-                                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                                        borderSide: BorderSide(
+                                            width: 1, color: strokeTextField),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
                                     hintText: 'Email',
-                                    hintStyle: GoogleFonts.plusJakartaSans(color: strokeTextField)),
+                                    hintStyle: GoogleFonts.plusJakartaSans(
+                                        color: strokeTextField)),
                               )),
                           Padding(
-                            padding: EdgeInsets.only(bottom: 16.h, left: defaultPadding, right: defaultPadding),
+                            padding: EdgeInsets.only(
+                                bottom: 16.h,
+                                left: defaultPadding,
+                                right: defaultPadding),
                             child: TextFormField(
                               controller: _passwordTextField,
                               keyboardAppearance: Brightness.dark,
@@ -170,21 +216,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 return null;
                               },
                               cursorColor: primaryColor,
-                              style: GoogleFonts.plusJakartaSans(color: primaryColor),
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: primaryColor),
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 1, color: strokeTextField),
-                                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                                prefix: const Padding(padding: EdgeInsets.only(left: 20.0)),
-                                suffix: const Padding(padding: EdgeInsets.only(left: 20.0)),
+                                    borderSide: BorderSide(
+                                        width: 1, color: strokeTextField),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                prefix: const Padding(
+                                    padding: EdgeInsets.only(left: 20.0)),
+                                suffix: const Padding(
+                                    padding: EdgeInsets.only(left: 20.0)),
                                 fillColor: bgTextField,
                                 filled: true,
                                 focusColor: Color.fromRGBO(255, 255, 255, 0.30),
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 1, color: strokeTextField),
-                                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                                    borderSide: BorderSide(
+                                        width: 1, color: strokeTextField),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
                                 hintText: 'Mot de passe',
-                                hintStyle: GoogleFonts.plusJakartaSans(color: strokeTextField),
+                                hintStyle: GoogleFonts.plusJakartaSans(
+                                    color: strokeTextField),
                                 suffixIcon: Container(
                                     padding: EdgeInsets.only(right: 10),
                                     margin: EdgeInsets.all(5),
@@ -204,8 +258,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       // Splash color over image
                                       child: Image(
                                         image: passenable
-                                            ? AssetImage("assets/images/show_icon.png")
-                                            : AssetImage("assets/images/hide_icon.png"),
+                                            ? AssetImage(
+                                                "assets/images/show_icon.png")
+                                            : AssetImage(
+                                                "assets/images/hide_icon.png"),
                                         height: 2,
                                       ),
                                     )),
@@ -213,7 +269,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(bottom: 16.h, left: defaultPadding, right: defaultPadding),
+                            padding: EdgeInsets.only(
+                                bottom: 16.h,
+                                left: defaultPadding,
+                                right: defaultPadding),
                             child: TextFormField(
                               controller: _passwordConfirmTextField,
                               keyboardAppearance: Brightness.dark,
@@ -228,21 +287,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               },
                               cursorColor: primaryColor,
                               keyboardType: TextInputType.emailAddress,
-                              style: GoogleFonts.plusJakartaSans(color: primaryColor),
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: primaryColor),
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 1, color: strokeTextField),
-                                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                                prefix: const Padding(padding: EdgeInsets.only(left: 20.0)),
-                                suffix: const Padding(padding: EdgeInsets.only(left: 20.0)),
+                                    borderSide: BorderSide(
+                                        width: 1, color: strokeTextField),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                prefix: const Padding(
+                                    padding: EdgeInsets.only(left: 20.0)),
+                                suffix: const Padding(
+                                    padding: EdgeInsets.only(left: 20.0)),
                                 fillColor: bgTextField,
                                 filled: true,
                                 focusColor: Color.fromRGBO(255, 255, 255, 0.30),
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 1, color: strokeTextField),
-                                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                                    borderSide: BorderSide(
+                                        width: 1, color: strokeTextField),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
                                 hintText: 'Confirmation du Mot de passe',
-                                hintStyle: GoogleFonts.plusJakartaSans(color: strokeTextField),
+                                hintStyle: GoogleFonts.plusJakartaSans(
+                                    color: strokeTextField),
                                 suffixIcon: Container(
                                     padding: EdgeInsets.only(right: 10),
                                     margin: EdgeInsets.all(5),
@@ -262,8 +329,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       // Splash color over image
                                       child: Image(
                                         image: passenable
-                                            ? AssetImage("assets/images/show_icon.png")
-                                            : AssetImage("assets/images/hide_icon.png"),
+                                            ? AssetImage(
+                                                "assets/images/show_icon.png")
+                                            : AssetImage(
+                                                "assets/images/hide_icon.png"),
                                         height: 2,
                                       ),
                                     )),
@@ -271,7 +340,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: defaultPadding),
                             child: SizedBox(
                                 width: 600,
                                 child: LoginButton(
@@ -292,12 +362,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   text: TextSpan(
                                     text: 'Tu as déjà un compte?',
                                     style: GoogleFonts.plusJakartaSans(
-                                        color: Colors.white, fontWeight: FontWeight.w400, fontSize: 15),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 15),
                                     children: <TextSpan>[
                                       TextSpan(
                                           text: " Connexion",
                                           style: GoogleFonts.plusJakartaSans(
-                                              fontSize: 15, fontWeight: FontWeight.w400, color: primaryColor)),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                              color: primaryColor)),
                                     ],
                                   ),
                                 ),
@@ -319,10 +393,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: defaultPadding, right: defaultPadding),
+                          padding: const EdgeInsets.only(
+                              left: defaultPadding, right: defaultPadding),
                           child: Text(
                             'Ou',
-                            style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.plusJakartaSans(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         Expanded(
@@ -342,8 +419,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: SignInButton(
                         Buttons.Google,
                         text: "Login with Google",
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                        onPressed: signInWithGoogle,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                       ),
                     ),
                   ),
@@ -354,10 +433,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Container(
                 height: 240.h,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        stops: [0, 1],
-                        colors: [bgColor.withOpacity(1), bgColor.withOpacity(0)])),
+                    gradient: LinearGradient(begin: Alignment.topRight, stops: [
+                  0,
+                  1
+                ], colors: [
+                  bgColor.withOpacity(1),
+                  bgColor.withOpacity(0)
+                ])),
               ),
             ),
             Align(
@@ -365,7 +447,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 800),
                 child: Padding(
-                  padding: EdgeInsets.only(top: 45.h, left: defaultPadding, right: defaultPadding),
+                  padding: EdgeInsets.only(
+                      top: 45.h, left: defaultPadding, right: defaultPadding),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: LinearProgressIndicator(
