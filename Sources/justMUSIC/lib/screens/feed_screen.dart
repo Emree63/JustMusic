@@ -91,7 +91,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
       builder: ((BuildContext context) {
         return ClipRRect(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            child: DetailPostScreen(post: post));
+            child: SizedBox(
+              height: 760.h,
+              child: Scaffold(
+                  primary: false,
+                  extendBody: false,
+                  backgroundColor: Colors.transparent,
+                  body: DetailPostScreen(post: post)),
+            ));
       }),
     );
   }

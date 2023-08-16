@@ -29,6 +29,7 @@ import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   tz.initializeTimeZones();
+  Paint.enableDithering = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -45,7 +46,6 @@ class MyApp extends StatefulWidget {
   static PostViewModel postViewModel = PostViewModel();
   static AudioPlayer audioPlayer = AudioPlayer();
   static CommentViewModel commentViewModel = CommentViewModel();
-  static const keyManager = 'customCacheKey';
 
   const MyApp({super.key});
 
