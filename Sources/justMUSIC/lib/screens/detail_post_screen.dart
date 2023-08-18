@@ -111,151 +111,149 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             ),
                             Column(
                               children: [
-                                IgnorePointer(
-                                  child: Container(
-                                    height: 200,
-                                    margin: EdgeInsets.only(top: 230),
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.transparent,
-                                          bgModal.withOpacity(0.5),
-                                          bgModal.withOpacity(0.75),
-                                          bgModal
-                                        ],
-                                        stops: [0, 0.2, 0.4, 0.8],
-                                      ),
+                                Container(
+                                  height: 200,
+                                  margin: EdgeInsets.only(top: 230),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        bgModal.withOpacity(0.5),
+                                        bgModal.withOpacity(0.75),
+                                        bgModal
+                                      ],
+                                      stops: [0, 0.2, 0.4, 0.8],
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 10),
-                                            child: choice
-                                                ? Padding(
-                                                    padding: const EdgeInsets.all(4),
-                                                    child: ClipOval(
-                                                      child: SizedBox.fromSize(
-                                                        // Image radius
-                                                        child: ProfilPictureComponent(user: widget.post.user),
-                                                      ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 10),
+                                          child: choice
+                                              ? Padding(
+                                                  padding: const EdgeInsets.all(4),
+                                                  child: ClipOval(
+                                                    child: SizedBox.fromSize(
+                                                      // Image radius
+                                                      child: ProfilPictureComponent(user: widget.post.user),
                                                     ),
-                                                  )
-                                                : widget.post.music.previewUrl != null
-                                                    ? ButtonPlayComponent(music: widget.post.music)
-                                                    : Container(),
-                                          ),
-                                          Flexible(
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Flexible(
-                                                  child: Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                    children: [
-                                                      Expanded(
-                                                        child: ScrollConfiguration(
-                                                          behavior: ScrollBehavior().copyWith(scrollbars: false),
-                                                          child: TextScroll(
-                                                            choice ? widget.post.user.pseudo : widget.post.music.title!,
-                                                            style: GoogleFonts.plusJakartaSans(
-                                                              height: 1,
-                                                              color: Colors.white,
-                                                              fontWeight: FontWeight.w800,
-                                                              fontSize: 22,
-                                                            ),
-                                                            mode: TextScrollMode.endless,
-                                                            pauseBetween: Duration(milliseconds: 500),
-                                                            velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 20.0),
-                                                        child: choice
-                                                            ? DateTime(today.year, today.month, today.day)
-                                                                    .isAtSameMomentAs(
-                                                                DateTime(
-                                                                  widget.post.date.year,
-                                                                  widget.post.date.month,
-                                                                  widget.post.date.day,
-                                                                ),
-                                                              )
-                                                                ? Text(
-                                                                    "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
-                                                                    style: GoogleFonts.plusJakartaSans(
-                                                                      height: 1,
-                                                                      color: Colors.white,
-                                                                      fontWeight: FontWeight.w900,
-                                                                      fontSize: 18,
-                                                                    ),
-                                                                  )
-                                                                : Text(
-                                                                    "hier, ${widget.post.date.hour}:${widget.post.date.minute}",
-                                                                    style: GoogleFonts.plusJakartaSans(
-                                                                      height: 1,
-                                                                      color: Colors.white,
-                                                                      fontWeight: FontWeight.w900,
-                                                                      fontSize: 18,
-                                                                    ),
-                                                                  )
-                                                            : Text(
-                                                                widget.post.music.date.toString(),
-                                                                style: GoogleFonts.plusJakartaSans(
-                                                                  height: 1,
-                                                                  color: Colors.white,
-                                                                  fontWeight: FontWeight.w900,
-                                                                  fontSize: 18,
-                                                                ),
-                                                              ),
-                                                      ),
-                                                    ],
                                                   ),
-                                                ),
-                                                choice
-                                                    ? widget.post.location.item2 != null
-                                                        ? Text(
-                                                            "${widget.post.location.item1}, ${widget.post.location.item2}",
-                                                            style: GoogleFonts.plusJakartaSans(
-                                                              color: Colors.white.withOpacity(0.5),
-                                                              fontWeight: FontWeight.w400,
-                                                              fontSize: 15,
-                                                            ),
-                                                          )
-                                                        : Text(
-                                                            "",
-                                                            style: GoogleFonts.plusJakartaSans(
-                                                              color: Colors.white.withOpacity(0.4),
-                                                              fontWeight: FontWeight.w300,
-                                                              fontSize: 13,
-                                                            ),
-                                                          )
-                                                    : ScrollConfiguration(
+                                                )
+                                              : widget.post.music.previewUrl != null
+                                                  ? ButtonPlayComponent(music: widget.post.music)
+                                                  : Container(),
+                                        ),
+                                        Flexible(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Flexible(
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: [
+                                                    Expanded(
+                                                      child: ScrollConfiguration(
                                                         behavior: ScrollBehavior().copyWith(scrollbars: false),
                                                         child: TextScroll(
-                                                          widget.post.music.artists.first.name!,
+                                                          choice ? widget.post.user.pseudo : widget.post.music.title!,
                                                           style: GoogleFonts.plusJakartaSans(
                                                             height: 1,
                                                             color: Colors.white,
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 17,
+                                                            fontWeight: FontWeight.w800,
+                                                            fontSize: 22,
                                                           ),
                                                           mode: TextScrollMode.endless,
                                                           pauseBetween: Duration(milliseconds: 500),
                                                           velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
                                                         ),
                                                       ),
-                                              ],
-                                            ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 20.0),
+                                                      child: choice
+                                                          ? DateTime(today.year, today.month, today.day)
+                                                                  .isAtSameMomentAs(
+                                                              DateTime(
+                                                                widget.post.date.year,
+                                                                widget.post.date.month,
+                                                                widget.post.date.day,
+                                                              ),
+                                                            )
+                                                              ? Text(
+                                                                  "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
+                                                                  style: GoogleFonts.plusJakartaSans(
+                                                                    height: 1,
+                                                                    color: Colors.white,
+                                                                    fontWeight: FontWeight.w900,
+                                                                    fontSize: 18,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  "hier, ${widget.post.date.hour}:${widget.post.date.minute}",
+                                                                  style: GoogleFonts.plusJakartaSans(
+                                                                    height: 1,
+                                                                    color: Colors.white,
+                                                                    fontWeight: FontWeight.w900,
+                                                                    fontSize: 18,
+                                                                  ),
+                                                                )
+                                                          : Text(
+                                                              widget.post.music.date.toString(),
+                                                              style: GoogleFonts.plusJakartaSans(
+                                                                height: 1,
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.w900,
+                                                                fontSize: 18,
+                                                              ),
+                                                            ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              choice
+                                                  ? widget.post.location.item2 != null
+                                                      ? Text(
+                                                          "${widget.post.location.item1}, ${widget.post.location.item2}",
+                                                          style: GoogleFonts.plusJakartaSans(
+                                                            color: Colors.white.withOpacity(0.5),
+                                                            fontWeight: FontWeight.w400,
+                                                            fontSize: 15,
+                                                          ),
+                                                        )
+                                                      : Text(
+                                                          "",
+                                                          style: GoogleFonts.plusJakartaSans(
+                                                            color: Colors.white.withOpacity(0.4),
+                                                            fontWeight: FontWeight.w300,
+                                                            fontSize: 13,
+                                                          ),
+                                                        )
+                                                  : ScrollConfiguration(
+                                                      behavior: ScrollBehavior().copyWith(scrollbars: false),
+                                                      child: TextScroll(
+                                                        widget.post.music.artists.first.name!,
+                                                        style: GoogleFonts.plusJakartaSans(
+                                                          height: 1,
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                        mode: TextScrollMode.endless,
+                                                        pauseBetween: Duration(milliseconds: 500),
+                                                        velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                                      ),
+                                                    ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

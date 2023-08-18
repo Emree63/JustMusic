@@ -27,7 +27,6 @@ class _ButtonPlayComponentState extends State<ButtonPlayComponent> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: GestureDetector(
       onTap: () {
         if (isPlaying) {
           widget.music.stopSong();
@@ -46,6 +45,6 @@ class _ButtonPlayComponentState extends State<ButtonPlayComponent> {
         color: Colors.white,
         size: 45,
       ),
-    ));
+    );
   }
 }
