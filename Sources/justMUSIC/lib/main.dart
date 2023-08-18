@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_file.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/explanations_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
@@ -30,7 +31,8 @@ import 'package:timezone/data/latest.dart' as tz;
 Future<void> main() async {
   tz.initializeTimeZones();
   Paint.enableDithering = true;
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); // Initialize for French locale
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -88,6 +90,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
+
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       builder: (context, child) {

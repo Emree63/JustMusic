@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:intl/intl.dart';
 import 'package:justmusic/components/profil_picture_component.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -29,6 +30,21 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
       choice = !choice;
     });
   }
+
+  final List<String> frenchMonths = [
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre'
+  ];
 
   @override
   void initState() {
@@ -87,7 +103,7 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                                 color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                           )
                         : Text(
-                            "hier, ${widget.post.date.hour}:${widget.post.date.minute}",
+                            '${widget.post.date.day} ${frenchMonths[widget.post.date.month - 1]}, ${widget.post.date.hour}:${widget.post.date.minute}',
                             style: GoogleFonts.plusJakartaSans(
                                 color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                           ),
