@@ -22,8 +22,7 @@ class PostViewModel {
   List<Post> get bestPosts => _bestPosts;
 
   // Methods
-  addPost(String? description, String idMusic, File? image,
-      Tuple2<String, String>? location) async {
+  addPost(String? description, String idMusic, File? image, Tuple2<String, String>? location) async {
     await _postService.createPost(description, idMusic, image, location);
   }
 
@@ -91,8 +90,25 @@ class PostViewModel {
 
   Future<bool> getAvailable() async {
     try {
-      return await _postService
-          .getAvailable(MyApp.userViewModel.userCurrent.id);
+      return await _postService.getAvailable(MyApp.userViewModel.userCurrent.id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getLikesByPostId(String id) async {
+    try {
+      return await _postService.getLikesByPostId(id);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<bool> addOrDeleteFavoritePost(String id) async {
+    try {
+      return await _postService.addOrDeleteFavoritePost(id);
     } catch (e) {
       print(e);
       rethrow;
