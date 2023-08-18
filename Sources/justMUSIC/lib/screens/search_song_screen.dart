@@ -23,6 +23,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
   PageController controller = PageController();
+  bool isCollectionSelected = false;
 
   int? playingIndex;
 
@@ -81,6 +82,20 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
         playingIndex = index;
       });
     }
+  }
+
+  _changePage(int index) {
+    /*if (isCollectionSelected) {
+      setState(() {
+        isCollectionSelected = !isCollectionSelected;
+        controller.animateTo(1, duration: Duration(milliseconds: 200), curve: Curves.easeOut);
+      });
+    } else {
+      setState(() {
+        isCollectionSelected = !isCollectionSelected;
+        controller.animateTo(0, duration: Duration(milliseconds: 200), curve: Curves.easeOut);
+      });
+    }*/
   }
 
   Future<List<Music>> _fetchSavedSong() async {
@@ -171,10 +186,45 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: _changePage(0),
+                        child: Text(
+                          "Recherche",
+                          style: GoogleFonts.plusJakartaSans(
+                              color: isCollectionSelected ? Color(0xFF9A9A9A) : Colors.white,
+                              fontWeight: isCollectionSelected ? FontWeight.w500 : FontWeight.w700),
+                        ),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: _changePage(1),
+                        child: Text("Collection",
+                            style: GoogleFonts.plusJakartaSans(
+                                color: isCollectionSelected ? Colors.white : Color(0xFF9A9A9A),
+                                fontWeight: isCollectionSelected ? FontWeight.w700 : FontWeight.w500)),
+                      ),
+                    ],
+                  ),
+                ),
                 Flexible(
                     child: PageView(
                   controller: controller,
                   physics: BouncingScrollPhysics(),
+                  onPageChanged: (index) {
+                    setState(() {
+                      if (index == 1) {
+                        isCollectionSelected = true;
+                      } else {
+                        isCollectionSelected = false;
+                      }
+                    });
+                  },
                   children: [
                     ScrollConfiguration(
                       behavior: ScrollBehavior().copyWith(scrollbars: true),
