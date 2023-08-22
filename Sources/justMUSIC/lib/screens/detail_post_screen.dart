@@ -302,33 +302,32 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                   onTap: () async {
                                                     var bool = await MyApp.postViewModel
                                                         .addOrDeleteFavoritePost(widget.post.id);
+                                                    print("testttt");
                                                     if (!bool) {
                                                       widget.post.likes.add(MyApp.userViewModel.userCurrent.id);
+
+                                                      setState(() {});
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text("Vous avez liké cette capsule",
+                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                          backgroundColor: primaryColor,
+                                                          closeIconColor: Colors.white,
+                                                        ),
+                                                      );
                                                     } else {
                                                       widget.post.likes.remove(MyApp.userViewModel.userCurrent.id);
+                                                      setState(() {});
+
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text("Vous avez supprimé votre like",
+                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                          backgroundColor: Colors.red,
+                                                          closeIconColor: Colors.white,
+                                                        ),
+                                                      );
                                                     }
-                                                    !bool
-                                                        ? ScaffoldMessenger.of(context).showSnackBar(
-                                                            const SnackBar(
-                                                              content: Text("Vous avez liké cette capsule",
-                                                                  style: TextStyle(fontWeight: FontWeight.bold)),
-                                                              backgroundColor: primaryColor,
-                                                              closeIconColor: Colors.white,
-                                                            ),
-                                                          )
-                                                        : ScaffoldMessenger.of(context).showSnackBar(
-                                                            const SnackBar(
-                                                              content: SnackBar(
-                                                                content: Text("Vous avez supprimé votre like",
-                                                                    style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                backgroundColor: primaryColor,
-                                                                closeIconColor: Colors.white,
-                                                              ),
-                                                              backgroundColor: Colors.red,
-                                                              closeIconColor: Colors.white,
-                                                            ),
-                                                          );
-                                                    setState(() {});
                                                   },
                                                   child: SvgPicture.asset(
                                                     "assets/images/heart.svg",

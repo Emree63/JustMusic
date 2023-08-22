@@ -108,9 +108,11 @@ class PostViewModel {
 
   Future<bool> addOrDeleteFavoritePost(String id) async {
     try {
-      return await _postService.addOrDeleteFavoritePost(id);
+      var bool = await _postService.addOrDeleteFavoritePost(id);
+      print(bool);
+      return bool;
     } catch (e) {
-      print(e);
+      print("haaaaaaaaa");
       rethrow;
     }
   }
