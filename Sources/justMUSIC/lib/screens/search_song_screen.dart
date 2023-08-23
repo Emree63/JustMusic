@@ -269,40 +269,139 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                         future: _fetchSavedSong(),
                         builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
                           if (snapshot.hasData) {
-                            return ListView.builder(
-                                physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-                                controller: _scrollController,
-                                itemCount: snapshot.data?.length,
-                                itemBuilder: (context, index) {
-                                  if (playingIndex == index) {
+                            if (snapshot.data?.length == 0) {
+                              return Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Votre collection est vide.",
+                                        style: GoogleFonts.plusJakartaSans(
+                                            color: Colors.white, fontWeight: FontWeight.w800, fontSize: 18),
+                                      ),
+                                    ),
+                                    Image.asset(
+                                      "assets/images/empty_collection.png",
+                                      width: 300,
+                                    )
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                  physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+                                  controller: _scrollController,
+                                  itemCount: snapshot.data?.length,
+                                  itemBuilder: (context, index) {
+                                    if (playingIndex == index) {
+                                      return InkWell(
+                                          onTap: () {
+                                            widget.callback((snapshot.data?[index])!);
+                                          },
+                                          onLongPress: () {
+                                            showCupertinoModalPopup<void>(
+                                              context: context,
+                                              builder: (BuildContext context) => CupertinoAlertDialog(
+                                                title: const Text('Supprimer la musique'),
+                                                content: Text(
+                                                    'Etes-vous sur de vouloir supprimer ${(snapshot.data?[index])!.title} de votre collection?'),
+                                                actions: <CupertinoDialogAction>[
+                                                  CupertinoDialogAction(
+                                                    /// This parameter indicates this action is the default,
+                                                    /// and turns the action's text to bold text.
+                                                    isDefaultAction: true,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Annuler'),
+                                                  ),
+                                                  CupertinoDialogAction(
+                                                    /// This parameter indicates the action would perform
+                                                    /// a destructive action such as deletion, and turns
+                                                    /// the action's text color to red.
+                                                    isDestructiveAction: true,
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      await MyApp.musicViewModel
+                                                          .addOrDeleteFavoriteMusic((snapshot.data?[index])!.id);
+                                                      MyApp.userViewModel.userCurrent.musics_likes
+                                                          .remove((snapshot.data?[index])!.id);
+
+                                                      MyApp.audioPlayer.release();
+                                                      setState(() {
+                                                        playingIndex = null;
+                                                      });
+                                                    },
+                                                    child: const Text('Supprimer'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            child: MusicListComponent(
+                                              music: (snapshot.data?[index])!,
+                                              playing: true,
+                                              callback: playMusic,
+                                              index: index,
+                                            ),
+                                          ));
+                                    }
                                     return InkWell(
                                         onTap: () {
-                                          widget.callback(filteredData[index]);
+                                          widget.callback((snapshot.data?[index])!);
+                                        },
+                                        onLongPress: () {
+                                          showCupertinoModalPopup<void>(
+                                            context: context,
+                                            builder: (BuildContext context) => CupertinoAlertDialog(
+                                              title: const Text('Supprimer la musique'),
+                                              content: Text(
+                                                  'Etes-vous sur de vouloir supprimer ${(snapshot.data?[index])!.title} de votre collection?'),
+                                              actions: <CupertinoDialogAction>[
+                                                CupertinoDialogAction(
+                                                  /// This parameter indicates this action is the default,
+                                                  /// and turns the action's text to bold text.
+                                                  isDefaultAction: true,
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Annuler'),
+                                                ),
+                                                CupertinoDialogAction(
+                                                  /// This parameter indicates the action would perform
+                                                  /// a destructive action such as deletion, and turns
+                                                  /// the action's text color to red.
+                                                  isDestructiveAction: true,
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    await MyApp.musicViewModel
+                                                        .addOrDeleteFavoriteMusic((snapshot.data?[index])!.id);
+                                                    MyApp.userViewModel.userCurrent.musics_likes
+                                                        .remove((snapshot.data?[index])!.id);
+                                                    setState(() {});
+                                                  },
+                                                  child: const Text('Supprimer'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 20),
                                           child: MusicListComponent(
                                             music: (snapshot.data?[index])!,
-                                            playing: true,
+                                            playing: false,
                                             callback: playMusic,
                                             index: index,
                                           ),
                                         ));
-                                  }
-                                  return InkWell(
-                                      onTap: () {
-                                        widget.callback((snapshot.data?[index])!);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                                        child: MusicListComponent(
-                                          music: (snapshot.data?[index])!,
-                                          playing: false,
-                                          callback: playMusic,
-                                          index: index,
-                                        ),
-                                      ));
-                                });
+                                  });
+                            }
                           } else {
                             return CupertinoActivityIndicator();
                           }

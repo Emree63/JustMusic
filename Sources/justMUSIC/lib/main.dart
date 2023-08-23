@@ -57,26 +57,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late StreamSubscription<User?> user;
-  Stream<userJustMusic.User?> userCurrent = Stream.empty();
 
   @override
   void initState() {
     super.initState();
-    checkSignIn();
-  }
-
-  Future<userJustMusic.User?> checkSignIn() async {
-    user = FirebaseAuth.instance.authStateChanges().listen((user) async {
-      if (user == null) {
-        print('User is currently signed out!');
-        return null;
-      } else {
-        MyApp.userViewModel.userCurrent = (await (MyApp.userViewModel.getUser(user.uid)))!;
-        userCurrent = Stream.value(MyApp.userViewModel.userCurrent);
-        print('User is signed in!');
-      }
-    });
-    return null;
   }
 
   @override
@@ -94,25 +78,68 @@ class _MyAppState extends State<MyApp> {
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       builder: (context, child) {
-        return MaterialApp(
-            routes: {
-              '/welcome': (context) => const WellcomeScreen(),
-              '/feed': (context) => const FeedScreen(),
-              '/login': (context) => const LoginScreen(),
-              '/register': (context) => const RegistrationScreen(),
-              '/post': (context) => const PostScreen(),
-              '/profile': (context) => const ProfileScreen(),
-              '/explanation': (context) => const ExplanationsScreen(),
-              '/addFriend': (context) => const AddFriendScreen(),
-              '/launchingRocket': (context) => const LaunchingRocketScreen(),
-              '/verifyEmail': (context) => const VerifyEmailScreen(),
-              '/forgetPassword': (context) => const ForgetPasswordScreen(),
-            },
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: WellcomeScreen());
+        return StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (ConnectionState.waiting == snapshot.connectionState) {
+                return const CupertinoActivityIndicator();
+              }
+              if (snapshot.hasData) {
+                return FutureBuilder<userJustMusic.User?>(
+                  future: MyApp.userViewModel.getUser(snapshot.data!.uid),
+                  builder: (context, userSnapshot) {
+                    if (userSnapshot.connectionState == ConnectionState.waiting) {
+                      return const CupertinoActivityIndicator();
+                    } else {
+                      if (userSnapshot.hasData) {
+                        MyApp.userViewModel.userCurrent = userSnapshot.data!;
+                        return MaterialApp(
+                            routes: {
+                              '/welcome': (context) => const WellcomeScreen(),
+                              '/feed': (context) => const FeedScreen(),
+                              '/login': (context) => const LoginScreen(),
+                              '/register': (context) => const RegistrationScreen(),
+                              '/post': (context) => const PostScreen(),
+                              '/profile': (context) => const ProfileScreen(),
+                              '/explanation': (context) => const ExplanationsScreen(),
+                              '/addFriend': (context) => const AddFriendScreen(),
+                              '/launchingRocket': (context) => const LaunchingRocketScreen(),
+                              '/verifyEmail': (context) => const VerifyEmailScreen(),
+                              '/forgetPassword': (context) => const ForgetPasswordScreen(),
+                            },
+                            debugShowCheckedModeBanner: false,
+                            theme: ThemeData(
+                              primarySwatch: Colors.blue,
+                            ),
+                            home: FeedScreen());
+                      } else {
+                        return const Text('User data not found');
+                      }
+                    }
+                  },
+                );
+              } else {
+                return MaterialApp(
+                    routes: {
+                      '/welcome': (context) => const WellcomeScreen(),
+                      '/feed': (context) => const FeedScreen(),
+                      '/login': (context) => const LoginScreen(),
+                      '/register': (context) => const RegistrationScreen(),
+                      '/post': (context) => const PostScreen(),
+                      '/profile': (context) => const ProfileScreen(),
+                      '/explanation': (context) => const ExplanationsScreen(),
+                      '/addFriend': (context) => const AddFriendScreen(),
+                      '/launchingRocket': (context) => const LaunchingRocketScreen(),
+                      '/verifyEmail': (context) => const VerifyEmailScreen(),
+                      '/forgetPassword': (context) => const ForgetPasswordScreen(),
+                    },
+                    debugShowCheckedModeBanner: false,
+                    theme: ThemeData(
+                      primarySwatch: Colors.blue,
+                    ),
+                    home: WellcomeScreen());
+              }
+            });
       },
       designSize: Size(390, 844),
     );
