@@ -26,6 +26,9 @@ import 'package:justmusic/view_model/UserViewModel.dart';
 import 'package:justmusic/model/User.dart' as userJustMusic;
 import 'firebase_options.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
   tz.initializeTimeZones();
@@ -35,6 +38,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initializeDateFormatting('fr_FR', null);
   await FirebaseMessaging.instance.requestPermission(sound: true);
   runApp(const MyApp());
 }

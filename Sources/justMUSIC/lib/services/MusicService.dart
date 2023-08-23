@@ -33,9 +33,8 @@ class MusicService {
     }
   }
 
-  Future<List<Tuple2<String, String>>> getHistoryCapsulesMonthWhitIdUser(
-      String idUser, int month, int year) async {
-    List<Tuple2<String, String>> capsules = [];
+  Future<List<Tuple2<int, String>>> getHistoryCapsulesMonthWhitIdUser(String idUser, int month, int year) async {
+    List<Tuple2<int, String>> capsules = [];
 
     var querySnapshot = await FirebaseFirestore.instance
         .collection('posts')
@@ -46,8 +45,7 @@ class MusicService {
         .get();
 
     for (var document in querySnapshot.docs) {
-      capsules.add(Tuple2(document.data()['date'].toDate().day.toString(),
-          document.data()['idMusic']));
+      capsules.add(Tuple2(document.data()['date'].toDate().day, document.data()['song_id']));
     }
 
     return capsules;
