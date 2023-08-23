@@ -15,6 +15,16 @@ class CommentService {
     await MyApp.db.collection("comments").add(comment);
   }
 
+  deleteComment(String id) async {
+    await MyApp.db
+        .collection("comments")
+        .doc(id)
+        .delete()
+        .then((value) => print("Firestore deleted comment"))
+        .catchError(
+            (error) => print("Error deleting comment from Firestore: $error"));
+  }
+
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getCommentsByPostId(
       String id) async {
     var response = await FirebaseFirestore.instance

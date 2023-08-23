@@ -34,6 +34,16 @@ class NotificationService {
 
   sendNotifyComment(String token, String text) async {
     var pseudo = MyApp.userViewModel.userCurrent.pseudo;
-    await sendPushMessage(token, "Nouveau message de $pseudo", "$text\".");
+    await sendPushMessage(token, "$pseudo a commenté votre capsule", "$text");
+  }
+
+  sendNotifyLike(String token, int nbLikes) async {
+    var pseudo = MyApp.userViewModel.userCurrent.pseudo;
+    await sendPushMessage(token, "$pseudo a aimé votre capsule", "Votre capsule a été aimé $nbLikes fois.");
+  }
+
+  sendNotifyFriend(String token) async {
+    var pseudo = MyApp.userViewModel.userCurrent.pseudo;
+    await sendPushMessage(token, "$pseudo vous suit.", "Il pourra à présent voir votre activité dans son Feed \"Mes Amis\".");
   }
 }

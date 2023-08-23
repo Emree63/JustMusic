@@ -27,6 +27,7 @@ class AuthService {
       "followers": [],
       "token_notify": token,
       "musics_likes": [],
+      "creation_date": DateTime.now(),
       "picture":
           "https://firebasestorage.googleapis.com/v0/b/justmusic-435d5.appspot.com/o/justMusicDefaultImage.png?alt=media&token=020d0fcb-b7df-4d4d-b380-e99597293fcc"
     };
@@ -132,6 +133,7 @@ class AuthService {
   Future<void> delete() async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
+      String? id = currentUser?.uid;
       await MyApp.db
           .collection("users")
           .doc(currentUser?.uid)
@@ -139,6 +141,35 @@ class AuthService {
           .then((value) => print("Firestore deleted user"))
           .catchError(
               (error) => print("Error deleting user from Firestore: $error"));
+
+      QuerySnapshot usersSnapshot = await MyApp.db.collection("users").get();
+
+      // Delete all posts
+      QuerySnapshot postsSnapshot = await MyApp.db.collection("posts").where("user_id", isEqualTo: id).get();
+      for (var postDoc in postsSnapshot.docs) {
+        await postDoc.reference.delete();
+      }
+
+      // Delete all comments
+      QuerySnapshot commentsSnapshot = await MyApp.db.collection("comments").where("user_id", isEqualTo: id).get();
+      for (var commentDoc in commentsSnapshot.docs) {
+        await commentDoc.reference.delete();
+      }
+
+      for (var userDoc in usersSnapshot.docs) {
+        if (userDoc.exists) {
+          var userData = userDoc.data() as Map<String, dynamic>;
+          List<String> followers = List<String>.from(userData['followers'] ?? []);
+          List<String> followed = List<String>.from(userData['followed'] ?? []);
+          if (followers.contains(id)) {
+            followers.remove(id);
+          }
+          if (followed.contains(id)) {
+            followed.remove(id);
+          }
+          await userDoc.reference.update({'followers': followers, 'followed': followed});
+        }
+      }
 
       await currentUser?.delete();
       await FirebaseAuth.instance.signOut();
