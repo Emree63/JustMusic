@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:intl/intl.dart';
 import 'package:justmusic/components/profil_picture_component.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -55,6 +54,13 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    var mins = "0";
+    if (widget.post.date.minute < 10) {
+      mins = "0${widget.post.date.minute}";
+    } else {
+      mins = widget.post.date.minute.toString();
+    }
+
     return GestureDetector(
         onTap: switchChoice,
         child: SizedBox(
@@ -98,12 +104,12 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                     DateTime(today.year, today.month, today.day).isAtSameMomentAs(
                             DateTime(widget.post.date.year, widget.post.date.month, widget.post.date.day))
                         ? Text(
-                            "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
+                            "Aujourd'hui, ${widget.post.date.hour}:$mins",
                             style: GoogleFonts.plusJakartaSans(
                                 color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                           )
                         : Text(
-                            '${widget.post.date.day} ${frenchMonths[widget.post.date.month - 1]}, ${widget.post.date.hour}:${widget.post.date.minute}',
+                            '${widget.post.date.day} ${frenchMonths[widget.post.date.month - 1]}, ${widget.post.date.hour}:$mins',
                             style: GoogleFonts.plusJakartaSans(
                                 color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                           ),

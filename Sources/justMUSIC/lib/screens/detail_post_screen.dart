@@ -70,6 +70,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var mins = "0";
+    if (widget.post.date.minute < 10) {
+      mins = "0${widget.post.date.minute}";
+    } else {
+      mins = widget.post.date.minute.toString();
+    }
     return GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
@@ -187,7 +193,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                               ),
                                                             )
                                                               ? Text(
-                                                                  "Aujourd'hui, ${widget.post.date.hour}:${widget.post.date.minute}",
+                                                                  "Aujourd'hui, ${widget.post.date.hour}:$mins",
                                                                   style: GoogleFonts.plusJakartaSans(
                                                                     height: 1,
                                                                     color: Colors.white,
@@ -196,7 +202,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                                   ),
                                                                 )
                                                               : Text(
-                                                                  "hier, ${widget.post.date.hour}:${widget.post.date.minute}",
+                                                                  "hier, ${widget.post.date.hour}:$mins",
                                                                   style: GoogleFonts.plusJakartaSans(
                                                                     height: 1,
                                                                     color: Colors.white,
