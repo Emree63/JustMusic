@@ -33,17 +33,9 @@ class UserViewModel {
 
   login(String pseudo, String password) async {
     try {
-      var token;
       await _authService.login(pseudo, password);
       if (firebase_auth.FirebaseAuth.instance.currentUser!.emailVerified) {
         await updateUserCurrent();
-        if (!kIsWeb) {
-          token = await FirebaseMessaging.instance.getToken();
-          if (_userCurrent.token != token) {
-            _userService.updateTokenNotify(_userCurrent.id, token);
-            _userCurrent.token = token;
-          }
-        }
       } else {
         throw ("Le mail n'a pas encore été vérifié");
       }
@@ -62,6 +54,14 @@ class UserViewModel {
       final user = await MyApp.db.collection("users").doc(firebase_auth.FirebaseAuth.instance.currentUser?.uid).get();
       User data = UserMapper.toModel(user);
       _userCurrent = data;
+      if (!kIsWeb) {
+        var token;
+        token = await FirebaseMessaging.instance.getToken();
+        if (_userCurrent.token != token) {
+          _userService.updateTokenNotify(_userCurrent.id, token);
+          _userCurrent.token = token;
+        }
+      }
     } catch (e) {
       print(e);
     }

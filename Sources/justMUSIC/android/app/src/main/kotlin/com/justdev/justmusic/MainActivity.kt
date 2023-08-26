@@ -1,4 +1,4 @@
-package com.example.justmusic
+package com.justdev.justmusic
 
 import io.flutter.embedding.android.FlutterActivity
 
