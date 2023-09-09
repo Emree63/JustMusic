@@ -4,8 +4,10 @@
     
 ---
 
+&nbsp; ![Firebase](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
 &nbsp; ![Dart](https://img.shields.io/badge/Dart-000?style=for-the-badge&logo=dart&logoColor=blue&color=white)
 &nbsp; ![Flutter](https://img.shields.io/badge/Flutter-000?style=for-the-badge&logo=flutter&logoColor=blue&color=white)
+&nbsp; ![Spotify](https://img.shields.io/badge/Spotify-1DB954.svg?style=for-the-badge&logo=Spotify&logoColor=white)
 
 ---
 
@@ -57,7 +59,7 @@ La racine de notre gitlab est composé de deux dossier essentielles au projet:
 <img src ="https://codefirst.iut.uca.fr/git/avatars/6a3835d734392fccff3949f7c82a63b9?size=870" height="50px">
 </a>
 <a href = "https://codefirst.iut.uca.fr/git/emre.kartal">
-<img src ="https://codefirst.iut.uca.fr/git/avatars/402cf312e853192f42c0135a888725c2?size=870" height="50px">
+<img src ="https://codefirst.iut.uca.fr/git/avatars/1ff65c9c5ab0e8c8883fb48adbcf972f?size=870" height="50px">
 </a>
 <a href = "https://codefirst.iut.uca.fr/git/david.d_almeida">
 <img src ="https://codefirst.iut.uca.fr/git/avatars/0f8eaaad1e26d3de644ca522eccaea7c?size=870" height="50px">
