@@ -4,8 +4,10 @@
     
 ---
 
+&nbsp; ![Firebase](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
 &nbsp; ![Dart](https://img.shields.io/badge/Dart-000?style=for-the-badge&logo=dart&logoColor=blue&color=white)
 &nbsp; ![Flutter](https://img.shields.io/badge/Flutter-000?style=for-the-badge&logo=flutter&logoColor=blue&color=white)
+&nbsp; ![Spotify](https://img.shields.io/badge/Spotify-1DB954.svg?style=for-the-badge&logo=Spotify&logoColor=white)
 
 ---
 
