@@ -14,7 +14,7 @@ steps:
 #      - flutter build apk
 
   - name: code-analysis
-    image: fischerscode/flutter:master
+    image: cirrusci/flutter:latest 
     environment:
       SONAR_TOKEN:
         from_secret: SONAR_TOKEN
