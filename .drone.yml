@@ -8,7 +8,7 @@ trigger:
 
 steps:
   - name: app-build
-    image: fischerscode/flutter:latest
+    image: fischerscode/flutter:master
     commands:
       - cd ./Sources/justMUSIC/
       - flutter build apk
