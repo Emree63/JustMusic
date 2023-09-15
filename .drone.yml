@@ -7,11 +7,11 @@ trigger:
     - push
 
 steps:
-#  - name: app-build
-#    image: cirrusci/flutter:stable
-#    commands:
-#      - cd ./Sources/justMUSIC/
-#      - flutter build apk
+  - name: app-build
+    image: cirrusci/flutter:latest
+    commands:
+      - cd ./Sources/justMUSIC/
+      - flutter build apk
 
   - name: code-analysis
     image: cirrusci/flutter:latest 
