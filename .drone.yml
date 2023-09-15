@@ -7,14 +7,14 @@ trigger:
     - push
 
 steps:
-  - name: app-build
-    image: fischerscode/flutter-sudo:latest
-    commands:
-      - cd ./Sources/justMUSIC/
-      - flutter build apk
+#  - name: app-build
+#    image: cirrusci/flutter:latest 
+#    commands:
+#      - cd ./Sources/justMUSIC/
+#      - flutter build apk
 
   - name: code-analysis
-    image: cirrusci/flutter:latest 
+    image: fischerscode/flutter:latest
     environment:
       SONAR_TOKEN:
         from_secret: SONAR_TOKEN
