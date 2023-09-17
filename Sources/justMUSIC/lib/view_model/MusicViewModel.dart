@@ -213,7 +213,7 @@ class MusicViewModel {
     try {
       List<String> idMusics = [];
       if (id == MyApp.userViewModel.userCurrent.id) {
-        idMusics = MyApp.userViewModel.userCurrent.musics_likes;
+        idMusics = MyApp.userViewModel.userCurrent.musicsLikes;
       } else {
         idMusics = await _musicService.getFavoriteMusicsByUserId(id);
       }

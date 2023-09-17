@@ -23,12 +23,12 @@ class MusicService {
     if (!musicFavorite.contains(id)) {
       musicFavorite.add(id);
       await userRef.update({"musics_likes": musicFavorite});
-      MyApp.userViewModel.userCurrent.musics_likes.add(id);
+      MyApp.userViewModel.userCurrent.musicsLikes.add(id);
       return false;
     } else {
       musicFavorite.remove(id);
       await userRef.update({"musics_likes": musicFavorite});
-      MyApp.userViewModel.userCurrent.musics_likes.remove(id);
+      MyApp.userViewModel.userCurrent.musicsLikes.remove(id);
       return true;
     }
   }

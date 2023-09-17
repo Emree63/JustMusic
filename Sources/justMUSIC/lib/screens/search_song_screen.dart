@@ -327,7 +327,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                                                       Navigator.pop(context);
                                                       await MyApp.musicViewModel
                                                           .addOrDeleteFavoriteMusic((snapshot.data?[index])!.id);
-                                                      MyApp.userViewModel.userCurrent.musics_likes
+                                                      MyApp.userViewModel.userCurrent.musicsLikes
                                                           .remove((snapshot.data?[index])!.id);
 
                                                       MyApp.audioPlayer.release();
@@ -381,7 +381,7 @@ class _SearchSongScreenState extends State<SearchSongScreen> {
                                                     Navigator.pop(context);
                                                     await MyApp.musicViewModel
                                                         .addOrDeleteFavoriteMusic((snapshot.data?[index])!.id);
-                                                    MyApp.userViewModel.userCurrent.musics_likes
+                                                    MyApp.userViewModel.userCurrent.musicsLikes
                                                         .remove((snapshot.data?[index])!.id);
                                                     setState(() {});
                                                   },

@@ -46,7 +46,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   }
 
   bool isSaved() {
-    return MyApp.userViewModel.userCurrent.musics_likes.contains(widget.post.music.id);
+    return MyApp.userViewModel.userCurrent.musicsLikes.contains(widget.post.music.id);
   }
 
   bool isLiked() {

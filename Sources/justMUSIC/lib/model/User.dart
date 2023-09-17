@@ -6,13 +6,13 @@ class User {
   String _pp;
   String _token;
   List<String> _followers;
-  List<String> _musics_likes;
+  List<String> _musicsLikes;
   int _capsules;
   List<String> _followed;
 
   // Constructor
   User(this._id, this._pseudo, this._uniquePseudo, this._mail, this._pp, this._token, this._followers,
-      this._musics_likes, this._capsules, this._followed);
+      this._musicsLikes, this._capsules, this._followed);
 
   //Getters and setters
   String get id => _id;
@@ -23,10 +23,10 @@ class User {
     _pseudo = value;
   }
 
-  List<String> get musics_likes => _musics_likes;
+  List<String> get musicsLikes => _musicsLikes;
 
-  set musics_likes(List<String> value) {
-    _musics_likes = value;
+  set musicsLikes(List<String> value) {
+    _musicsLikes = value;
   }
 
   String get uniquePseudo => _uniquePseudo;
