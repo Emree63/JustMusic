@@ -48,7 +48,7 @@ class PostService {
     QuerySnapshot<Map<String, dynamic>> response;
     response = await FirebaseFirestore.instance
         .collection("posts")
-        .orderBy("date", descending: true)
+        .orderBy("date")
         .limit(limit)
         .get();
 
@@ -67,7 +67,7 @@ class PostService {
           MyApp.userViewModel.userCurrent.id,
           ...MyApp.userViewModel.userCurrent.followed
         ])
-        .orderBy("date", descending: true)
+        .orderBy("date")
         .limit(limit)
         .get();
 

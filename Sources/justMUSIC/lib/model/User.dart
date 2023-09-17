@@ -7,7 +7,6 @@ class User {
   String _token;
   List<String> _followers;
   List<String> _musics_likes;
-
   int _capsules;
   List<String> _followed;
 
