@@ -135,9 +135,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
   @override
   Widget build(BuildContext context) {
     choice = widget.choice;
-    return Padding(
-      padding: const EdgeInsets.only(top: defaultPadding),
-      child: Container(
+    return SafeArea(top:true,child: Container(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         width: double.infinity,
         height: 100,
