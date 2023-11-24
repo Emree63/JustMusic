@@ -8,7 +8,7 @@ trigger:
 
 steps:
   - name: app-build
-    image: ghcr.io/cirruslabs/flutter:3.13.9
+    image: cirrusci/flutter:latest
     commands:
       - cd ./Sources/justMUSIC/
       - flutter pub get
