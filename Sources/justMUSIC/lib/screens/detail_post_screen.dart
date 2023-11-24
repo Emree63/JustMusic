@@ -400,8 +400,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                 )
                                               ],
                                             ),
-                                            SvgPicture.asset("assets/images/add.svg",
-                                                semanticsLabel: 'Add playlist Logo'),
                                             GestureDetector(
                                                 onTap: () async {
                                                   var bool = await MyApp.musicViewModel
@@ -462,7 +460,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                                   semanticsLabel: 'Save Logo',
                                                   color: isSaved() ? primaryColor : Colors.white,
                                                 )),
-                                            SvgPicture.asset("assets/images/report.svg", semanticsLabel: 'Report Logo'),
                                           ],
                                         ),
                                       ),

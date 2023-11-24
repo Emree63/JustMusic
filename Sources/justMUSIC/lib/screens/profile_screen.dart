@@ -114,20 +114,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             label: 'Historiques des capsules',
                             action: _openHistoric,
                           ),
-                          const SettingPartComponent(
-                            icon: JustMusicIcon.spotify,
-                            label: 'Lier un compte Spotify',
-                            action: null,
-                          ),
                           SettingPartComponent(
                             icon: JustMusicIcon.password,
                             label: 'Modifier mon mot de passe',
                             action: _openPassword,
-                          ),
-                          const SettingPartComponent(
-                            icon: JustMusicIcon.trash,
-                            label: 'Supprimer mon compte',
-                            action: null,
                           ),
                           SettingPartComponent(
                             icon: JustMusicIcon.cross,
@@ -138,30 +128,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12, left: defaultPadding, top: 40),
-                      child: Text(
-                        "Préférences",
-                        style: GoogleFonts.plusJakartaSans(color: grayText, fontWeight: FontWeight.w800, fontSize: 16),
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: const Column(
-                        children: [
-                          SettingPartComponent(
-                            icon: JustMusicIcon.theme,
-                            label: 'Thême de l\'application',
-                            action: null,
-                          ),
-                          SettingPartComponent(
-                            icon: JustMusicIcon.notification,
-                            label: 'Notifications',
-                            action: null,
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),
