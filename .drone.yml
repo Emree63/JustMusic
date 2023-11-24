@@ -11,6 +11,7 @@ steps:
     image: ghcr.io/cirruslabs/flutter:3.13.9
     commands:
       - cd ./Sources/justMUSIC/
+      - flutter pub get
       - flutter build apk --debug
 
   - name: code-analysis
