@@ -284,6 +284,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                   child: SizedBox(
                     width: double.infinity,
                     child: TextFormField(
+                        keyboardType: TextInputType.text,
                       onChanged: (value) {
                         _updateDescription(value);
                       },

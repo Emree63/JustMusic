@@ -10,11 +10,21 @@ class CommentComponent extends StatelessWidget {
   final Comment comment;
 
   const CommentComponent({Key? key, required this.comment}) : super(key: key);
+  String calculateTimeDifference(DateTime startDate) {
+    Duration difference = DateTime.now().difference(startDate);
 
+    if (difference.inDays > 0) {
+      return '${difference.inDays} jours';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} heures';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minutes';
+    } else {
+      return '${difference.inSeconds} secondes';
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final difference = now.difference(comment.date);
 
     return Container(
       width: double.infinity,
@@ -56,7 +66,7 @@ class CommentComponent extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 6, left: 10),
                       child: Text(
-                        "il y a ${difference.inHours > 0 ? difference.inHours : difference.inMinutes}${difference.inHours > 0 ? "h" : "m"}",
+                        "il y a ${calculateTimeDifference(comment.date)}",
                         style: GoogleFonts.plusJakartaSans(
                             color: Colors.white.withOpacity(0.6), fontWeight: FontWeight.w400, fontSize: 10),
                       ),

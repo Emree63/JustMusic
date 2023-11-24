@@ -29,21 +29,29 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
       choice = !choice;
     });
   }
+  String formatPostDate(DateTime postDate) {
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime(now.year, now.month, now.day - 1);
 
-  final List<String> frenchMonths = [
-    'Janvier',
-    'Février',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juillet',
-    'Août',
-    'Septembre',
-    'Octobre',
-    'Novembre',
-    'Décembre'
-  ];
+    if (postDate.year == now.year && postDate.month == now.month && postDate.day == now.day) {
+      // Aujourd'hui
+      return "Aujourd'hui, ${postDate.hour}:${postDate.minute.toString().padLeft(2, '0')}";
+    } else if (postDate.year == yesterday.year && postDate.month == yesterday.month && postDate.day == yesterday.day) {
+      // Hier
+      return 'hier, ${postDate.hour}:${postDate.minute.toString().padLeft(2, '0')}';
+    } else {
+      // Autre date
+      return '${postDate.day} ${_getMonthAbbreviation(postDate.month)} ${postDate.hour}:${postDate.minute.toString().padLeft(2, '0')}';
+    }
+  }
+
+  String _getMonthAbbreviation(int month) {
+    const List<String> monthsAbbreviation = [
+      'janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.',
+    ];
+
+    return monthsAbbreviation[month - 1];
+  }
 
   @override
   void initState() {
@@ -101,18 +109,11 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                         ),
                       ),
                     ),
-                    DateTime(today.year, today.month, today.day).isAtSameMomentAs(
-                            DateTime(widget.post.date.year, widget.post.date.month, widget.post.date.day))
-                        ? Text(
-                            "Aujourd'hui, ${widget.post.date.hour}:$mins",
+                    Text(
+                      formatPostDate(widget.post.date),
                             style: GoogleFonts.plusJakartaSans(
                                 color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
                           )
-                        : Text(
-                            '${widget.post.date.day} ${frenchMonths[widget.post.date.month - 1]}, ${widget.post.date.hour}:$mins',
-                            style: GoogleFonts.plusJakartaSans(
-                                color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w300, fontSize: 13),
-                          ),
                   ],
                 ),
                 SizedBox(height: 10),

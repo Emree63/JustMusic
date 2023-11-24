@@ -19,9 +19,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    Future<void> logout() async {
-      await MyApp.userViewModel.logout();
-      Navigator.pushNamed(context, '/welcome');
+    void logout() {
+      MyApp.userViewModel.logout();
+      Navigator.of(context).push(routeWelcome());
     }
 
     void _openHistoric() {
