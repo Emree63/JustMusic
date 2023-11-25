@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "JustMusic",
     "public": "build/web",
     "ignore": [
       "firebase.json",
