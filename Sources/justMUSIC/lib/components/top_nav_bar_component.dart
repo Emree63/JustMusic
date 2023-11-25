@@ -136,7 +136,7 @@ class _TopNavBarComponentState extends State<TopNavBarComponent> with TickerProv
   Widget build(BuildContext context) {
     choice = widget.choice;
     return SafeArea(top:true,child: Container(
-        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 20),
         width: double.infinity,
         height: 100,
         child: Row(

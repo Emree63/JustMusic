@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:animations/animations.dart';
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:justmusic/components/back_button.dart';
 import 'package:justmusic/screens/launching_rocker_screen.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/capsule_historic_screen.dart';
 import 'package:justmusic/screens/change_password_screen.dart';

@@ -5,16 +5,29 @@ name: JustMusic
 trigger:
   event:
     - push
+  branch:
+    - master
 
 steps:
-#  - name: app-build
-#    image: cirrusci/flutter:stable
-#    commands:
-#      - cd ./Sources/justMUSIC/
-#      - flutter build apk
+  - name: app-build
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    commands:
+      - cd ./Sources/justMUSIC/
+      - flutter build apk
+
+  - name: build-web
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    environment:
+      FIREBASE_TOKEN:
+        from_secret: FIREBASE_TOKEN
+    commands:
+      - cd ./Sources/justMUSIC/
+      - flutter build web --web-renderer canvaskit
+      - curl -sL https://firebase.tools | bash
+      - firebase deploy --token $${FIREBASE_TOKEN}
 
   - name: code-analysis
-    image: cirrusci/flutter:stable 
+    image: ghcr.io/cirruslabs/flutter:3.13.9
     environment:
       SONAR_TOKEN:
         from_secret: SONAR_TOKEN
