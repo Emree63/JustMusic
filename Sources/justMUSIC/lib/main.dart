@@ -79,10 +79,12 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
 
+
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
+            color: Colors.black,
             routes: {
               '/welcome': (context) => const WellcomeScreen(),
               '/feed': (context) => const FeedScreen(),
