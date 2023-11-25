@@ -79,12 +79,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
-
+    final shortcuts = Map.of(WidgetsApp.defaultShortcuts)
+      ..remove(LogicalKeySet(LogicalKeyboardKey.escape));
 
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
+            shortcuts: shortcuts,
             color: bgColor,
             routes: {
               '/welcome': (context) => const WellcomeScreen(),
