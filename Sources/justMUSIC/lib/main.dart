@@ -20,6 +20,7 @@ import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/verify_email_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
+import 'package:justmusic/values/constants.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/PostViewModel.dart';
@@ -84,7 +85,7 @@ class _MyAppState extends State<MyApp> {
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
-            color: Colors.black,
+            color: bgColor,
             routes: {
               '/welcome': (context) => const WellcomeScreen(),
               '/feed': (context) => const FeedScreen(),
