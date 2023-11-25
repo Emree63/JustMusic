@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +39,6 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
   late AnimationController animationController;
   late AnimationController _controller;
   File? image;
-  Uint8List webImage = Uint8List(8);
   Tuple2<String, String>? selectedCity;
 
   @override
@@ -61,31 +59,20 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
     super.initState();
   }
 
-  Future<void> pickImage(ImageSource source) async {
+  Future pickImage(ImageSource source) async {
     try {
+
       final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
-
       if (image == null) return;
-
-      if (!kIsWeb) {
-        final imageTemp = File(image.path);
-        setState(() {
-          this.image = imageTemp;
-          widget.callBackImage(imageTemp);
-        });
-      } else {
-        final imageBytes = await image.readAsBytes();
-        setState(() {
-          webImage = imageBytes;
-
-          widget.callBackImage(File("/tmp").writeAsBytes(webImage));
-        });
-      }
+      final imageTemp = File(image.path);
+      setState(() {
+        this.image = imageTemp;
+        widget.callBackImage(imageTemp);
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
-
 
   void _updateDescription(String text) {
     setState(() {
@@ -173,34 +160,14 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                       ),
                     ),
                   ),
-                  webImage != null
+                  image != null
                       ? Positioned(
                           top: 10,
                           right: 10,
                           child: AnimatedAppear(
                             delay: Duration(milliseconds: 500),
                             duration: Duration(milliseconds: 400),
-                            child: kIsWeb? Container(
-                              width: 110,
-                              height: 110,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: MemoryImage(webImage),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  color: grayColor,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(style: BorderStyle.solid, color: Colors.white, width: 4)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: InstaImageViewer(
-                                  backgroundIsTransparent: true,
-                                  child: Image.memory(
-                                    Uint8List.fromList(webImage!),
-                                    fit: BoxFit.cover,
-                                  )),
-                              ),
-                            ):Container(
+                            child: Container(
                               width: 110,
                               height: 110,
                               decoration: BoxDecoration(
