@@ -64,14 +64,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late StreamSubscription<User?> user;
 
-  void setFullScreen(bool isFullScreen) {
-    FullScreenWindow.setFullScreen(isFullScreen);
-  }
-
-
   @override
   void initState() {
-    setFullScreen(true);
+    FullScreenWindow.setFullScreen(true);    // enter fullscreen
     super.initState();
   }
 
@@ -87,6 +82,7 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
 
+    FullScreenWindow.setFullScreen(true);    // enter fullscreen
 
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
