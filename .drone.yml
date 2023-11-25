@@ -9,11 +9,11 @@ trigger:
     - master
 
 steps:
-  - name: app-build
-    image: ghcr.io/cirruslabs/flutter:3.13.9
-    commands:
-      - cd ./Sources/justMUSIC/
-      - flutter build apk
+  #- name: app-build
+    #image: ghcr.io/cirruslabs/flutter:3.13.9
+    #commands:
+      #- cd ./Sources/justMUSIC/
+      #- flutter build apk
 
   - name: build-web
     image: ghcr.io/cirruslabs/flutter:3.13.9
