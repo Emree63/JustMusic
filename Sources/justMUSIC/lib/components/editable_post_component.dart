@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +40,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
   late AnimationController animationController;
   late AnimationController _controller;
   File? image;
+  Uint8List webImage = Uint8List(8);
   Tuple2<String, String>? selectedCity;
 
   @override
@@ -59,19 +61,32 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
     super.initState();
   }
 
-  Future pickImage(ImageSource source) async {
+  Future<void> pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
+
       if (image == null) return;
-      final imageTemp = File(image.path);
-      setState(() {
-        this.image = imageTemp;
-        widget.callBackImage(imageTemp);
-      });
+
+      if (!kIsWeb) {
+        final imageTemp = File(image.path);
+        setState(() {
+          this.image = imageTemp;
+          widget.callBackImage(imageTemp);
+        });
+      } else {
+        final imageBytes = await image.readAsBytes();
+        setState(() {
+          webImage = imageBytes;
+          // Assurez-vous de traiter webImage comme vous le souhaitez ici
+          // Vous pourriez également utiliser Image.memory comme dans votre code original
+          widget.callBackImage(Image.memory(webImage));
+        });
+      }
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
+
 
   void _updateDescription(String text) {
     setState(() {
