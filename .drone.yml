@@ -7,15 +7,26 @@ trigger:
     - push
 
 steps:
-  - name: app-build
+#  - name: app-build
+#    image: ghcr.io/cirruslabs/flutter:3.13.9
+#    commands:
+#      - cd ./Sources/justMUSIC/
+#      - flutter build apk
+#      - sfm_apk=sfm_$(date +"%Y_%m_%d_%H_%M_%S").apk
+#      - cp ./build/app/outputs/flutter-apk/app-release.apk $sfm_apk
+#      - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
+#      - cat upload.json | cut -d '"' -f 12
+
+  - name: build-web
     image: ghcr.io/cirruslabs/flutter:3.13.9
+    environment:
+      FIREBASE_TOKEN:
+        from_secret: FIREBASE_TOKEN
     commands:
       - cd ./Sources/justMUSIC/
-      - flutter build apk
-      - sfm_apk=sfm_$(date +"%Y_%m_%d_%H_%M_%S").apk
-      - cp ./build/app/outputs/flutter-apk/app-release.apk $sfm_apk
-      - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
-      - cat upload.json | cut -d '"' -f 12
+      - flutter build web --web-renderer canvaskit
+      - curl -sL https://firebase.tools | bash
+      - firebase deploy --token $${FIREBASE_TOKEN}
 
   - name: code-analysis
     image: ghcr.io/cirruslabs/flutter:3.13.9
