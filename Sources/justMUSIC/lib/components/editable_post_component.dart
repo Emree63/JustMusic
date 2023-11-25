@@ -181,7 +181,27 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                           child: AnimatedAppear(
                             delay: Duration(milliseconds: 500),
                             duration: Duration(milliseconds: 400),
-                            child: Container(
+                            child: kIsWeb? Container(
+                              width: 110,
+                              height: 110,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: MemoryImage(webImage),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  color: grayColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(style: BorderStyle.solid, color: Colors.white, width: 4)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: InstaImageViewer(
+                                  backgroundIsTransparent: true,
+                                  child: Image.memory(
+                                    Uint8List.fromList(webImage!),
+                                    fit: BoxFit.cover,
+                                  )),
+                              ),
+                            ):Container(
                               width: 110,
                               height: 110,
                               decoration: BoxDecoration(
