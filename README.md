@@ -33,6 +33,8 @@ JustMusic est un projet collaboratif à but lucratif pour Android/IOS utilisant 
 
 C'est un réseau social donc l'utilisateur pourra publier et commenter des posts. Il pourra s'abonner à d'autre utilisateurs pour voir leurs post sur son fil d'actualité.
 
+**Lien pour tester la version web:** [Just Music](https://justmusic-435d5.web.app) 🎶
+
 ## Répartition du Gitlab
 
 La racine de notre gitlab est composé de deux dossier essentielles au projet:
