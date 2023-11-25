@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

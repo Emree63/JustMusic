@@ -1,4 +1,4 @@
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_animated_play_button/flutter_animated_play_button.dart';
 import 'package:ionicons/ionicons.dart';
 
