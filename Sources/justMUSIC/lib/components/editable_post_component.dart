@@ -77,9 +77,8 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
         final imageBytes = await image.readAsBytes();
         setState(() {
           webImage = imageBytes;
-          // Assurez-vous de traiter webImage comme vous le souhaitez ici
-          // Vous pourriez également utiliser Image.memory comme dans votre code original
-          widget.callBackImage(Image.memory(webImage));
+
+          widget.callBackImage(File("/tmp").writeAsBytes(webImage));
         });
       }
     } on PlatformException catch (e) {
@@ -174,7 +173,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                       ),
                     ),
                   ),
-                  image != null
+                  webImage != null
                       ? Positioned(
                           top: 10,
                           right: 10,
