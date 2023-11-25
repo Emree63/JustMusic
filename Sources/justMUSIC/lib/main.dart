@@ -29,6 +29,7 @@ import 'package:justmusic/model/User.dart' as userJustMusic;
 import 'firebase_options.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:fullscreen_window/fullscreen_window.dart';
 
 Future<void> main() async {
   tz.initializeTimeZones();
@@ -63,8 +64,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late StreamSubscription<User?> user;
 
+  void setFullScreen(bool isFullScreen) {
+    FullScreenWindow.setFullScreen(isFullScreen);
+  }
+
+
   @override
   void initState() {
+    setFullScreen(true);
     super.initState();
   }
 
@@ -79,14 +86,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     Paint.enableDithering = true;
-    final shortcuts = Map.of(WidgetsApp.defaultShortcuts)
-      ..remove(LogicalKeySet(LogicalKeyboardKey.escape));
+
 
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
-            shortcuts: shortcuts,
             color: bgColor,
             routes: {
               '/welcome': (context) => const WellcomeScreen(),
