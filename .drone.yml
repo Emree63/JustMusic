@@ -25,7 +25,7 @@ steps:
       - firebase deploy --token $${FIREBASE_TOKEN}
     when:
       branch:
-      - DRONE
+      - PROD-WEB
 
   - name: code-analysis
     image: ghcr.io/cirruslabs/flutter:3.13.9
