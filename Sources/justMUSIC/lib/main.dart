@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
                             MyApp.userViewModel.userCurrent = userSnapshot.data!;
                             return FeedScreen();
                           } else {
-                            return const Text('User data not found');
+                            return WellcomeScreen();
                           }
                         }
                       },
