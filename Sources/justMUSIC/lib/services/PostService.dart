@@ -51,7 +51,9 @@ class PostService {
         .limit(limit)
         .get();
 
-    MyApp.postViewModel.lastPostDiscovery = response.docs.last;
+    MyApp.postViewModel.lastPostDiscovery = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostDiscovery;
 
     var filteredPosts = response.docs.where((doc) {
       String user = doc["user_id"];
