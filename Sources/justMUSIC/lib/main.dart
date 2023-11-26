@@ -80,9 +80,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    Paint.enableDithering = true;
-
-    FullScreenWindow.setFullScreen(true);    // enter fullscreen
+    Paint.enableDithering = true; // enter fullscreen
 
     return ScreenUtilInit(
       useInheritedMediaQuery: true,

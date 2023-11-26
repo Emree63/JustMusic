@@ -24,6 +24,7 @@ const searchBarColor = Color(0xFF161616);
 const postbutton = Color(0xFF1B1B1B);
 const fillButton = Color(0xFF633AF4);
 const selectedButton = Color(0xFF1F1B2E);
+const tooltipBackground = Color(0xFF2D2D2D);
 // All constants important too us
 
 const defaultPadding = 30.0;

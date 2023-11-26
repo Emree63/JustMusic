@@ -143,10 +143,11 @@ class _UserScreenState extends State<UserScreen> {
             padding: const EdgeInsets.symmetric(horizontal: settingPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
+                Container(
                   padding: EdgeInsets.only(top: 68.h, bottom: 40),
+                  constraints: const BoxConstraints( maxWidth: 500),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -249,7 +250,11 @@ class _UserScreenState extends State<UserScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                RecapComponent(user: widget.user)
+                Container(
+                  constraints: const BoxConstraints( maxWidth: 500),
+                  child: RecapComponent(user: widget.user),
+                )
+
               ],
             ),
           ),

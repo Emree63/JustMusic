@@ -242,7 +242,6 @@ class MusicViewModel {
 
       for (var capsule in capsulesData) {
         var music = musics.firstWhere((music) => music.id == capsule.item2);
-        print(capsule.item1);
         capsules.add(Tuple2(capsule.item1, music));
       }
       return capsules;

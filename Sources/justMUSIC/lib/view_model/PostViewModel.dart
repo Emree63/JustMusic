@@ -11,6 +11,8 @@ import '../model/mapper/PostMapper.dart';
 class PostViewModel {
   List<Post> _postsFriends = [];
   List<Post> _bestPosts = [];
+  var lastPostFriend;
+  var lastPostDiscovery;
   final PostService _postService = PostService();
 
   // Constructor
@@ -26,10 +28,10 @@ class PostViewModel {
     await _postService.createPost(description, idMusic, image, location);
   }
 
-  Future<List<Post>> getPostsFriends() async {
+  Future<List<Post>> getPostsFriends({int limit = 10}) async {
     try {
       _postsFriends = [];
-      var responseData = await _postService.getPostsFriends();
+      var responseData = await _postService.getPostsFriends(limit);
       List<String> ids = [];
       var postsFutures = responseData.map((value) {
         ids.add(value.data()["song_id"]);
@@ -40,7 +42,7 @@ class PostViewModel {
       for (int i = 0; i < posts.length; i++) {
         posts[i].music = musics[i];
       }
-      _postsFriends = posts;
+      _postsFriends.addAll(posts);
       return _postsFriends;
     } catch (e) {
       print(e);
@@ -49,13 +51,29 @@ class PostViewModel {
     }
   }
 
-  List<Post> getMorePostsFriends() {
-    throw new Error();
+  void getMorePostsFriends({int limit = 10}) async {
+    try {
+      var responseData = await _postService.getMorePostsFriends(limit);
+      List<String> ids = [];
+      var postsFutures = responseData.map((value) {
+        ids.add(value.data()["song_id"]);
+        return PostMapper.toModel(value);
+      }).toList();
+      var posts = await Future.wait(postsFutures);
+      List<Music> musics = await MyApp.musicViewModel.getMusicsWithIds(ids);
+      for (int i = 0; i < posts.length; i++) {
+        posts[i].music = musics[i];
+      }
+      _postsFriends.addAll(posts);
+    } catch (e) {
+      print(e);
+    }
   }
 
-  Future<List<Post>> getBestPosts() async {
+  Future<List<Post>> getBestPosts({int limit = 10}) async {
     try {
-      var responseData = await _postService.getPopularPosts();
+      _bestPosts = [];
+      var responseData = await _postService.getPopularPosts(limit);
       List<String> ids = [];
       var postsFutures = responseData.map((value) async {
         ids.add(value.data()["song_id"]);
@@ -66,7 +84,7 @@ class PostViewModel {
       for (int i = 0; i < posts.length; i++) {
         posts[i].music = musics[i];
       }
-      _bestPosts = posts;
+      _bestPosts.addAll(posts);
       return _bestPosts;
     } catch (e) {
       print(e);
@@ -75,8 +93,23 @@ class PostViewModel {
     }
   }
 
-  List<Post> getMoreBestPosts() {
-    throw new Error();
+  void getMoreBestPosts({int limit = 10}) async {
+    try {
+      var responseData = await _postService.getMorePopularPosts(limit);
+      List<String> ids = [];
+      var postsFutures = responseData.map((value) async {
+        ids.add(value.data()["song_id"]);
+        return await PostMapper.toModel(value);
+      }).toList();
+      var posts = await Future.wait(postsFutures);
+      List<Music> musics = await MyApp.musicViewModel.getMusicsWithIds(ids);
+      for (int i = 0; i < posts.length; i++) {
+        posts[i].music = musics[i];
+      }
+      _bestPosts.addAll(posts);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<List<bool>> recapSevenDays(String id) async {
