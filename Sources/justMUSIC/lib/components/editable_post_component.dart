@@ -62,21 +62,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
   }
 
   Future pickImage(ImageSource source) async {
-    if(kIsWeb){
-      print('you are on web');
-      try {
-        final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
-        if (image == null) return;
-        final imageTemp = File(image.path);
-    setState(() {
-          this.image = imageTemp;
-          widget.callBackImage(imageTemp);
-        });
-      } on PlatformException catch (e) {
-        print('Failed to pick image: $e');
-      }
-    }
-    else{
+
       try {
         final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
         if (image == null) return;
@@ -88,7 +74,6 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
       } on PlatformException catch (e) {
         print('Failed to pick image: $e');
       }
-    }
 
   }
 

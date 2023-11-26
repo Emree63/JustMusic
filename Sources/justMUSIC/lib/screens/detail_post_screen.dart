@@ -612,6 +612,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                           Expanded(
                             child: TextField(
                               keyboardAppearance: Brightness.dark,
+                              keyboardType: TextInputType.text,
                               controller: _textController,
                               focusNode: myFocusNode,
                               onSubmitted: (value) async {
@@ -626,7 +627,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 setState(() {});
                               },
                               cursorColor: primaryColor,
-                              keyboardType: TextInputType.emailAddress,
                               style: GoogleFonts.plusJakartaSans(color: Colors.white),
                               decoration: InputDecoration(
                                 suffixIcon: _textController.text.isEmpty

@@ -35,7 +35,7 @@ class _HistoricComponentState extends State<HistoricComponent> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Container(
-              constraints: const BoxConstraints( maxWidth: 420),
+              constraints: const BoxConstraints( maxWidth: 600),
               child: Wrap(
                 spacing: 14,
                 runSpacing: 14,

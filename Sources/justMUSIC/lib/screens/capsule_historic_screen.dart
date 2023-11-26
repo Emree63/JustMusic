@@ -78,8 +78,8 @@ class _CapsuleHistoricScreenState extends State<CapsuleHistoricScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 80, left: 60, right: 60),
-                  constraints: const BoxConstraints( maxWidth: 450),
+                  padding: const EdgeInsets.only(top: 80, left: 30, right: 30),
+                  constraints: const BoxConstraints( maxWidth: 700),
                   child: Align(
                     alignment: Alignment.center,
                     child: Row(
@@ -131,7 +131,6 @@ class _CapsuleHistoricScreenState extends State<CapsuleHistoricScreen> {
                   child: SizedBox(
                       width: double.infinity,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
                           children: [
                             HistoricComponent(
