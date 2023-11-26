@@ -25,7 +25,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   late Animation<double> animation;
   late List<Post> friendFeed;
   Timer? timer;
-  var page = 0;
+  var pageFriend = 0;
   late List<Post> discoveryFeed;
   late Tuple2<List<Post>, List<Post>> displayFeed;
   bool isDismissed = true;
@@ -126,7 +126,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     displayFeed =
-        Tuple2(MyApp.postViewModel.postsFriends.reversed.toList(), MyApp.postViewModel.bestPosts.reversed.toList());
+        Tuple2(MyApp.postViewModel.postsFriends.toList(), MyApp.postViewModel.bestPosts.toList());
     bool empty =
         (choiceFeed == true && displayFeed.item1.isEmpty) || (choiceFeed == false && displayFeed.item2.isEmpty);
     ScrollController _scrollController = ScrollController();
@@ -134,6 +134,15 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
         print("fin");
+        if (choiceFeed) {
+          setState(() {
+            MyApp.postViewModel.getMorePostsFriends();
+          });
+        } else {
+          setState(() {
+            MyApp.postViewModel.getMoreBestPosts();
+          });
+        }
       }
     });
 
