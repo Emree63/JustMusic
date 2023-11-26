@@ -65,13 +65,19 @@ class _HistoricComponentState extends State<HistoricComponent> {
                     );
                   }
                   if (checkCapsule != null) {
-                    return Container(
+                    return Tooltip(
+                      message: "${checkCapsule.item2.artists.first.name} - ${checkCapsule.item2.title}".length < 30? "${checkCapsule.item2.artists.first.name} - ${checkCapsule.item2.title}": "${checkCapsule.item2.artists.first.name} - ${checkCapsule.item2.title}".substring(0,30)+"...",
+                        decoration: const BoxDecoration(
+                          border: Border.fromBorderSide(BorderSide(color: Color(0xFF3A3A3A), width: 1)),
+                          color: tooltipBackground, borderRadius: BorderRadius.all(Radius.circular(20))
+                        ),
+                        child: Container(
                       decoration: BoxDecoration(
                           image: DecorationImage(image: NetworkImage((checkCapsule.item2.cover)!)),
                           borderRadius: BorderRadius.circular(5)),
                       height: 60,
                       width: 60,
-                    );
+                    ));
                   } else {
                     return Container(
                       color: bgColor,
