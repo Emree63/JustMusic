@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:html' as html;
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:justmusic/values/constants.dart';
 import 'package:text_scroll/text_scroll.dart';
