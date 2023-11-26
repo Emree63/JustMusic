@@ -42,15 +42,16 @@ class PostService {
 
   deletePost() {}
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(
-      {int limit = 10,
-      QueryDocumentSnapshot<Map<String, dynamic>>? offset}) async {
-    QuerySnapshot<Map<String, dynamic>> response;
-    response = await FirebaseFirestore.instance
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(int limit) async {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    var response = await FirebaseFirestore.instance
         .collection("posts")
-        .orderBy("date")
+        .where("date", isGreaterThan: twentyFourHoursAgo)
+        .orderBy("date", descending: true)
         .limit(limit)
         .get();
+
+    MyApp.postViewModel.lastPostDiscovery = response.docs.last;
 
     var filteredPosts = response.docs.where((doc) {
       String user = doc["user_id"];
@@ -59,17 +60,62 @@ class PostService {
     return filteredPosts;
   }
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPostsFriends(
-      {int limit = 10, int offset = 0}) async {
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMorePopularPosts(int limit) async {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    QuerySnapshot<Map<String, dynamic>> response;
+    response = await FirebaseFirestore.instance
+        .collection("posts")
+        .where("date", isGreaterThan: twentyFourHoursAgo)
+        .orderBy("date", descending: true)
+        .limit(limit)
+        .startAfterDocument(MyApp.postViewModel.lastPostDiscovery)
+        .get();
+
+    MyApp.postViewModel.lastPostDiscovery = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostDiscovery;
+
+    var filteredPosts = response.docs.where((doc) {
+      String user = doc["user_id"];
+      return user != MyApp.userViewModel.userCurrent.id;
+    }).toList();
+    return filteredPosts;
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPostsFriends(int limit) async {
     var response = await FirebaseFirestore.instance
         .collection("posts")
         .where("user_id", whereIn: [
           MyApp.userViewModel.userCurrent.id,
           ...MyApp.userViewModel.userCurrent.followed
         ])
-        .orderBy("date")
+        .where("")
+        .orderBy("date", descending: true)
         .limit(limit)
         .get();
+
+    MyApp.postViewModel.lastPostFriend = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostFriend;
+
+    return response.docs;
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMorePostsFriends(int limit) async {
+    var response = await FirebaseFirestore.instance
+        .collection("posts")
+        .where("user_id", whereIn: [
+          MyApp.userViewModel.userCurrent.id,
+          ...MyApp.userViewModel.userCurrent.followed
+        ])
+        .orderBy("date", descending: true)
+        .limit(limit)
+        .startAfterDocument(MyApp.postViewModel.lastPostFriend)
+        .get();
+
+    MyApp.postViewModel.lastPostFriend = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostFriend;
 
     return response.docs;
   }
