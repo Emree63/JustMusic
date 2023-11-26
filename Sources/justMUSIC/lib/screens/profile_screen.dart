@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:justmusic/services/AuthService.dart';
 import 'package:justmusic/values/icons.dart';
 import '../components/profile_component.dart';
 import '../components/setting_part_component.dart';
@@ -32,7 +33,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.of(context).push(routeUser(MyApp.userViewModel.userCurrent));
     }
 
-    void _openPassword() {
+    void openConfirmationDelete() {
+        showCupertinoModalPopup<void>(
+          context: context,
+          barrierColor: Colors.black.withOpacity(0.7),
+          builder: (BuildContext context) => Container(
+            child: CupertinoActionSheet(
+              title: Text(
+                'Supprimer mon compte',
+                style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+              ),
+              actions: <CupertinoActionSheetAction>[
+                CupertinoActionSheetAction(
+                  onPressed: () {
+                    MyApp.userViewModel.delete();
+                    Navigator.pop(context);
+                    Navigator.of(context).push(routeWelcome());
+
+                  },
+                  child: Text('Confirmer', style: TextStyle(color: Colors.blue),),
+                ),
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Annuler'),
+              ),
+            ),
+          ),
+        );
+    }
+
+    void openPassword() {
       Navigator.of(context).push(routePassword());
     }
 
@@ -122,12 +156,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SettingPartComponent(
                             icon: JustMusicIcon.password,
                             label: 'Modifier mon mot de passe',
-                            action: _openPassword,
+                            action: openPassword,
                           ),
-                          const SettingPartComponent(
+                          SettingPartComponent(
                             icon: JustMusicIcon.trash,
                             label: 'Supprimer mon compte',
-                            action: null,
+                            action: openConfirmationDelete,
                           ),
                           SettingPartComponent(
                             icon: JustMusicIcon.cross,
