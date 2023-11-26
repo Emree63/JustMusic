@@ -193,6 +193,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                                   PostComponent(callback: openDetailPost, post: displayFeed.item1[index], index: index),
                             );
                           },
+
                         ),
                       ),
                     ),

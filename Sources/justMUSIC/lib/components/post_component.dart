@@ -152,10 +152,8 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                             children: [
                               SizedBox(
                                 width: double.infinity,
-                                child: FadeInImage.assetNetwork(
-                                  image: widget.post.music.cover!,
-                                  fadeInDuration: const Duration(milliseconds: 100),
-                                  placeholder: "assets/images/loadingPlaceholder.gif",
+                                child: Image.network(
+                                  widget.post.music.cover!,
                                 ),
                               ),
                               Image(
@@ -196,11 +194,9 @@ class _PostComponentState extends State<PostComponent> with TickerProviderStateM
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(13),
                                             // implement image
-                                            child: FadeInImage.assetNetwork(
-                                              image: widget.post.selfie!,
+                                            child: Image.network(
+                                              widget.post.selfie!,
                                               fit: BoxFit.cover,
-                                              fadeInDuration: const Duration(milliseconds: 100),
-                                              placeholder: "assets/images/loadingPlaceholder.gif",
                                             ),
                                           ),
                                         ),
