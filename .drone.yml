@@ -20,7 +20,7 @@ steps:
         from_secret: FIREBASE_TOKEN
     commands:
       - cd ./Sources/justMUSIC/
-      - flutter build web --web-renderer canvaskit
+      - flutter build web
       - curl -sL https://firebase.tools | bash
       - firebase deploy --token $${FIREBASE_TOKEN}
     when:
