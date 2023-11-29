@@ -52,9 +52,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         setState(() => canResendEmail = true);
       } on FirebaseAuthException catch (e) {
         if (e.code == "invalid-email") {
-          error = "Mail incorrect";
-        } else if (e.code == "user-not-found") {
           error = "Format de mail incorrect";
+        } else if (e.code == "user-not-found") {
+          error = "Mail incorrect";
         } else if (e.code == "too-many-requests") {
           error =
               "Trop de tentatives. Veuillez réessayer plus tard";
