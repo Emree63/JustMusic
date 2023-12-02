@@ -131,7 +131,6 @@ class PostService {
     return response.docs;
   }
 
-
   Future<bool> getAvailable(String idUser) async {
     DateTime today = DateTime.now();
 

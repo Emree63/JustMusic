@@ -2,14 +2,14 @@ import 'package:tuple/tuple.dart';
 
 import 'Music.dart';
 
-class Post {
+class Capsule {
   final String _id;
   late Music _music;
   Tuple2<String?,String?> _location;
   DateTime _date;
 
   // Constructor
-  Post(this._id, this._location, this._date);
+  Capsule(this._id, this._location, this._date);
 
   //Getters and setters
   String get id => _id;
