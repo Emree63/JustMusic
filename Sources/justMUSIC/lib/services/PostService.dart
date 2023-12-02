@@ -23,6 +23,15 @@ class PostService {
 
     var userRef = MyApp.db.collection("users").doc(id);
 
+    var capsule = {
+      "user_id": id,
+      "date": DateTime.now(),
+      "place": [location?.item1, location?.item2],
+      "song_id": idMusic,
+    };
+
+    await MyApp.db.collection("capsules").doc(postAdd.id).set(capsule);
+
     await MyApp.db.runTransaction((transaction) async {
       var userSnapshot = await transaction.get(userRef);
       if (userSnapshot.exists) {
@@ -122,6 +131,7 @@ class PostService {
     return response.docs;
   }
 
+
   Future<bool> getAvailable(String idUser) async {
     DateTime today = DateTime.now();
 
@@ -139,35 +149,6 @@ class PostService {
     });
 
     return !isTodayAvailable;
-  }
-
-  Future<List<bool>> recapSevenDays(String id) async {
-    List<bool> recapList = [];
-
-    DateTime sevenDaysAgo = DateTime.now().subtract(Duration(days: 6));
-
-    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
-        .instance
-        .collection("posts")
-        .where("user_id", isEqualTo: id)
-        .get();
-
-    List<Map<String, dynamic>?> postList = response.docs
-        .map((DocumentSnapshot<Map<String, dynamic>> doc) => doc.data())
-        .toList();
-
-    for (int i = 0; i < 7; i++) {
-      DateTime date = sevenDaysAgo.add(Duration(days: i));
-      bool postExists = postList.any((post) =>
-          post?["date"] != null &&
-          post?["date"].toDate().year == date.year &&
-          post?["date"].toDate().month == date.month &&
-          post?["date"].toDate().day == date.day);
-
-      recapList.add(postExists);
-    }
-
-    return recapList;
   }
 
   Future<List<String>> getLikesByPostId(String id) async {

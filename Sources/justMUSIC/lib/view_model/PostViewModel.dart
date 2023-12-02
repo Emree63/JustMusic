@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:justmusic/model/Post.dart';
+import 'package:justmusic/services/CapsuleService.dart';
 import 'package:justmusic/services/PostService.dart';
 import 'package:tuple/tuple.dart';
 
@@ -14,6 +15,7 @@ class PostViewModel {
   var lastPostFriend;
   var lastPostDiscovery;
   final PostService _postService = PostService();
+  final CapsuleService _capsuleService = CapsuleService();
 
   // Constructor
   PostViewModel();
@@ -114,7 +116,7 @@ class PostViewModel {
 
   Future<List<bool>> recapSevenDays(String id) async {
     try {
-      return await _postService.recapSevenDays(id);
+      return await _capsuleService.recapSevenDays(id);
     } catch (e) {
       print(e);
       rethrow;
@@ -145,7 +147,6 @@ class PostViewModel {
       print(bool);
       return bool;
     } catch (e) {
-      print("haaaaaaaaa");
       rethrow;
     }
   }
