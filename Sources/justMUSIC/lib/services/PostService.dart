@@ -23,6 +23,15 @@ class PostService {
 
     var userRef = MyApp.db.collection("users").doc(id);
 
+    var capsule = {
+      "user_id": id,
+      "date": DateTime.now(),
+      "place": [location?.item1, location?.item2],
+      "song_id": idMusic,
+    };
+
+    await MyApp.db.collection("capsules").doc(postAdd.id).set(capsule);
+
     await MyApp.db.runTransaction((transaction) async {
       var userSnapshot = await transaction.get(userRef);
       if (userSnapshot.exists) {
@@ -42,15 +51,18 @@ class PostService {
 
   deletePost() {}
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(
-      {int limit = 10,
-      QueryDocumentSnapshot<Map<String, dynamic>>? offset}) async {
-    QuerySnapshot<Map<String, dynamic>> response;
-    response = await FirebaseFirestore.instance
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPopularPosts(int limit) async {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    var response = await FirebaseFirestore.instance
         .collection("posts")
-        .orderBy("date")
+        .where("date", isGreaterThan: twentyFourHoursAgo)
+        .orderBy("date", descending: true)
         .limit(limit)
         .get();
+
+    MyApp.postViewModel.lastPostDiscovery = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostDiscovery;
 
     var filteredPosts = response.docs.where((doc) {
       String user = doc["user_id"];
@@ -59,17 +71,62 @@ class PostService {
     return filteredPosts;
   }
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPostsFriends(
-      {int limit = 10, int offset = 0}) async {
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMorePopularPosts(int limit) async {
+    DateTime twentyFourHoursAgo = DateTime.now().subtract(Duration(hours: 24));
+    QuerySnapshot<Map<String, dynamic>> response;
+    response = await FirebaseFirestore.instance
+        .collection("posts")
+        .where("date", isGreaterThan: twentyFourHoursAgo)
+        .orderBy("date", descending: true)
+        .limit(limit)
+        .startAfterDocument(MyApp.postViewModel.lastPostDiscovery)
+        .get();
+
+    MyApp.postViewModel.lastPostDiscovery = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostDiscovery;
+
+    var filteredPosts = response.docs.where((doc) {
+      String user = doc["user_id"];
+      return user != MyApp.userViewModel.userCurrent.id;
+    }).toList();
+    return filteredPosts;
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getPostsFriends(int limit) async {
     var response = await FirebaseFirestore.instance
         .collection("posts")
         .where("user_id", whereIn: [
           MyApp.userViewModel.userCurrent.id,
           ...MyApp.userViewModel.userCurrent.followed
         ])
-        .orderBy("date")
+        .where("")
+        .orderBy("date", descending: true)
         .limit(limit)
         .get();
+
+    MyApp.postViewModel.lastPostFriend = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostFriend;
+
+    return response.docs;
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMorePostsFriends(int limit) async {
+    var response = await FirebaseFirestore.instance
+        .collection("posts")
+        .where("user_id", whereIn: [
+          MyApp.userViewModel.userCurrent.id,
+          ...MyApp.userViewModel.userCurrent.followed
+        ])
+        .orderBy("date", descending: true)
+        .limit(limit)
+        .startAfterDocument(MyApp.postViewModel.lastPostFriend)
+        .get();
+
+    MyApp.postViewModel.lastPostFriend = response.docs.isNotEmpty
+        ? response.docs.last
+        : MyApp.postViewModel.lastPostFriend;
 
     return response.docs;
   }
@@ -91,35 +148,6 @@ class PostService {
     });
 
     return !isTodayAvailable;
-  }
-
-  Future<List<bool>> recapSevenDays(String id) async {
-    List<bool> recapList = [];
-
-    DateTime sevenDaysAgo = DateTime.now().subtract(Duration(days: 6));
-
-    QuerySnapshot<Map<String, dynamic>> response = await FirebaseFirestore
-        .instance
-        .collection("posts")
-        .where("user_id", isEqualTo: id)
-        .get();
-
-    List<Map<String, dynamic>?> postList = response.docs
-        .map((DocumentSnapshot<Map<String, dynamic>> doc) => doc.data())
-        .toList();
-
-    for (int i = 0; i < 7; i++) {
-      DateTime date = sevenDaysAgo.add(Duration(days: i));
-      bool postExists = postList.any((post) =>
-          post?["date"] != null &&
-          post?["date"].toDate().year == date.year &&
-          post?["date"].toDate().month == date.month &&
-          post?["date"].toDate().day == date.day);
-
-      recapList.add(postExists);
-    }
-
-    return recapList;
   }
 
   Future<List<String>> getLikesByPostId(String id) async {

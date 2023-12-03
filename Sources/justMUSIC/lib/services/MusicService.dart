@@ -37,7 +37,7 @@ class MusicService {
     List<Tuple2<int, String>> capsules = [];
 
     var querySnapshot = await FirebaseFirestore.instance
-        .collection('posts')
+        .collection('capsules')
         .where('user_id', isEqualTo: idUser)
         .where('date', isGreaterThanOrEqualTo: DateTime(year, month))
         .where('date', isLessThan: DateTime(year, month + 1))

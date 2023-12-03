@@ -1,4 +1,4 @@
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:justmusic/components/play_button_component.dart';
 import 'package:text_scroll/text_scroll.dart';

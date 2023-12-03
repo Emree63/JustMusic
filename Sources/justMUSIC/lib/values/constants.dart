@@ -13,7 +13,7 @@ const bgTextField = Color(0xFF1C1B23);
 const strokeTextField = Color(0xFF373546);
 const unactiveFeed = Color(0xFF848484);
 const gradiantPost = Color(0xFF0D0D0D);
-const bgModal = Color(0xFF1E1E1E);
+const bgModal = Color(0xFF222222);
 const textFieldMessage = Color(0xFF232323);
 const bgComment = Color(0xFF222222);
 const bgAppBar = Color(0xFF181818);
@@ -24,6 +24,7 @@ const searchBarColor = Color(0xFF161616);
 const postbutton = Color(0xFF1B1B1B);
 const fillButton = Color(0xFF633AF4);
 const selectedButton = Color(0xFF1F1B2E);
+const tooltipBackground = Color(0xFF2D2D2D);
 // All constants important too us
 
 const defaultPadding = 30.0;

@@ -38,7 +38,7 @@ class GeoApi {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       String apiUrl =
-          'http://api.openweathermap.org/data/2.5/find?lat=${position.latitude}&lon=${position.longitude}&cnt=10&appid=$apiKey';
+          'https://api.openweathermap.org/data/2.5/find?lat=${position.latitude}&lon=${position.longitude}&cnt=10&appid=$apiKey';
       var response = await http.get(Uri.parse(apiUrl));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,15 +67,45 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   }
 
   final ScrollController _scrollController = ScrollController();
+  String formatPostDate(DateTime postDate) {
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime(now.year, now.month, now.day - 1);
+
+    if (postDate.year == now.year && postDate.month == now.month && postDate.day == now.day) {
+      // Aujourd'hui
+      return "Aujourd'hui, ${postDate.hour}:${postDate.minute.toString().padLeft(2, '0')}";
+    } else if (postDate.year == yesterday.year && postDate.month == yesterday.month && postDate.day == yesterday.day) {
+      // Hier
+      return 'hier, ${postDate.hour}:${postDate.minute.toString().padLeft(2, '0')}';
+    } else {
+      // Autre date
+      return '${postDate.day} ${_getMonthAbbreviation(postDate.month)} ${postDate.hour}:${postDate.minute.toString().padLeft(2, '0')}';
+    }
+  }
+
+
+  String _getMonthAbbreviation(int month) {
+    const List<String> monthsAbbreviation = [
+      'janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.',
+    ];
+
+    return monthsAbbreviation[month - 1];
+  }
+
+// Exemple d'utilisation :
+  void main() {
+    DateTime postDate = DateTime(2023, 11, 17, 17, 55); // Remplacez par votre date
+
+    String formattedDate = formatPostDate(postDate);
+    print(formattedDate); // Affichera "17 nov. 17:55" ou "hier, 17:55" selon la date
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    var mins = "0";
-    if (widget.post.date.minute < 10) {
-      mins = "0${widget.post.date.minute}";
-    } else {
-      mins = widget.post.date.minute.toString();
-    }
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels < 0) _scrollController.jumpTo(0);
+    });
     return GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
@@ -86,6 +116,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
         },
         child: Container(
           height: 760.h,
+          color: bgAppBar,
           child: Column(
             children: [
               Expanded(
@@ -118,156 +149,140 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             Column(
                               children: [
                                 Container(
-                                  height: 200,
-                                  margin: EdgeInsets.only(top: 230),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Colors.transparent,
-                                        bgModal.withOpacity(0.5),
-                                        bgModal.withOpacity(0.75),
-                                        bgModal
-                                      ],
-                                      stops: [0, 0.2, 0.4, 0.8],
+                                    height: 200,
+                                    margin: EdgeInsets.only(top: 230),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.transparent,
+                                          bgModal.withOpacity(0.5),
+                                          bgModal.withOpacity(0.75),
+                                          bgModal
+                                        ],
+                                        stops: [0, 0.2, 0.4, 0.8],
+                                      ),
                                     ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: choice
-                                              ? Padding(
-                                                  padding: const EdgeInsets.all(4),
-                                                  child: ClipOval(
-                                                    child: SizedBox.fromSize(
-                                                      // Image radius
-                                                      child: ProfilPictureComponent(user: widget.post.user),
-                                                    ),
-                                                  ),
-                                                )
-                                              : widget.post.music.previewUrl != null
-                                                  ? ButtonPlayComponent(music: widget.post.music)
-                                                  : Container(),
-                                        ),
-                                        Flexible(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Flexible(
-                                                child: Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children: [
-                                                    Expanded(
-                                                      child: ScrollConfiguration(
-                                                        behavior: ScrollBehavior().copyWith(scrollbars: false),
-                                                        child: TextScroll(
-                                                          choice ? widget.post.user.pseudo : widget.post.music.title!,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 10),
+                                            child: choice
+                                                ? Padding(
+                                              padding: const EdgeInsets.all(4),
+                                              child: ClipOval(
+                                                child: SizedBox.fromSize(
+                                                  // Image radius
+                                                  child: ProfilPictureComponent(user: widget.post.user),
+                                                ),
+                                              ),
+                                            )
+                                                : widget.post.music.previewUrl != null
+                                                ? ButtonPlayComponent(music: widget.post.music)
+                                                : Container(),
+                                          ),
+                                          Flexible(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: ScrollConfiguration(
+                                                          behavior: ScrollBehavior().copyWith(scrollbars: false),
+                                                          child: TextScroll(
+                                                            choice ? widget.post.user.pseudo : widget.post.music.title!,
+                                                            style: GoogleFonts.plusJakartaSans(
+                                                              height: 1,
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.w800,
+                                                              fontSize: 22,
+                                                            ),
+                                                            mode: TextScrollMode.endless,
+                                                            pauseBetween: Duration(milliseconds: 500),
+                                                            velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 20.0),
+                                                        child: choice
+                                                            ? Text(
+                                                          formatPostDate(widget.post.date),
                                                           style: GoogleFonts.plusJakartaSans(
                                                             height: 1,
                                                             color: Colors.white,
-                                                            fontWeight: FontWeight.w800,
-                                                            fontSize: 22,
+                                                            fontWeight: FontWeight.w900,
+                                                            fontSize: 18,
                                                           ),
-                                                          mode: TextScrollMode.endless,
-                                                          pauseBetween: Duration(milliseconds: 500),
-                                                          velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                                        )
+                                                            : Text(
+                                                          widget.post.music.date.toString(),
+                                                          style: GoogleFonts.plusJakartaSans(
+                                                            height: 1,
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.w900,
+                                                            fontSize: 18,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 20.0),
-                                                      child: choice
-                                                          ? DateTime(today.year, today.month, today.day)
-                                                                  .isAtSameMomentAs(
-                                                              DateTime(
-                                                                widget.post.date.year,
-                                                                widget.post.date.month,
-                                                                widget.post.date.day,
-                                                              ),
-                                                            )
-                                                              ? Text(
-                                                                  "Aujourd'hui, ${widget.post.date.hour}:$mins",
-                                                                  style: GoogleFonts.plusJakartaSans(
-                                                                    height: 1,
-                                                                    color: Colors.white,
-                                                                    fontWeight: FontWeight.w900,
-                                                                    fontSize: 18,
-                                                                  ),
-                                                                )
-                                                              : Text(
-                                                                  "hier, ${widget.post.date.hour}:$mins",
-                                                                  style: GoogleFonts.plusJakartaSans(
-                                                                    height: 1,
-                                                                    color: Colors.white,
-                                                                    fontWeight: FontWeight.w900,
-                                                                    fontSize: 18,
-                                                                  ),
-                                                                )
-                                                          : Text(
-                                                              widget.post.music.date.toString(),
-                                                              style: GoogleFonts.plusJakartaSans(
-                                                                height: 1,
-                                                                color: Colors.white,
-                                                                fontWeight: FontWeight.w900,
-                                                                fontSize: 18,
-                                                              ),
-                                                            ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              choice
-                                                  ? widget.post.location.item2 != null
-                                                      ? Text(
-                                                          "${widget.post.location.item1}, ${widget.post.location.item2}",
-                                                          style: GoogleFonts.plusJakartaSans(
-                                                            color: Colors.white.withOpacity(0.5),
-                                                            fontWeight: FontWeight.w400,
-                                                            fontSize: 15,
-                                                          ),
-                                                        )
-                                                      : Text(
-                                                          "",
-                                                          style: GoogleFonts.plusJakartaSans(
-                                                            color: Colors.white.withOpacity(0.4),
-                                                            fontWeight: FontWeight.w300,
-                                                            fontSize: 13,
-                                                          ),
-                                                        )
-                                                  : ScrollConfiguration(
-                                                      behavior: ScrollBehavior().copyWith(scrollbars: false),
-                                                      child: TextScroll(
-                                                        widget.post.music.artists.first.name!,
-                                                        style: GoogleFonts.plusJakartaSans(
-                                                          height: 1,
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 17,
-                                                        ),
-                                                        mode: TextScrollMode.endless,
-                                                        pauseBetween: Duration(milliseconds: 500),
-                                                        velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
-                                                      ),
+                                                choice
+                                                    ? widget.post.location.item2 != null
+                                                    ? Text(
+                                                  "${widget.post.location.item1}, ${widget.post.location.item2}",
+                                                  style: GoogleFonts.plusJakartaSans(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 15,
+                                                  ),
+                                                )
+                                                    : Text(
+                                                  "",
+                                                  style: GoogleFonts.plusJakartaSans(
+                                                    color: Colors.white.withOpacity(0.4),
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 13,
+                                                  ),
+                                                )
+                                                    : ScrollConfiguration(
+                                                  behavior: ScrollBehavior().copyWith(scrollbars: false),
+                                                  child: TextScroll(
+                                                    widget.post.music.artists.first.name!,
+                                                    style: GoogleFonts.plusJakartaSans(
+                                                      height: 1,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 17,
                                                     ),
-                                            ],
+                                                    mode: TextScrollMode.endless,
+                                                    pauseBetween: Duration(milliseconds: 500),
+                                                    velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                widget.post.description != null
-                                    ? Align(
+                                widget.post.description != null ? Align(
                                         alignment: Alignment.bottomLeft,
-                                        child: Padding(
+                                        child: Container(
                                           padding: const EdgeInsets.fromLTRB(50, 35, 50, 35),
+                                          color: bgModal,
+                                          width: double.infinity,
                                           child: Text(
                                             widget.post.description!,
                                             textAlign: TextAlign.left,
@@ -281,7 +296,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                         ),
                                       )
                                     : Container(
-                                        height: 30,
+                                        height: 0,
                                       ),
                                 Container(
                                   width: double.infinity,
@@ -594,6 +609,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                           Expanded(
                             child: TextField(
                               keyboardAppearance: Brightness.dark,
+                              keyboardType: TextInputType.text,
                               controller: _textController,
                               focusNode: myFocusNode,
                               onSubmitted: (value) async {
@@ -608,7 +624,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 setState(() {});
                               },
                               cursorColor: primaryColor,
-                              keyboardType: TextInputType.emailAddress,
                               style: GoogleFonts.plusJakartaSans(color: Colors.white),
                               decoration: InputDecoration(
                                 suffixIcon: _textController.text.isEmpty
@@ -627,12 +642,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                             _textController.clear();
                                           });
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.send,
                                           color: primaryColor,
                                           size: 20,
                                         )),
-                                focusedBorder: OutlineInputBorder(
+                                focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(width: 1, color: grayText),
                                   borderRadius: BorderRadius.all(Radius.circular(100)),
                                 ),
@@ -640,7 +655,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 fillColor: bgModal,
                                 filled: true,
                                 focusColor: Color.fromRGBO(255, 255, 255, 0.30),
-                                enabledBorder: OutlineInputBorder(
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(width: 1, color: grayText),
                                   borderRadius: BorderRadius.all(Radius.circular(100)),
                                 ),

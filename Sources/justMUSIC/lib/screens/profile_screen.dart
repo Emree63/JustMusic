@@ -19,9 +19,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    Future<void> logout() async {
-      await MyApp.userViewModel.logout();
-      Navigator.pushNamed(context, '/welcome');
+    void logout() {
+      MyApp.userViewModel.logout();
+      Navigator.of(context).push(routeWelcome());
     }
 
     void _openHistoric() {
@@ -32,7 +32,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.of(context).push(routeUser(MyApp.userViewModel.userCurrent));
     }
 
-    void _openPassword() {
+    void openConfirmationDelete() {
+        showCupertinoModalPopup<void>(
+          context: context,
+          barrierColor: Colors.black.withOpacity(0.7),
+          builder: (BuildContext context) => Container(
+            child: CupertinoActionSheet(
+              title: Text(
+                'Supprimer mon compte',
+                style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+              ),
+              actions: <CupertinoActionSheetAction>[
+                CupertinoActionSheetAction(
+                  onPressed: () {
+                    MyApp.userViewModel.delete();
+                    Navigator.pop(context);
+                    Navigator.of(context).push(routeWelcome());
+
+                  },
+                  child: Text('Confirmer', style: TextStyle(color: Colors.blue),),
+                ),
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Annuler'),
+              ),
+            ),
+          ),
+        );
+    }
+
+    void openPassword() {
       Navigator.of(context).push(routePassword());
     }
 
@@ -117,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SettingPartComponent(
                             icon: JustMusicIcon.password,
                             label: 'Modifier mon mot de passe',
-                            action: _openPassword,
+                            action: openPassword,
                           ),
                           SettingPartComponent(
                             icon: JustMusicIcon.cross,

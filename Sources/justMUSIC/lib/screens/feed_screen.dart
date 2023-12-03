@@ -25,12 +25,14 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   late Animation<double> animation;
   late List<Post> friendFeed;
   Timer? timer;
-
+  var pageFriend = 0;
   late List<Post> discoveryFeed;
   late Tuple2<List<Post>, List<Post>> displayFeed;
   bool isDismissed = true;
   bool choiceFeed = true;
   PageController controller = PageController();
+
+
 
   @override
   void initState() {
@@ -124,9 +126,26 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     displayFeed =
-        Tuple2(MyApp.postViewModel.postsFriends.reversed.toList(), MyApp.postViewModel.bestPosts.reversed.toList());
+        Tuple2(MyApp.postViewModel.postsFriends.toList(), MyApp.postViewModel.bestPosts.toList());
     bool empty =
         (choiceFeed == true && displayFeed.item1.isEmpty) || (choiceFeed == false && displayFeed.item2.isEmpty);
+    ScrollController _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        print("fin");
+        if (choiceFeed) {
+          setState(() {
+            MyApp.postViewModel.getMorePostsFriends();
+          });
+        } else {
+          setState(() {
+            MyApp.postViewModel.getMoreBestPosts();
+          });
+        }
+      }
+    });
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: bgColor,
@@ -185,6 +204,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                           clipBehavior: Clip.none,
                           shrinkWrap: false,
+                          controller: _scrollController,
                           itemCount: displayFeed.item1.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
@@ -193,6 +213,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                                   PostComponent(callback: openDetailPost, post: displayFeed.item1[index], index: index),
                             );
                           },
+
                         ),
                       ),
                     ),
@@ -212,6 +233,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                         triggerMode: RefreshIndicatorTriggerMode.onEdge,
                         onRefresh: _refresh,
                         child: ListView.builder(
+                          controller: _scrollController,
                           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                           clipBehavior: Clip.none,
                           shrinkWrap: false,

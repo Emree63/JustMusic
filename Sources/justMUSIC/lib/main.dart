@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/registration_screen.dart';
 import 'package:justmusic/screens/verify_email_screen.dart';
 import 'package:justmusic/screens/welcome_screen.dart';
+import 'package:justmusic/values/constants.dart';
 import 'package:justmusic/view_model/CommentViewModel.dart';
 import 'package:justmusic/view_model/MusicViewModel.dart';
 import 'package:justmusic/view_model/PostViewModel.dart';
@@ -26,9 +28,8 @@ import 'package:justmusic/view_model/UserViewModel.dart';
 import 'package:justmusic/model/User.dart' as userJustMusic;
 import 'firebase_options.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:fullscreen_window/fullscreen_window.dart';
 
 Future<void> main() async {
   tz.initializeTimeZones();
@@ -39,7 +40,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting('fr_FR', null);
-  await FirebaseMessaging.instance.requestPermission(sound: true);
+  if (!kIsWeb) {
+    await FirebaseMessaging.instance.requestPermission(sound: true);
+  }
   runApp(const MyApp());
 }
 
@@ -63,6 +66,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    FullScreenWindow.setFullScreen(true);    // enter fullscreen
     super.initState();
   }
 
@@ -76,12 +80,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    Paint.enableDithering = true;
+    Paint.enableDithering = true; // enter fullscreen
 
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp(
+            color: bgColor,
             routes: {
               '/welcome': (context) => const WellcomeScreen(),
               '/feed': (context) => const FeedScreen(),
@@ -116,7 +121,7 @@ class _MyAppState extends State<MyApp> {
                             MyApp.userViewModel.userCurrent = userSnapshot.data!;
                             return FeedScreen();
                           } else {
-                            return const Text('User data not found');
+                            return WellcomeScreen();
                           }
                         }
                       },

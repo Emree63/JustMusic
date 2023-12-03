@@ -1,4 +1,4 @@
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/historic_component.dart';
@@ -77,8 +77,9 @@ class _CapsuleHistoricScreenState extends State<CapsuleHistoricScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 80, left: 60, right: 60),
+                Container(
+                  padding: const EdgeInsets.only(top: 80, left: 30, right: 30),
+                  constraints: const BoxConstraints( maxWidth: 700),
                   child: Align(
                     alignment: Alignment.center,
                     child: Row(
@@ -130,8 +131,6 @@ class _CapsuleHistoricScreenState extends State<CapsuleHistoricScreen> {
                   child: SizedBox(
                       width: double.infinity,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        constraints: BoxConstraints(maxWidth: 600),
                         child: Column(
                           children: [
                             HistoricComponent(

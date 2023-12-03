@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:animated_appear/animated_appear.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/Material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,17 +62,19 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
   }
 
   Future pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
-      if (image == null) return;
-      final imageTemp = File(image.path);
-      setState(() {
-        this.image = imageTemp;
-        widget.callBackImage(imageTemp);
-      });
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
+
+      try {
+        final image = await ImagePicker().pickImage(source: source, imageQuality: 20);
+        if (image == null) return;
+        final imageTemp = File(image.path);
+        setState(() {
+          this.image = imageTemp;
+          widget.callBackImage(imageTemp);
+        });
+      } on PlatformException catch (e) {
+        print('Failed to pick image: $e');
+      }
+
   }
 
   void _updateDescription(String text) {
@@ -181,7 +185,10 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                                 borderRadius: BorderRadius.circular(20),
                                 child: InstaImageViewer(
                                   backgroundIsTransparent: true,
-                                  child: Image(
+                                  child: kIsWeb?InstaImageViewer(
+                                      backgroundIsTransparent: true,
+                                      child: Image.network(image!.path)
+                                  ):Image(
                                     image: FileImage(image!),
                                     fit: BoxFit.cover,
                                   ),
@@ -249,8 +256,8 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                 width: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
+                  children: [ kIsWeb?Container()
+                    :Expanded(
                       flex: 5,
                       child: GestureDetector(
                         onTap: () {
@@ -261,7 +268,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                         ),
                       ),
                     ),
-                    SizedBox(
+                    kIsWeb?Container():SizedBox(
                       width: 15,
                     ),
                     Expanded(
@@ -284,6 +291,7 @@ class _EditablePostComponentState extends State<EditablePostComponent> with Tick
                   child: SizedBox(
                     width: double.infinity,
                     child: TextFormField(
+                        keyboardType: TextInputType.text,
                       onChanged: (value) {
                         _updateDescription(value);
                       },

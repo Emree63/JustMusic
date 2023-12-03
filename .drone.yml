@@ -7,14 +7,28 @@ trigger:
     - push
 
 steps:
-#  - name: app-build
-#    image: cirrusci/flutter:stable
-#    commands:
-#      - cd ./Sources/justMUSIC/
-#      - flutter build apk
+  - name: app-build
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    commands:
+      - cd ./Sources/justMUSIC/
+      - flutter build apk
+
+  - name: build-web
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    environment:
+      FIREBASE_TOKEN:
+        from_secret: FIREBASE_TOKEN
+    commands:
+      - cd ./Sources/justMUSIC/
+      - flutter build web --web-renderer canvaskit
+      - curl -sL https://firebase.tools | bash
+      - firebase deploy --token $${FIREBASE_TOKEN}
+    when:
+      branch:
+      - PROD-WEB
 
   - name: code-analysis
-    image: cirrusci/flutter:stable 
+    image: ghcr.io/cirruslabs/flutter:3.13.9
     environment:
       SONAR_TOKEN:
         from_secret: SONAR_TOKEN
@@ -26,3 +40,4 @@ steps:
       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       - export SONAR_SCANNER_OPTS="-server"
       - sonar-scanner -D sonar.projectKey=JustMusic -D sonar.sources=./Sources/justMUSIC -D sonar.host.url=https://codefirst.iut.uca.fr/sonar
+    ddepends_on: [app-build] 

@@ -1,10 +1,11 @@
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:justmusic/screens/add_friend_screen.dart';
 import 'package:justmusic/screens/capsule_historic_screen.dart';
 import 'package:justmusic/screens/change_password_screen.dart';
 import 'package:justmusic/screens/feed_screen.dart';
 import 'package:justmusic/screens/profile_screen.dart';
 import 'package:justmusic/screens/user_screen.dart';
+import 'package:justmusic/screens/welcome_screen.dart';
 
 import '../model/User.dart';
 
@@ -104,6 +105,18 @@ Route routeHistoric() {
 
       return SlideTransition(
         position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route routeWelcome() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const WellcomeScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
         child: child,
       );
     },
