@@ -241,8 +241,13 @@ class MusicViewModel {
       var musics = await getMusicsWithIds(capsulesData.map((capsule) => capsule.item2).toList());
 
       for (var capsule in capsulesData) {
-        var music = musics.firstWhere((music) => music.id == capsule.item2);
-        capsules.add(Tuple2(capsule.item1, music));
+        var music = musics.firstWhere(
+              (music) => music.id == capsule.item2,
+          orElse: () => Music("-1", "", "", "", 0, 0, false, []),
+        );
+
+        if (music.id != "-1")
+          capsules.add(Tuple2(capsule.item1, music));
       }
       return capsules;
     } catch (e) {
