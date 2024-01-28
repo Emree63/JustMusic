@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                "Te revoilà!",
+                                                "Te revoilà !",
                                                 style: GoogleFonts.plusJakartaSans(
                                                     color: Colors.white, fontWeight: FontWeight.w600, fontSize: 38.h),
                                               ),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               SizedBox(
                                                 width: 230.w,
                                                 child: Text(
-                                                  "Bon retour parmis nous tu nous as manqué!",
+                                                  "Bon retour parmis nous. Tu nous as manqué !",
                                                   style: GoogleFonts.plusJakartaSans(
                                                       color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.h),
                                                   textAlign: TextAlign.center,
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               keyboardAppearance: Brightness.dark,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
-                                                  return 'entrez un email valide';
+                                                  return 'Entrez un email valide';
                                                 }
                                                 return null;
                                               },
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               obscureText: passenable,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
-                                                  return 'entrez un mot de passe valide';
+                                                  return 'Entrez un mot de passe valide';
                                                 }
                                                 return null;
                                               },
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 child: Padding(
                                                   padding: EdgeInsets.only(top: 10),
                                                   child: Text(
-                                                    "Mot de passe oublié?",
+                                                    "Mot de passe oublié ?",
                                                     style: GoogleFonts.plusJakartaSans(color: Colors.white),
                                                   ),
                                                 )),
@@ -226,14 +226,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   child: RichText(
                                                     textAlign: TextAlign.center,
                                                     text: TextSpan(
-                                                      text: 'Pas encore inscrit?',
+                                                      text: 'Pas encore inscrit ?',
                                                       style: GoogleFonts.plusJakartaSans(
                                                           color: Colors.white,
                                                           fontWeight: FontWeight.w400,
                                                           fontSize: 15),
                                                       children: <TextSpan>[
                                                         TextSpan(
-                                                            text: " S’inscire",
+                                                            text: " S’inscrire",
                                                             style: GoogleFonts.plusJakartaSans(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w400,
