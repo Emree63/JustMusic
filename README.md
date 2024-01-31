@@ -87,7 +87,7 @@ Consultez l'aperçu de votre profil pour savoir combien de personnes vous suiven
 <img src ="https://codefirst.iut.uca.fr/git/avatars/1ff65c9c5ab0e8c8883fb48adbcf972f?size=870" height="50px">
 </a>
 <a href = "https://codefirst.iut.uca.fr/git/david.d_almeida">
-<img src ="https://codefirst.iut.uca.fr/git/avatars/0f8eaaad1e26d3de644ca522eccaea7c?size=870" height="50px">
+<img src ="https://codefirst.iut.uca.fr/git/avatars/a16fa2dc52ceae18d8923c91121caa66?size=870" height="50px">
 </a>
 <a href = "https://codefirst.iut.uca.fr/git/rayhan.hassou">
 <img src ="https://codefirst.iut.uca.fr/git/avatars/84062b2bb326d9e9154a9859b375e599?size=870" height="50px">
