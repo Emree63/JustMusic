@@ -39,9 +39,9 @@ C'est un réseau social donc l'utilisateur pourra publier et commenter des posts
 
 La racine de notre gitlab est composé de deux dossier essentielles au projet:
 
-[**src**](src) : **Code de l'application**
+[**Sources**](Sources) : **Code de l'application**
 
-[**doc**](doc) : **Regroupe l'entièreté  de la documentation**
+[**Documentation**](Documentation) : **Regroupe l'entièreté  de la documentation**
 
 </br>
 
